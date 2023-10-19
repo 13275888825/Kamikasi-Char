@@ -3,15 +3,25 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-19 09:44:35
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-19 15:51:36
+ * @LastEditTime: 2023-10-19 17:22:23
  * @FilePath: \web\src\components\addCharacter\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import React, { useState } from 'react';
 import './index.css';
 import { useNavigate } from 'react-router-dom';
-import { ReadOutlined } from '@ant-design/icons';
-import { Form, Input, Checkbox, Select, Space, Button } from 'antd';
+import { ReadOutlined, UploadOutlined } from '@ant-design/icons';
+import {
+  Form,
+  Input,
+  Checkbox,
+  Select,
+  Space,
+  Button,
+  Modal,
+  Upload,
+  message,
+} from 'antd';
 const options = [
   {
     value: 'Public',
@@ -26,6 +36,23 @@ const options = [
     label: 'Only you can chat',
   },
 ];
+const props = {
+  name: 'file',
+  action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
+  headers: {
+    authorization: 'authorization-text',
+  },
+  onChange(info) {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  },
+};
 const handleChange = value => {
   console.log(`selected ${value}`);
 };
@@ -43,6 +70,13 @@ const onFinish = values => {
   console.log(values);
 };
 const AddCharacter = () => {
+  const [open, setOpen] = useState(false);
+  const showModal = () => {
+    setOpen(true);
+  };
+  const hideModal = () => {
+    setOpen(false);
+  };
   const navigate = useNavigate();
   return (
     <div id='add'>
@@ -110,7 +144,29 @@ const AddCharacter = () => {
             You can either create an image from text or upload an image.
           </div>
           <Space>
-            <div></div>
+            <div>
+              <Button className='btns' onClick={showModal}>
+                Create Image
+              </Button>
+              <Modal
+                title='Modal'
+                open={open}
+                onOk={hideModal}
+                onCancel={hideModal}
+                okText='确认'
+                cancelText='取消'
+              >
+                <p className='title'>Bla bla ...</p>
+                <p className='title'>Bla bla ...</p>
+                <p className='title'>Bla bla ...</p>
+              </Modal>
+            </div>
+            <span>or</span>
+            <Upload {...props}>
+              <Button className='btns' icon={<UploadOutlined />}>
+                Click to Upload
+              </Button>
+            </Upload>
           </Space>
         </Form.Item>
         <Form.Item>
