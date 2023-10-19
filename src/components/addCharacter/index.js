@@ -3,7 +3,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-19 09:44:35
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-19 17:22:23
+ * @LastEditTime: 2023-10-19 17:28:21
  * @FilePath: \web\src\components\addCharacter\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -146,7 +146,7 @@ const AddCharacter = () => {
           <Space>
             <div>
               <Button className='btns' onClick={showModal}>
-                Create Image
+                <a> Create Image</a>
               </Button>
               <Modal
                 title='Modal'
@@ -163,8 +163,8 @@ const AddCharacter = () => {
             </div>
             <span>or</span>
             <Upload {...props}>
-              <Button className='btns' icon={<UploadOutlined />}>
-                Click to Upload
+              <Button icon={<UploadOutlined />}>
+                <a>Click to Upload</a>
               </Button>
             </Upload>
           </Space>
