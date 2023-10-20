@@ -1,0 +1,23 @@
+.community{
+    position: relative;
+    left: -20%;
+}
+.communityBody{
+    margin-top: 30px;
+    height: 40%;
+}
+li{
+    background-color: transparent;
+}
+:where(.css-dev-only-do-not-override-3mqfnx).ant-list .ant-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    color: #fff;
+}
+:where(.css-dev-only-do-not-override-3mqfnx).ant-collapse .ant-collapse-content {
+    color: rgba(0, 0, 0, 0.88);
+    border-top: 1px solid #d9d9d9;
+    background-color: transparent;
+}

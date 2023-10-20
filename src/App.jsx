@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-19 11:13:32
+ * @LastEditTime: 2023-10-19 17:50:22
  * @FilePath: \web\src\App.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -44,7 +44,8 @@ import useWebRTC from './hooks/useWebRTC';
 import useHark from './hooks/useVAD';
 import Home from './pages/Home';
 import Feed from './pages/Feed';
-import Create from './pages/Create';
+// import Create from './pages/Create';
+import Community from './components/Community';
 import Chats from './pages/Chats';
 const App = () => {
   const [sessionId, setSessionId] = useState('');
@@ -448,6 +449,7 @@ const App = () => {
           <Route path='/chats' element={<Chats />} />
           <Route path='/addCharacter' element={<AddCharacter />} />
           <Route path='/addRoom' element={<AddRoom />} />
+          <Route path='/community' element={<Community />} />
         </Routes>
 
         <Footer />
