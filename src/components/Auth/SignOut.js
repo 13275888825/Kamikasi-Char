@@ -44,62 +44,61 @@ const SignOut = ({ isLoggedIn, user, handleDisconnect }) => {
   };
 
   return (
-    // <Navbar.Content
-    //   css={{
-    //     '@xs': {
-    //       w: '12%',
-    //       jc: 'flex-end',
-    //     },
-    //   }}
-    // >
-    //   <Dropdown placement='bottom-right'>
-    //     <Navbar.Item>
-    //       {/* This is what triggers user info dropdown */}
-    //       <Dropdown.Trigger>
-    //         <Avatar
-    //           className='usericon'
-    //           color='warning'
-    //           size='md'
-    //           src={user.photoURL}
-    //           alt={user.displayName}
-    //         />
-    //       </Dropdown.Trigger>
-    //     </Navbar.Item>
-    //     <Dropdown.Menu
-    //       aria-label='User menu actions'
-    //       onAction={actionKey => handleDropdownAction(actionKey)}
-    //     >
-    //       {/* This ^ is probably gonna be needed for future features,actionkey tells you what dropdown the user clicked*/}
-    //       <Dropdown.Item
-    //         className='dropdown-item'
-    //         key='profile'
-    //         css={{
-    //           height: '$18',
-    //           d: 'flex',
-    //         }}
-    //       >
-    //         Signed in as
-    //         <br />
-    //         {user.email}
-    //       </Dropdown.Item>
-    //       <Dropdown.Item key='create' className='dropdown-item' withDivider>
-    //         Create a character
-    //       </Dropdown.Item>
-    //       <Dropdown.Item key='delete' className='dropdown-item' withDivider>
-    //         Delete a character
-    //       </Dropdown.Item>
-    //       <Dropdown.Item
-    //         key='logout'
-    //         className='dropdown-logout'
-    //         withDivider
-    //         color='warning'
-    //       >
-    //         Log Out
-    //       </Dropdown.Item>
-    //     </Dropdown.Menu>
-    //   </Dropdown>
-    // </Navbar.Content>
-    <div>1111</div>
+    <Navbar.Content
+      css={{
+        '@xs': {
+          w: '12%',
+          jc: 'flex-end',
+        },
+      }}
+    >
+      <Dropdown placement='bottom-right'>
+        <Navbar.Item>
+          {/* This is what triggers user info dropdown */}
+          <Dropdown.Trigger>
+            <Avatar
+              className='usericon'
+              color='warning'
+              size='md'
+              src={user.photoURL}
+              alt={user.displayName}
+            />
+          </Dropdown.Trigger>
+        </Navbar.Item>
+        <Dropdown.Menu
+          aria-label='User menu actions'
+          onAction={actionKey => handleDropdownAction(actionKey)}
+        >
+          {/* This ^ is probably gonna be needed for future features,actionkey tells you what dropdown the user clicked*/}
+          <Dropdown.Item
+            className='dropdown-item'
+            key='profile'
+            css={{
+              height: '$18',
+              d: 'flex',
+            }}
+          >
+            Signed in as
+            <br />
+            {user.email}
+          </Dropdown.Item>
+          <Dropdown.Item key='create' className='dropdown-item' withDivider>
+            Create a character
+          </Dropdown.Item>
+          <Dropdown.Item key='delete' className='dropdown-item' withDivider>
+            Delete a character
+          </Dropdown.Item>
+          <Dropdown.Item
+            key='logout'
+            className='dropdown-logout'
+            withDivider
+            color='warning'
+          >
+            Log Out
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    </Navbar.Content>
   );
 };
 
