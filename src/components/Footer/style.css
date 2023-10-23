@@ -97,6 +97,7 @@ footer {
   border-color: #125688;
 }
 .footer{
-  position: fixed;
+  position: sticky;
   bottom: 0;
+  width: 90%;
 }
