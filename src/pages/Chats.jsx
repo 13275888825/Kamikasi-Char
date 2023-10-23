@@ -1,182 +1,167 @@
-/*
- * @Author: wqh wqh20010307@163.com
- * @Date: 2023-10-19 16:54:51
- * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-20 17:51:35
- * @FilePath: \web\src\pages\Chats.jsx
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
-import React from 'react';
-import { Col, Row, Avatar, Card } from 'antd';
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
-// import { Card, Image, Button, Avatar } from '@nextui-org/react';
-import { Button } from '@nextui-org/react';
-const { Meta } = Card;
-import './Chats.css';
+import { Table, Row, Col, Tooltip, User, Text } from '@nextui-org/react';
+import { StyledBadge } from './StyledBadge';
+import { IconButton } from './IconButton';
+import { EyeIcon } from './EyeIcon';
+import { EditIcon } from './EditIcon';
+import { DeleteIcon } from './DeleteIcon';
+
 export default function App() {
-  const [selected, setSelected] = React.useState('photos');
-  const [isFollowed, setIsFollowed] = React.useState(false);
+  const columns = [
+    { name: 'NAME', uid: 'name' },
+    { name: 'ROLE', uid: 'role' },
+    { name: 'STATUS', uid: 'status' },
+    { name: 'ACTIONS', uid: 'actions' },
+  ];
+  const users = [
+    {
+      id: 1,
+      name: 'Tony Reichert',
+      role: 'CEO',
+      team: 'Management',
+      status: 'active',
+      age: '29',
+      avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026024d',
+      email: 'tony.reichert@example.com',
+    },
+    {
+      id: 2,
+      name: 'Zoey Lang',
+      role: 'Technical Lead',
+      team: 'Development',
+      status: 'paused',
+      age: '25',
+      avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
+      email: 'zoey.lang@example.com',
+    },
+    {
+      id: 3,
+      name: 'Jane Fisher',
+      role: 'Senior Developer',
+      team: 'Development',
+      status: 'active',
+      age: '22',
+      avatar: 'https://i.pravatar.cc/150?u=a04258114e29026702d',
+      email: 'jane.fisher@example.com',
+    },
+    {
+      id: 4,
+      name: 'William Howard',
+      role: 'Community Manager',
+      team: 'Marketing',
+      status: 'vacation',
+      age: '28',
+      avatar: 'https://i.pravatar.cc/150?u=a048581f4e29026701d',
+      email: 'william.howard@example.com',
+    },
+    {
+      id: 5,
+      name: 'Kristen Copper',
+      role: 'Sales Manager',
+      team: 'Sales',
+      status: 'active',
+      age: '24',
+      avatar: 'https://i.pravatar.cc/150?u=a092581d4ef9026700d',
+      email: 'kristen.cooper@example.com',
+    },
+  ];
+  const renderCell = (user, columnKey) => {
+    const cellValue = user[columnKey];
+    switch (columnKey) {
+      case 'name':
+        return (
+          <User squared src={user.avatar} name={cellValue} css={{ p: 0 }}>
+            {user.email}
+          </User>
+        );
+      case 'role':
+        return (
+          <Col>
+            <Row>
+              <Text b size={14} css={{ tt: 'capitalize' }}>
+                {cellValue}
+              </Text>
+            </Row>
+            <Row>
+              <Text b size={13} css={{ tt: 'capitalize', color: '$accents7' }}>
+                {user.team}
+              </Text>
+            </Row>
+          </Col>
+        );
+      case 'status':
+        return <StyledBadge type={user.status}>{cellValue}</StyledBadge>;
+
+      case 'actions':
+        return (
+          <Row justify='center' align='center'>
+            <Col css={{ d: 'flex' }}>
+              <Tooltip content='Details'>
+                <IconButton onClick={() => console.log('View user', user.id)}>
+                  <EyeIcon size={20} fill='#979797' />
+                </IconButton>
+              </Tooltip>
+            </Col>
+            <Col css={{ d: 'flex' }}>
+              <Tooltip content='Edit user'>
+                <IconButton onClick={() => console.log('Edit user', user.id)}>
+                  <EditIcon size={20} fill='#979797' />
+                </IconButton>
+              </Tooltip>
+            </Col>
+            <Col css={{ d: 'flex' }}>
+              <Tooltip
+                content='Delete user'
+                color='error'
+                onClick={() => console.log('Delete user', user.id)}
+              >
+                <IconButton>
+                  <DeleteIcon size={20} fill='#FF0080' />
+                </IconButton>
+              </Tooltip>
+            </Col>
+          </Row>
+        );
+      default:
+        return cellValue;
+    }
+  };
   return (
-    <div style={{ width: '90%', position: 'relative', left: '5%' }}>
-      <h3 style={{ color: 'rgba(229, 224, 216, 0.85)' }}>Continue chatting</h3>
-      <Row>
-        <Col span={6}>
-          <Card
-            hoverable
-            style={{
-              width: 200,
-            }}
-            cover={
-              <img
-                alt='example'
-                src='https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-              />
-            }
-          >
-            <Meta title='Europe Street beat' description='www.instagram.com' />
-          </Card>
-        </Col>
-        <Col span={6}>
-          <Card
-            hoverable
-            style={{
-              width: 200,
-            }}
-            cover={
-              <img
-                alt='example'
-                src='https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-              />
-            }
-          >
-            <Meta title='Europe Street beat' description='www.instagram.com' />
-          </Card>
-        </Col>
-        <Col span={6}>
-          <Card
-            hoverable
-            style={{
-              width: 200,
-            }}
-            cover={
-              <img
-                alt='example'
-                src='https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-              />
-            }
-          >
-            <Meta title='Europe Street beat' description='www.instagram.com' />
-          </Card>
-        </Col>
-        <Col span={6}>
-          <Card
-            hoverable
-            style={{
-              width: 200,
-            }}
-            cover={
-              <img
-                alt='example'
-                src='https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-              />
-            }
-          >
-            <Meta title='Europe Street beat' description='www.instagram.com' />
-          </Card>
-        </Col>
-      </Row>
-      <Button.Group color='secondary'>
-        <Button className='btns'>One</Button>
-        <Button className='btns'>Two</Button>
-        <Button className='btns'>Three</Button>
-        <Button className='btns'>Four</Button>
-        <Button className='btns'>Five</Button>
-        <Button className='btns'>Six</Button>
-      </Button.Group>
-      <Row style={{ marginTop: '20px' }}>
-        <Col span={4}>
-          <Card
-            style={{
-              width: 240,
-            }}
-            cover={
-              <img
-                alt='example'
-                src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
-              />
-            }
-            actions={[
-              <SettingOutlined key='setting' />,
-              <EditOutlined key='edit' />,
-              <EllipsisOutlined key='ellipsis' />,
-            ]}
-          >
-            <Meta
-              avatar={
-                <Avatar src='https://xsgames.co/randomusers/avatar.php?g=pixel' />
-              }
-              title='Card title'
-              description='This is the description'
-            />
-          </Card>
-        </Col>
-        <Col span={4}>
-          <Card
-            style={{
-              width: 240,
-            }}
-            cover={
-              <img
-                alt='example'
-                src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
-              />
-            }
-            actions={[
-              <SettingOutlined key='setting' />,
-              <EditOutlined key='edit' />,
-              <EllipsisOutlined key='ellipsis' />,
-            ]}
-          >
-            <Meta
-              avatar={
-                <Avatar src='https://xsgames.co/randomusers/avatar.php?g=pixel' />
-              }
-              title='Card title'
-              description='This is the description'
-            />
-          </Card>
-        </Col>
-        <Col span={4}>
-          <Card
-            style={{
-              width: 240,
-            }}
-            cover={
-              <img
-                alt='example'
-                src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
-              />
-            }
-            actions={[
-              <SettingOutlined key='setting' />,
-              <EditOutlined key='edit' />,
-              <EllipsisOutlined key='ellipsis' />,
-            ]}
-          >
-            <Meta
-              avatar={
-                <Avatar src='https://xsgames.co/randomusers/avatar.php?g=pixel' />
-              }
-              title='Card title'
-              description='This is the description'
-            />
-          </Card>
-        </Col>
-      </Row>
+    <div
+      style={{
+        position: 'relative',
+        left: '-20%',
+        marginTop: '10px',
+      }}
+    >
+      <Table
+        aria-label='Example table with custom cells'
+        css={{
+          height: 'auto',
+          minWidth: '100%',
+        }}
+        selectionMode='none'
+      >
+        <Table.Header columns={columns}>
+          {column => (
+            <Table.Column
+              key={column.uid}
+              hideHeader={column.uid === 'actions'}
+              align={column.uid === 'actions' ? 'center' : 'start'}
+            >
+              {column.name}
+            </Table.Column>
+          )}
+        </Table.Header>
+        <Table.Body items={users}>
+          {item => (
+            <Table.Row>
+              {columnKey => (
+                <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+              )}
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table>
     </div>
   );
 }
