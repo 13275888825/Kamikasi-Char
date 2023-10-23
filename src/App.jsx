@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-23 10:26:31
+ * @LastEditTime: 2023-10-23 10:52:19
  * @FilePath: \web\src\App.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -32,6 +32,7 @@ import CharDelete from './pages/CharDelete';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Support from './pages/Support';
+import Help from './pages/Help';
 
 // utils
 import auth from './utils/firebase';
@@ -455,6 +456,7 @@ const App = () => {
           <Route path='/addRoom' element={<AddRoom />} />
           <Route path='/community' element={<Community />} />
           <Route path='/search' element={<Search />} />
+          <Route path='/Help' element={<Help />} />
         </Routes>
         {window.location.pathname != '/search' && <Footer />}
       </div>
