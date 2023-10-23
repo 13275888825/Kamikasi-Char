@@ -96,3 +96,7 @@ footer {
   background: #fefefe;
   border-color: #125688;
 }
+.footer{
+  position: fixed;
+  bottom: 0;
+}

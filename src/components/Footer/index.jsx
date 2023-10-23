@@ -10,7 +10,7 @@ import { FaGithub, FaDiscord, FaTwitter } from 'react-icons/fa';
 import './style.css';
 
 const Footer = () => (
-  <footer>
+  <footer className='footer'>
     <div className='rounded-social-buttons'>
       <a
         className='social-button github'
