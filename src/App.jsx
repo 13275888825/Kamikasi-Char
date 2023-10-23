@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-23 16:58:08
+ * @LastEditTime: 2023-10-23 18:06:37
  * @FilePath: \web\src\App.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -33,7 +33,7 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Support from './pages/Support';
 import Help from './pages/Help';
-
+import Char from './pages/Char';
 // utils
 import auth from './utils/firebase';
 
@@ -445,6 +445,7 @@ const App = () => {
             <Route path='/home' element={<Home2 />} />
             <Route path='/feed' element={<Feed />} />
             <Route path='/chats' element={<Chats />} />
+            <Route path='/chats/char' element={<Char />} />
             <Route path='/addCharacter' element={<AddCharacter />} />
             <Route path='/addRoom' element={<AddRoom />} />
             <Route path='/community' element={<Community />} />
