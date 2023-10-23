@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-20 17:54:15
+ * @LastEditTime: 2023-10-23 10:26:31
  * @FilePath: \web\src\App.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -44,6 +44,7 @@ import useWebRTC from './hooks/useWebRTC';
 import useHark from './hooks/useVAD';
 import Home from './pages/Home2';
 import Feed from './pages/Feed';
+import Search from './pages/search';
 // import Create from './pages/Create';
 import Community from './components/Community';
 import Chats from './pages/Chats';
@@ -83,6 +84,7 @@ const App = () => {
   const isMobile = window.innerWidth <= 768;
 
   useEffect(() => {
+    console.log(window.location.pathname, 'href');
     //加载个人信息的方法
     auth.onAuthStateChanged(async user => {
       setUser(user);
@@ -323,12 +325,14 @@ const App = () => {
   return (
     <Router>
       <div className='app'>
-        <Header
-          user={user}
-          isLoggedIn={isLoggedIn}
-          setToken={setToken}
-          handleDisconnect={handleDisconnect}
-        />
+        {window.location.pathname != '/search' && (
+          <Header
+            user={user}
+            isLoggedIn={isLoggedIn}
+            setToken={setToken}
+            handleDisconnect={handleDisconnect}
+          />
+        )}
         <Routes>
           <Route
             path='/'
@@ -450,9 +454,9 @@ const App = () => {
           <Route path='/addCharacter' element={<AddCharacter />} />
           <Route path='/addRoom' element={<AddRoom />} />
           <Route path='/community' element={<Community />} />
+          <Route path='/search' element={<Search />} />
         </Routes>
-
-        <Footer />
+        {window.location.pathname != '/search' && <Footer />}
       </div>
     </Router>
   );
