@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-19 16:38:09
+ * @LastEditTime: 2023-10-23 16:29:26
  * @FilePath: \web\src\components\Header\index.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -23,6 +23,7 @@ import { useNavigate } from 'react-router-dom';
 import { Navbar } from '@nextui-org/react';
 import HeaderNav from '../HeaderNav';
 import IconList from '../IconList';
+import Login from '../Login';
 const Header = ({ user, isLoggedIn, setToken, handleDisconnect }) => (
   <Navbar id='navbar' variant='floating'>
     <a href='/'>
@@ -47,7 +48,7 @@ const Header = ({ user, isLoggedIn, setToken, handleDisconnect }) => (
       }}
     >
       <IconList />
-      {user ? (
+      {/* {user ? (
         <SignOut
           isLoggedIn={isLoggedIn}
           user={user}
@@ -55,8 +56,9 @@ const Header = ({ user, isLoggedIn, setToken, handleDisconnect }) => (
         />
       ) : (
         <SignIn isLoggedIn={isLoggedIn} setToken={setToken} />
-      )}
+      )} */}
       {/* <LogSign/> */}
+      <Login></Login>
     </Navbar.Content>
   </Navbar>
 );

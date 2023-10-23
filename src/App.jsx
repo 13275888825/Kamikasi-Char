@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-23 13:48:09
+ * @LastEditTime: 2023-10-23 16:58:08
  * @FilePath: \web\src\App.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -46,6 +46,7 @@ import useHark from './hooks/useVAD';
 import Home from './pages/Home2';
 import Feed from './pages/Feed';
 import Search from './pages/search';
+import Login from './pages/Login';
 // import Create from './pages/Create';
 import Community from './components/Community';
 import { Outlet } from 'react-router-dom';
@@ -450,6 +451,7 @@ const App = () => {
             <Route path='/Help' element={<Help />} />
           </Route>
           <Route path='/search' element={<Search />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
       </div>
     </Router>
