@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-23 10:52:19
+ * @LastEditTime: 2023-10-23 13:48:09
  * @FilePath: \web\src\App.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -48,6 +48,7 @@ import Feed from './pages/Feed';
 import Search from './pages/search';
 // import Create from './pages/Create';
 import Community from './components/Community';
+import { Outlet } from 'react-router-dom';
 import Chats from './pages/Chats';
 const App = () => {
   const [sessionId, setSessionId] = useState('');
@@ -326,139 +327,130 @@ const App = () => {
   return (
     <Router>
       <div className='app'>
-        {window.location.pathname != '/search' && (
-          <Header
-            user={user}
-            isLoggedIn={isLoggedIn}
-            setToken={setToken}
-            handleDisconnect={handleDisconnect}
-          />
-        )}
         <Routes>
           <Route
             path='/'
             element={
-              <Home
-                isMobile={isMobile}
-                selectedCharacter={selectedCharacter}
-                setSelectedCharacter={setSelectedCharacter}
-                isPlaying={isPlaying}
-                characterGroups={characterGroups}
-                setCharacterGroups={setCharacterGroups}
-                setCharacterConfirmed={setCharacterConfirmed}
-                characterConfirmed={characterConfirmed}
-                token={token}
-                setToken={setToken}
-                isLoggedIn={isLoggedIn}
-              />
+              <>
+                {' '}
+                <Header
+                  user={user}
+                  isLoggedIn={isLoggedIn}
+                  setToken={setToken}
+                  handleDisconnect={handleDisconnect}
+                />
+                <Outlet></Outlet>
+                <Footer />
+              </>
             }
-          />
-          <Route
-            path='/settings'
-            element={
-              <Settings
-                setSelectedCharacter={setSelectedCharacter}
-                isMobile={isMobile}
-                preferredLanguage={preferredLanguage}
-                setPreferredLanguage={setPreferredLanguage}
-                selectedDevice={selectedDevice}
-                setSelectedDevice={setSelectedDevice}
-                selectedModel={selectedModel}
-                setSelectedModel={setSelectedModel}
-                isLoggedIn={isLoggedIn}
-                token={token}
-                setToken={setToken}
-                useSearch={useSearch}
-                setUseSearch={setUseSearch}
-                useQuivr={useQuivr}
-                setUseQuivr={setUseQuivr}
-                quivrApiKey={quivrApiKey}
-                setQuivrApiKey={setQuivrApiKey}
-                quivrBrainId={quivrBrainId}
-                setQuivrBrainId={setQuivrBrainId}
-                useMultiOn={useMultiOn}
-                setUseMultiOn={setUseMultiOn}
-                useEchoCancellation={useEchoCancellation}
-                setUseEchoCancellation={setUseEchoCancellation}
-                send={send}
-                connect={connect}
-                setIsCallView={setIsCallView}
-                shouldPlayAudio={shouldPlayAudio}
-              />
-            }
-          />
-          <Route
-            path='/conversation'
-            element={
-              <Conversation
-                isConnecting={isConnecting}
-                isConnected={isConnected}
-                isCallView={isCallView}
-                isRecording={isRecording}
-                isPlaying={isPlaying}
-                isThinking={isThinking}
-                isResponding={isResponding}
-                audioPlayer={audioPlayer}
-                handleStopCall={handleStopCall}
-                handleContinueCall={handleContinueCall}
-                audioQueue={audioQueue}
-                audioContextRef={audioContextRef}
-                audioSourceNodeRef={incomingStreamDestinationRef}
-                setIsPlaying={setIsPlaying}
-                handleDisconnect={handleDisconnect}
-                setIsCallView={setIsCallView}
-                send={send}
-                stopAudioPlayback={stopAudioPlayback}
-                textAreaValue={textAreaValue}
-                setTextAreaValue={setTextAreaValue}
-                messageInput={messageInput}
-                setMessageInput={setMessageInput}
-                useSearch={useSearch}
-                setUseSearch={setUseSearch}
-                setUseEchoCancellation={setUseEchoCancellation}
-                callActive={callActive}
-                startRecording={startRecording}
-                stopRecording={stopRecording}
-                preferredLanguage={preferredLanguage}
-                setPreferredLanguage={setPreferredLanguage}
-                selectedCharacter={selectedCharacter}
-                setSelectedCharacter={setSelectedCharacter}
-                setSelectedModel={setSelectedModel}
-                setSelectedDevice={setSelectedDevice}
-                setUseMultiOn={setUseMultiOn}
-                connect={connect}
-                messageId={messageId}
-                token={token}
-                isTextStreaming={isTextStreaming}
-                sessionId={sessionId}
-              />
-            }
-          />
-          <Route path='/shared' element={<SharedConversation />} />
-          <Route path='/create' element={<CharCreate />} />
-          <Route
-            path='/delete'
-            element={
-              <CharDelete
-                // token={token}
-                isMobile={isMobile}
-                characterGroups={characterGroups}
-              />
-            }
-          />
-          <Route path='/privacy' element={<Privacy />} />
-          <Route path='/terms' element={<Terms />} />
-          <Route path='/support' element={<Support />} />
-          <Route path='/home' element={<Home2 />} />
-          <Route path='/feed' element={<Feed />} />
-          <Route path='/chats' element={<Chats />} />
-          <Route path='/addCharacter' element={<AddCharacter />} />
-          <Route path='/addRoom' element={<AddRoom />} />
-          <Route path='/community' element={<Community />} />
+          >
+            <Route index element={<Home />}></Route>
+            <Route
+              path='/settings'
+              element={
+                <Settings
+                  setSelectedCharacter={setSelectedCharacter}
+                  isMobile={isMobile}
+                  preferredLanguage={preferredLanguage}
+                  setPreferredLanguage={setPreferredLanguage}
+                  selectedDevice={selectedDevice}
+                  setSelectedDevice={setSelectedDevice}
+                  selectedModel={selectedModel}
+                  setSelectedModel={setSelectedModel}
+                  isLoggedIn={isLoggedIn}
+                  token={token}
+                  setToken={setToken}
+                  useSearch={useSearch}
+                  setUseSearch={setUseSearch}
+                  useQuivr={useQuivr}
+                  setUseQuivr={setUseQuivr}
+                  quivrApiKey={quivrApiKey}
+                  setQuivrApiKey={setQuivrApiKey}
+                  quivrBrainId={quivrBrainId}
+                  setQuivrBrainId={setQuivrBrainId}
+                  useMultiOn={useMultiOn}
+                  setUseMultiOn={setUseMultiOn}
+                  useEchoCancellation={useEchoCancellation}
+                  setUseEchoCancellation={setUseEchoCancellation}
+                  send={send}
+                  connect={connect}
+                  setIsCallView={setIsCallView}
+                  shouldPlayAudio={shouldPlayAudio}
+                />
+              }
+            />
+            <Route
+              path='/conversation'
+              element={
+                <Conversation
+                  isConnecting={isConnecting}
+                  isConnected={isConnected}
+                  isCallView={isCallView}
+                  isRecording={isRecording}
+                  isPlaying={isPlaying}
+                  isThinking={isThinking}
+                  isResponding={isResponding}
+                  audioPlayer={audioPlayer}
+                  handleStopCall={handleStopCall}
+                  handleContinueCall={handleContinueCall}
+                  audioQueue={audioQueue}
+                  audioContextRef={audioContextRef}
+                  audioSourceNodeRef={incomingStreamDestinationRef}
+                  setIsPlaying={setIsPlaying}
+                  handleDisconnect={handleDisconnect}
+                  setIsCallView={setIsCallView}
+                  send={send}
+                  stopAudioPlayback={stopAudioPlayback}
+                  textAreaValue={textAreaValue}
+                  setTextAreaValue={setTextAreaValue}
+                  messageInput={messageInput}
+                  setMessageInput={setMessageInput}
+                  useSearch={useSearch}
+                  setUseSearch={setUseSearch}
+                  setUseEchoCancellation={setUseEchoCancellation}
+                  callActive={callActive}
+                  startRecording={startRecording}
+                  stopRecording={stopRecording}
+                  preferredLanguage={preferredLanguage}
+                  setPreferredLanguage={setPreferredLanguage}
+                  selectedCharacter={selectedCharacter}
+                  setSelectedCharacter={setSelectedCharacter}
+                  setSelectedModel={setSelectedModel}
+                  setSelectedDevice={setSelectedDevice}
+                  setUseMultiOn={setUseMultiOn}
+                  connect={connect}
+                  messageId={messageId}
+                  token={token}
+                  isTextStreaming={isTextStreaming}
+                  sessionId={sessionId}
+                />
+              }
+            />
+            <Route path='/shared' element={<SharedConversation />} />
+            <Route path='/create' element={<CharCreate />} />
+            <Route
+              path='/delete'
+              element={
+                <CharDelete
+                  // token={token}
+                  isMobile={isMobile}
+                  characterGroups={characterGroups}
+                />
+              }
+            />
+            <Route path='/privacy' element={<Privacy />} />
+            <Route path='/terms' element={<Terms />} />
+            <Route path='/support' element={<Support />} />
+            <Route path='/home' element={<Home2 />} />
+            <Route path='/feed' element={<Feed />} />
+            <Route path='/chats' element={<Chats />} />
+            <Route path='/addCharacter' element={<AddCharacter />} />
+            <Route path='/addRoom' element={<AddRoom />} />
+            <Route path='/community' element={<Community />} />
+            <Route path='/Help' element={<Help />} />
+          </Route>
           <Route path='/search' element={<Search />} />
-          <Route path='/Help' element={<Help />} />
         </Routes>
-        {window.location.pathname != '/search' && <Footer />}
       </div>
     </Router>
   );
