@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-23 15:19:45
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-24 10:30:02
+ * @LastEditTime: 2023-10-24 14:27:41
  * @FilePath: \Kamikasi Char\src\pages\Login.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -10,6 +10,9 @@ import { Card, Form, Input, Checkbox, Button, message } from 'antd';
 // 导入样式文件
 import './login.scss';
 import { useNavigate } from 'react-router-dom';
+import { WechatFilled, ContactsFilled } from '@ant-design/icons';
+import WxLogin from '../components/WxLogin';
+import { Tabs } from 'antd';
 function Login() {
   const navigate = useNavigate();
   //   async function onFinish (values) {
@@ -23,69 +26,104 @@ function Login() {
   //     // 提示用户
   //     message.success('登录成功')
   //   }
+  const items = [
+    {
+      key: '1',
+      label: (
+        <span>
+          <WechatFilled />
+          微信登录
+        </span>
+      ),
+      children: <WxLogin />,
+    },
+    {
+      key: '2',
+      label: (
+        <span>
+          <ContactsFilled />
+          账号登录
+        </span>
+      ),
+      children: (
+        <div>
+          <img
+            className='login-logo'
+            src='http://localhost:3000/static/media/logo.df6e95180e3a04f1ebb646f3ff77f45b.svg'
+            alt=''
+          />
+          {/* 登录表单 */}
+          {/* 子项用到的触发事件 需要在Form中都声明一下才可以 */}
+          <Form
+            validateTrigger={['onBlur', 'onChange']}
+            initialValues={{
+              remember: true,
+              mobile: '',
+              code: '',
+            }}
+          >
+            <Form.Item
+              name='mobile'
+              rules={[
+                {
+                  required: true,
+                  message: '请输入手机号',
+                },
+                {
+                  pattern: /^1[3-9]\d{9}$/,
+                  message: '请输入正确的手机号',
+                  validateTrigger: 'onBlur',
+                },
+              ]}
+            >
+              <Input size='large' placeholder='请输入手机号' />
+            </Form.Item>
+            <Form.Item
+              name='code'
+              rules={[
+                {
+                  required: true,
+                  message: '请输入密码',
+                },
+                {
+                  len: 6,
+                  message: '请输入6位密码',
+                  validateTrigger: 'onBlur',
+                },
+              ]}
+            >
+              <Input size='large' placeholder='请输入密码' />
+            </Form.Item>
+            <Form.Item name='remember' valuePropName='checked'>
+              <Checkbox className='login-checkbox-label'>
+                我已阅读并同意「用户协议」和「隐私条款」
+              </Checkbox>
+            </Form.Item>
 
+            <Form.Item>
+              <Button type='primary' htmlType='submit' size='large' block>
+                登录
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+      ),
+    },
+    {
+      key: '3',
+      label: 'Tab 3',
+      children: 'Content of Tab Pane 3',
+    },
+  ];
   return (
     <div className='login'>
       <Card className='login-container'>
-        <img
-          className='login-logo'
-          src='http://localhost:3000/static/media/logo.df6e95180e3a04f1ebb646f3ff77f45b.svg'
-          alt=''
+        <Tabs
+          centered
+          defaultActiveKey='1'
+          items={items}
+          indicatorSize={origin => origin - 16}
         />
-        {/* 登录表单 */}
-        {/* 子项用到的触发事件 需要在Form中都声明一下才可以 */}
-        <Form
-          validateTrigger={['onBlur', 'onChange']}
-          initialValues={{
-            remember: true,
-            mobile: '',
-            code: '',
-          }}
-        >
-          <Form.Item
-            name='mobile'
-            rules={[
-              {
-                required: true,
-                message: '请输入手机号',
-              },
-              {
-                pattern: /^1[3-9]\d{9}$/,
-                message: '请输入正确的手机号',
-                validateTrigger: 'onBlur',
-              },
-            ]}
-          >
-            <Input size='large' placeholder='请输入手机号' />
-          </Form.Item>
-          <Form.Item
-            name='code'
-            rules={[
-              {
-                required: true,
-                message: '请输入密码',
-              },
-              {
-                len: 6,
-                message: '请输入6位密码',
-                validateTrigger: 'onBlur',
-              },
-            ]}
-          >
-            <Input size='large' placeholder='请输入密码' />
-          </Form.Item>
-          <Form.Item name='remember' valuePropName='checked'>
-            <Checkbox className='login-checkbox-label'>
-              我已阅读并同意「用户协议」和「隐私条款」
-            </Checkbox>
-          </Form.Item>
-
-          <Form.Item>
-            <Button type='primary' htmlType='submit' size='large' block>
-              登录
-            </Button>
-          </Form.Item>
-        </Form>
       </Card>
     </div>
   );

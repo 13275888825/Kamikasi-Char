@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-23 18:06:37
+ * @LastEditTime: 2023-10-24 13:03:02
  * @FilePath: \web\src\App.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -49,6 +49,7 @@ import Search from './pages/search';
 import Login from './pages/Login';
 // import Create from './pages/Create';
 import Community from './components/Community';
+import WxLogin from './components/WxLogin';
 import { Outlet } from 'react-router-dom';
 import Chats from './pages/Chats';
 const App = () => {
@@ -453,6 +454,7 @@ const App = () => {
           </Route>
           <Route path='/search' element={<Search />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/wxlogin' element={<WxLogin />} />
         </Routes>
       </div>
     </Router>
