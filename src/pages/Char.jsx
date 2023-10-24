@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
+// import { useSearchParams } from 'react-router-dom';
 const Char = () => {
+  //   let [searchParams, setSearchParams] = useSearchParams();
   useEffect(() => {
     console.log(window.location.pathname);
+    // console.log(searchParams, 'search');
   });
   return (
     <div className='home'>
