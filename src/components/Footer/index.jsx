@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-19 16:51:34
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-24 09:41:19
+ * @LastEditTime: 2023-10-24 09:55:56
  * @FilePath: \Kamikasi Char\src\components\Footer\index.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -15,6 +15,7 @@
 
 import React from 'react';
 import { FaGithub, FaDiscord, FaTwitter } from 'react-icons/fa';
+import { WechatOutlined } from '@ant-design/icons';
 import './style.css';
 
 const Footer = () => (
@@ -42,7 +43,7 @@ const Footer = () => (
         target='_blank'
         rel='noreferrer'
       >
-        <FaTwitter />
+        <WechatOutlined />
       </a>
     </div>
     <p className='copyright'>
