@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-23 15:19:45
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-24 14:27:41
+ * @LastEditTime: 2023-10-24 15:01:19
  * @FilePath: \Kamikasi Char\src\pages\Login.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -13,8 +13,31 @@ import { useNavigate } from 'react-router-dom';
 import { WechatFilled, ContactsFilled } from '@ant-design/icons';
 import WxLogin from '../components/WxLogin';
 import { Tabs } from 'antd';
+import axios from 'axios';
 function Login() {
   const navigate = useNavigate();
+  const onFinish = values => {
+    console.log('success', values);
+    axios({
+      url: '/api/login/account',
+      data: {
+        username: values.mobile,
+        password: values.password,
+      },
+      method: 'post',
+    }).then(res => {
+      console.log(res);
+      if (res.data.status === 'ok') {
+        console.log('ok');
+        navigate('/');
+      } else if (res.data.status === 'error') {
+        alert('用户名密码错误');
+      }
+    });
+  };
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
+  };
   //   async function onFinish (values) {
   //     console.log(values)
   //     // values：放置的是所有表单项中用户输入的内容
@@ -61,6 +84,8 @@ function Login() {
               mobile: '',
               code: '',
             }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
           >
             <Form.Item
               name='mobile'
@@ -79,7 +104,7 @@ function Login() {
               <Input size='large' placeholder='请输入手机号' />
             </Form.Item>
             <Form.Item
-              name='code'
+              name='password'
               rules={[
                 {
                   required: true,
@@ -108,11 +133,6 @@ function Login() {
           </Form>
         </div>
       ),
-    },
-    {
-      key: '3',
-      label: 'Tab 3',
-      children: 'Content of Tab Pane 3',
     },
   ];
   return (
