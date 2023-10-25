@@ -1,0 +1,35 @@
+.header{
+    width: 70vw;
+    height: 180px;
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+.header .headerIcon,.header .edit{
+    font-size: 24px;
+    color: #fff;
+}
+.header .username{
+  font-size: 24px;
+  color: rgba(229, 224, 216, 0.85);
+}
+.header .avatar{
+    margin-left: 6px;
+    margin-top: 6px;
+    color: rgba(229, 224, 216, 0.85);
+}
+.header .name{
+    font-size: 14px;
+    margin-left: 2px;
+}
+.follow{
+    height: 24px;
+    width: 70vw;
+    display: flex;
+    justify-content: space-evenly;
+     color: rgba(229, 224, 216, 0.85);
+}
+.tabs{
+  width: 70vw;
+  margin-top: 20px;
+}
