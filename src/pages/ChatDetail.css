@@ -1,0 +1,110 @@
+h1,h2,h3,h4{
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+}
+.chat{
+    width: 50%;
+    margin:0 auto;
+}
+.header{
+    width: 100%;
+    height: 60px;
+    border-bottom: solid 1px #aca496;
+}
+.header .desc{
+    height: 80%;
+    width: 100%;
+    display: flex;
+}
+.header .desc .left{
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items:center;
+}
+.header .desc .left .leftIcon{
+   font-size: 30px;
+}
+.header .desc .left .character{
+    margin-left: 30px;
+    padding-top: 10px;
+}
+.header .desc .left .character .top,.header .desc .left .character .bottom{
+    display: flex;
+}
+.header .desc .left .character .top .characterName{
+    color: #E5E0D8;
+    font-size: 16px;
+    padding: 0px 4px 0px 0px;
+}
+.header .desc .left .character .top .tip{
+    font-size: 12px;
+    margin: 4px 0px 4px 4px;
+}
+.header .desc .left .character .bottom .by{
+ color: #9E9587;
+ font-size: 12px;
+}
+.header .desc .left .character .bottom .aite{
+    font-size: 12px;
+    margin-left: 4px;
+}
+.header .desc .right{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.header .desc .right .icon{
+    font-size: 30px;
+    margin-left: 5px;
+}
+.header .remember{
+    color: #D0525B;
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+}
+.content{
+    width: 100%;
+    height: 80vh;
+    border-bottom: solid 1px #aca496;
+}
+.content .list{
+    padding-top: 20px;
+    display: flex;
+}
+.content .list .top{
+    display: flex;
+}
+.content .list .top .characterName{
+    color: #E5E0D8;
+    font-size: 16px;
+    padding: 0px 4px 0px 0px;
+}
+.content .list .listChat{
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    height: 40px;
+}
+.content .list .listChat .icon{
+  margin-top: 12px;
+  margin-left: 200px;
+  cursor: pointer;
+}
+.chat .foot{
+    margin-top: 20px;
+    display: flex;
+}
+.foot button{
+    height: 37px;
+    position: relative;
+    border-radius: 0;
+}
+.ant-input{
+    border-right: none ;
+    border-radius: 0;
+}

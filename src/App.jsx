@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-24 13:03:02
+ * @LastEditTime: 2023-10-25 09:55:46
  * @FilePath: \web\src\App.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -52,6 +52,7 @@ import Community from './components/Community';
 import WxLogin from './components/WxLogin';
 import { Outlet } from 'react-router-dom';
 import Chats from './pages/Chats';
+import ChatDetail from './pages/ChatDetail';
 const App = () => {
   const [sessionId, setSessionId] = useState('');
   const [preferredLanguage, setPreferredLanguage] = useState('English');
@@ -455,6 +456,7 @@ const App = () => {
           <Route path='/search' element={<Search />} />
           <Route path='/login' element={<Login />} />
           <Route path='/wxlogin' element={<WxLogin />} />
+          <Route path='/chatDetail' element={<ChatDetail />} />
         </Routes>
       </div>
     </Router>

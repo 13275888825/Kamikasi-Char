@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-19 16:54:51
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-24 17:32:51
+ * @LastEditTime: 2023-10-25 09:44:34
  * @FilePath: \web\src\pages\Chats.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -20,11 +20,13 @@ import './Chats.css';
 import axios from 'axios';
 import '../mock/homeList';
 import '../mock/homeCard';
+import { useNavigate } from 'react-router-dom';
 export default function App() {
   const [selected, setSelected] = React.useState('photos');
   const [isFollowed, setIsFollowed] = React.useState(false);
   const [list, setList] = React.useState([]);
   const [card, setCard] = React.useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     axios({
       url: '/api/homelist',
@@ -40,9 +42,13 @@ export default function App() {
       url: '/api/homecard',
       method: 'post',
     }).then(res => {
-      console.log(res.data, 'card');
+      // console.log(res.data, 'card');
       setCard(res.data);
     });
+  };
+  const toDetail = () => {
+    console.log('toDetal');
+    navigate('/chatDetail');
   };
   return (
     <div style={{ width: '90%', position: 'relative', left: '5%' }}>
@@ -53,8 +59,9 @@ export default function App() {
         <Row>
           {list.map((item, key) => (
             // eslint-disable-next-line react/jsx-key
-            <Col span={3}>
+            <Col span={3} key={item.id}>
               <Card
+                onClick={toDetail}
                 hoverable
                 style={{
                   width: 200,
@@ -87,7 +94,7 @@ export default function App() {
         <Row style={{ marginTop: '20px' }}>
           {card.map((item, key) => (
             // eslint-disable-next-line react/jsx-key
-            <Col span={3}>
+            <Col span={3} key={item.id}>
               <Card
                 style={{
                   width: 200,
