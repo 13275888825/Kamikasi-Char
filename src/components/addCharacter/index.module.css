@@ -22,18 +22,9 @@ a{
     outline: none;
     color: rgba(229, 224, 216, 0.85);
 }
-.ant-input,.ant-select-selector{
-    background-color: transparent;
-}
 .label{
      color: rgba(229, 224, 216, 0.85); 
      font-size: 20px;
-}
-:where(.css-dev-only-do-not-override-3mqfnx).ant-select:not(.ant-select-customize-input) .ant-select-selector {
-    position: relative;
-    background-color: transparent;
-    border: 1px solid #d9d9d9;
-    transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 p{
     color: rgba(229, 224, 216, 0.85); 

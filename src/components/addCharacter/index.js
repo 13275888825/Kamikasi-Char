@@ -3,12 +3,12 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-19 09:44:35
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-19 17:28:21
+ * @LastEditTime: 2023-10-26 10:31:07
  * @FilePath: \web\src\components\addCharacter\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import React, { useState } from 'react';
-import './index.css';
+import style from './index.module.css';
 import { useNavigate } from 'react-router-dom';
 import { ReadOutlined, UploadOutlined } from '@ant-design/icons';
 import {
@@ -22,6 +22,7 @@ import {
   Upload,
   message,
 } from 'antd';
+import './pubilc.css';
 const options = [
   {
     value: 'Public',
@@ -79,13 +80,13 @@ const AddCharacter = () => {
   };
   const navigate = useNavigate();
   return (
-    <div id='add'>
-      <h2 className='title'>Create a Character</h2>
-      <div className='p'>
+    <div id={style.add}>
+      <h2 className={style.title}>Create a Character</h2>
+      <div className={style.p}>
         For more information about Character creation, see
         <a
           href='https://book.character.ai/character-book/welcome-to-character-book'
-          className='bookLink'
+          className={style.bookLink}
         >
           <ReadOutlined />
           <span> Character Book</span>
@@ -101,7 +102,7 @@ const AddCharacter = () => {
         validateMessages={validateMessages}
       >
         <Form.Item
-          label={<span className='label'>1.Name</span>}
+          label={<span className={style.label}>1.Name</span>}
           // rules={[
           //   {
           //     required: true,
@@ -111,7 +112,7 @@ const AddCharacter = () => {
           <span>The name can include first and last names.</span>
           <Input />
         </Form.Item>
-        <Form.Item label={<span className='label'>2.Gretting</span>}>
+        <Form.Item label={<span className={style.label}>2.Gretting</span>}>
           <span>
             eslint-disable-next-line react/no-unescaped-entities What would they
             say to introduce themselves? For example, "Albert Einstein" could
@@ -122,12 +123,12 @@ const AddCharacter = () => {
           <Input.TextArea size='large' />
         </Form.Item>
         <Form.Item
-          label={<span className='label'>3.Toggle Image Generation</span>}
+          label={<span className={style.label}>3.Toggle Image Generation</span>}
         >
           <div>This Character generates images alongside text.</div>
           <Checkbox>Enable image generation for this Character.</Checkbox>
         </Form.Item>
-        <Form.Item label={<span className='label'>4.Visibility</span>}>
+        <Form.Item label={<span className={style.label}>4.Visibility</span>}>
           <span>Who is allowed to talk to them?</span>
           <Select
             style={{
@@ -139,13 +140,13 @@ const AddCharacter = () => {
             options={options}
           />
         </Form.Item>
-        <Form.Item label={<span className='label'>Avatar</span>}>
+        <Form.Item label={<span className={style.label}>Avatar</span>}>
           <div style={{ margin: 0, padding: 0 }}>
             You can either create an image from text or upload an image.
           </div>
           <Space>
             <div>
-              <Button className='btns' onClick={showModal}>
+              <Button className={style.btns} onClick={showModal}>
                 <a> Create Image</a>
               </Button>
               <Modal
@@ -156,9 +157,9 @@ const AddCharacter = () => {
                 okText='确认'
                 cancelText='取消'
               >
-                <p className='title'>Bla bla ...</p>
-                <p className='title'>Bla bla ...</p>
-                <p className='title'>Bla bla ...</p>
+                <p className={style.title}>Bla bla ...</p>
+                <p className={style.title}>Bla bla ...</p>
+                <p className={style.title}>Bla bla ...</p>
               </Modal>
             </div>
             <span>or</span>

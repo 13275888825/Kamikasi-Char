@@ -2,11 +2,11 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-25 15:01:38
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-25 18:21:29
+ * @LastEditTime: 2023-10-26 09:56:30
  * @FilePath: \Kamikasi Char\src\pages\Profile.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './Profile.module.css';
 import { Avatar, Tabs } from 'antd';
 import {
@@ -18,18 +18,27 @@ import {
   DisconnectOutlined,
   LockOutlined,
 } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 const Profile = () => {
+  useEffect(() => {
+    console.log(style, 'style');
+  }, []);
   const [value, setValue] = React.useState('one');
-
+  const navigate = useNavigate();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  const toHome = () => {
+    navigate('/');
+  };
+  const edit = () => {
+    navigate('/profilesettings');
+  };
   return (
     <div>
       <div className={style.header}>
         <div className={style.headerIcon}>
-          <LeftOutlined />
+          <LeftOutlined onClick={toHome} />
         </div>
         <div>
           <span className={style.username}>wuqihui</span>
@@ -48,7 +57,7 @@ const Profile = () => {
           </div>
         </div>
         <div>
-          <EditOutlined className={style.edit} />
+          <EditOutlined onClick={edit} className={style.edit} />
         </div>
       </div>
       <div className={style.follow}>

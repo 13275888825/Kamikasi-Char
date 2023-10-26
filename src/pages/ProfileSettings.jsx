@@ -1,22 +1,12 @@
 /*
  * @Author: wqh wqh20010307@163.com
- * @Date: 2023-10-19 09:47:53
+ * @Date: 2023-10-26 09:36:33
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-26 09:55:13
- * @FilePath: \web\src\components\addRoom\index.js
+ * @LastEditTime: 2023-10-26 09:46:37
+ * @FilePath: \Kamikasi Char\src\pages\ProfileSettings.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-/* eslint-disable react/no-unescaped-entities */
-/*
- * @Author: wqh wqh20010307@163.com
- * @Date: 2023-10-19 09:44:35
- * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-19 17:28:21
- * @FilePath: \web\src\components\addCharacter\index.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
-import React, { useState, useEffect } from 'react';
-import style from './index.module.css';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReadOutlined, UploadOutlined } from '@ant-design/icons';
 import { Form, Input, Select, message, Button } from 'antd';
@@ -63,7 +53,7 @@ const validateMessages = {
 const onFinish = values => {
   console.log(values);
 };
-const AddRoom = () => {
+const ProfileSettings = () => {
   const [open, setOpen] = useState(false);
   const showModal = () => {
     setOpen(true);
@@ -71,18 +61,15 @@ const AddRoom = () => {
   const hideModal = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    console.log(style, 'style');
-  }, []);
   const navigate = useNavigate();
   return (
-    <div id={style.add}>
-      <h2 className={style.title}>Create a Room</h2>
-      <div className={style.p}>
+    <div id='add'>
+      <h2 className='title'>Create a Room</h2>
+      <div className='p'>
         For more information about Character creation, see
         <a
           href='https://book.character.ai/character-book/welcome-to-character-book'
-          className={style.booklink}
+          className='bookLink'
         >
           <ReadOutlined />
           <span> Character Book</span>
@@ -98,7 +85,7 @@ const AddRoom = () => {
         validateMessages={validateMessages}
       >
         <Form.Item
-          label={<span className={style.label}>1. Room Name</span>}
+          label={<span className='label'>1. Room Name</span>}
           // rules={[
           //   {
           //     required: true,
@@ -109,7 +96,7 @@ const AddRoom = () => {
           <Input />
         </Form.Item>
         <Form.Item
-          label={<span className={style.label}>2. Add Characters</span>}
+          label={<span className='label'>2. Add Characters</span>}
           // rules={[
           //   {
           //     required: true,
@@ -132,7 +119,7 @@ const AddRoom = () => {
           />
         </Form.Item>
         <Form.Item
-          label={<span className={style.label}>3.Room Topic (optional)</span>}
+          label={<span className='label'>3.Room Topic (optional)</span>}
         >
           <span>
             What should happen in this room. Characters will try to follow it.
@@ -150,4 +137,4 @@ const AddRoom = () => {
     </div>
   );
 };
-export default AddRoom;
+export default ProfileSettings;

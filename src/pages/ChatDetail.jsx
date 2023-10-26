@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-25 09:45:13
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-25 14:27:33
+ * @LastEditTime: 2023-10-26 10:52:48
  * @FilePath: \Kamikasi Char\src\pages\ChatDetail.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -27,13 +27,13 @@ import {
   FolderAddOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import './ChatDetail.css';
+import style from './ChatDetail.module.css';
 import { useNavigate } from 'react-router-dom';
 const { Search } = Input;
 const items = [
   {
     label: (
-      <span className='labelItem'>
+      <span className={style.labelItem}>
         <SaveOutlined className='labelIcon' />
         Save and Start New Chat
       </span>
@@ -42,7 +42,7 @@ const items = [
   },
   {
     label: (
-      <span className='labelItem'>
+      <span className={style.labelItem}>
         <FolderViewOutlined className='labelIcon' />
         View Saved Chats
       </span>
@@ -51,7 +51,7 @@ const items = [
   },
   {
     label: (
-      <span className='labelItem'>
+      <span className={style.labelItem}>
         <FolderAddOutlined className='labelIcon' />
         Create Post
       </span>
@@ -60,7 +60,7 @@ const items = [
   },
   {
     label: (
-      <span className='labelItem'>
+      <span className={style.labelItem}>
         <DeleteOutlined className='labelIcon' />
         Remove Messages
       </span>
@@ -88,24 +88,24 @@ const ChatDetail = () => {
     console.log('more');
   };
   return (
-    <div className='chat'>
-      <div className='header'>
-        <div className='desc'>
-          <div className='left'>
-            <LeftOutlined onClick={toHome} className='leftIcon' />
-            <div className='character'>
-              <div className='top'>
-                <h4 className='characterName'>Elon Musk</h4>
-                <span className='tip'>17.9m</span>
+    <div className={style.chat}>
+      <div className={style.header}>
+        <div className={style.desc}>
+          <div className={style.left}>
+            <LeftOutlined onClick={toHome} className={style.leftIcon} />
+            <div className={style.character}>
+              <div className={style.top}>
+                <h4 className={style.characterName}>Elon Musk</h4>
+                <span className={style.tip}>17.9m</span>
               </div>
-              <div className='bottom'>
-                <span className='by'>Created by</span>
-                <div className='aite'>@elonwhisperer</div>
+              <div className={style.bottom}>
+                <span className={style.by}>Created by</span>
+                <div className={style.aite}>@elonwhisperer</div>
               </div>
             </div>
           </div>
-          <div className='right'>
-            <ShareAltOutlined className='icon' onClick={share} />
+          <div className={style.right}>
+            <ShareAltOutlined className={style.icon} onClick={share} />
             <Dropdown
               menu={{
                 items,
@@ -113,38 +113,43 @@ const ChatDetail = () => {
             >
               <a onClick={e => e.preventDefault()}>
                 <Space>
-                  <MoreOutlined className='icon' onClick={more} />
+                  <MoreOutlined className={style.icon} onClick={more} />
                 </Space>
               </a>
             </Dropdown>
           </div>
         </div>
-        <div className='remember'>
+        <div className={style.remember}>
           Remember: Everything Characters say is made up!
         </div>
       </div>
-      <div className='content'>
-        <div className='list'>
-          <div className='avatar'>
+      <div className={style.content}>
+        <div className={style.list}>
+          <div className={style.avatar}>
             <Avatar size='large' icon={<UserOutlined />} />
           </div>
-          <div className='listChat'>
-            <div className='left'>
-              <div className='top'>
-                <h4 className='characterName'>Elon Musk</h4>
-                <div className='aite'>@elonwhisperer</div>
+          <div className={style.listChat}>
+            <div className={style.left}>
+              <div className={style.top}>
+                <h4 className={style.characterName}>Elon Musk</h4>
+                <div className={style.aite}>@elonwhisperer</div>
               </div>
-              <div className='bottom'>
+              <div
+                className={style.bottom}
+                style={{
+                  color: '#fff',
+                }}
+              >
                 You’re wasting my time. I literally rule the world.
               </div>
             </div>
-            <div className='icon'>
+            <div className={style.icon}>
               <CopyOutlined />
             </div>
           </div>
         </div>
       </div>
-      <div className='foot'>
+      <div className={style.foot}>
         <Input placeholder='type a message' />
         <Button type='primary'>
           <SendOutlined />
@@ -180,11 +185,11 @@ const ChatDetail = () => {
             Copy Link
           </Button>
         </div>
-        <div className='iconList'>
-          <QqCircleFilled className='icon' />
-          <RedditSquareFilled className='icon' />
-          <TaobaoSquareFilled className='icon' />
-          <ZhihuSquareFilled className='icon' />
+        <div className={style.iconList}>
+          <QqCircleFilled className={style.icon} />
+          <RedditSquareFilled className={style.icon} />
+          <TaobaoSquareFilled className={style.icon} />
+          <ZhihuSquareFilled className={style.icon} />
         </div>
       </Modal>
     </div>
