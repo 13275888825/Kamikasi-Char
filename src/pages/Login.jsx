@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-23 15:19:45
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-27 15:10:04
+ * @LastEditTime: 2023-10-27 15:28:10
  * @FilePath: \Kamikasi Char\src\pages\Login.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -96,7 +96,8 @@ function Login() {
                   message: '请输入邮箱',
                 },
                 {
-                  pattern: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/,
+                  pattern:
+                    /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/,
                   message: '请输入正确的邮箱',
                   validateTrigger: 'onBlur',
                 },
