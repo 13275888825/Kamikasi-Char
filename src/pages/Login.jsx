@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-23 15:19:45
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-24 15:18:53
+ * @LastEditTime: 2023-10-27 15:10:04
  * @FilePath: \Kamikasi Char\src\pages\Login.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -93,32 +93,32 @@ function Login() {
               rules={[
                 {
                   required: true,
-                  message: '请输入手机号',
+                  message: '请输入邮箱',
                 },
                 {
-                  pattern: /^1[3-9]\d{9}$/,
-                  message: '请输入正确的手机号',
+                  pattern: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/,
+                  message: '请输入正确的邮箱',
                   validateTrigger: 'onBlur',
                 },
               ]}
             >
-              <Input size='large' placeholder='请输入手机号' />
+              <Input size='large' placeholder='请输入邮箱' />
             </Form.Item>
             <Form.Item
               name='password'
               rules={[
                 {
                   required: true,
-                  message: '请输入密码',
+                  message: '请输入验证码',
                 },
                 {
                   len: 6,
-                  message: '请输入6位密码',
+                  message: '请输入验证码',
                   validateTrigger: 'onBlur',
                 },
               ]}
             >
-              <Input size='large' placeholder='请输入密码' />
+              <Input size='large' placeholder='请输入验证码' />
             </Form.Item>
             <Form.Item name='remember' valuePropName='checked'>
               <Checkbox className='login-checkbox-label'>
