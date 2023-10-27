@@ -120,6 +120,7 @@ h1,h2,h3,h4{
     justify-content: space-evenly;
 }
 .iconList .icon{
+    color:"#fff";
     margin-top: 10px;
     font-size: 24px;
 }
