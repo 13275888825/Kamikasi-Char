@@ -1,5 +1,13 @@
 /*
  * @Author: wqh wqh20010307@163.com
+ * @Date: 2023-10-30 15:47:31
+ * @LastEditors: wqh wqh20010307@163.com
+ * @LastEditTime: 2023-10-30 15:55:00
+ * @FilePath: \Kamikasi Char\src\components\Remove\index.js
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+/*
+ * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-30 14:58:26
  * @LastEditors: wqh wqh20010307@163.com
  * @LastEditTime: 2023-10-30 15:43:21
@@ -11,7 +19,7 @@ import { Card, Avatar, Button, Form, Input, message, Space } from 'antd';
 const { Meta } = Card;
 import { UserOutlined, CopyOutlined } from '@ant-design/icons';
 import style from './index.module.css';
-export default function CreatePost() {
+export default function Remove() {
   const [form] = Form.useForm();
   const onFinish = () => {
     message.success('Submit success!');
@@ -24,7 +32,7 @@ export default function CreatePost() {
     <div>
       <Card
         type='inner'
-        title='Create Post'
+        title='Remove Messages'
         bordered={false}
         style={{
           width: '50vw',
@@ -60,39 +68,13 @@ export default function CreatePost() {
             onFinishFailed={onFinishFailed}
             autoComplete='off'
           >
-            <Form.Item
-              name='title'
-              label='Add a title'
-              rules={[
-                {
-                  required: true,
-                },
-                {
-                  type: 'url',
-                  warningOnly: true,
-                },
-                {
-                  type: 'string',
-                  min: 6,
-                },
-              ]}
-            >
-              <Input
-                style={{
-                  width: '40vw',
-                  background: '#aaa',
-                }}
-                className={style.input}
-                placeholder='input placeholder'
-              />
-            </Form.Item>
-            <Form.Item>
+            <Form.Item className={style.btns}>
               <Space>
                 <Button type='primary' htmlType='submit'>
                   Cabcel
                 </Button>
                 <Button htmlType='button' onClick={onFill}>
-                  Post
+                  Remove
                 </Button>
               </Space>
             </Form.Item>
