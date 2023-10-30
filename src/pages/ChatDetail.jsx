@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-25 09:45:13
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-27 09:36:06
+ * @LastEditTime: 2023-10-30 13:53:10
  * @FilePath: \Kamikasi Char\src\pages\ChatDetail.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -30,44 +30,6 @@ import {
 import style from './ChatDetail.module.css';
 import { useNavigate } from 'react-router-dom';
 const { Search } = Input;
-const items = [
-  {
-    label: (
-      <span className={style.labelItem}>
-        <SaveOutlined className='labelIcon' />
-        Save and Start New Chat
-      </span>
-    ),
-    key: '1',
-  },
-  {
-    label: (
-      <span className={style.labelItem}>
-        <FolderViewOutlined className='labelIcon' />
-        View Saved Chats
-      </span>
-    ),
-    key: '2',
-  },
-  {
-    label: (
-      <span className={style.labelItem}>
-        <FolderAddOutlined className='labelIcon' />
-        Create Post
-      </span>
-    ),
-    key: '3',
-  },
-  {
-    label: (
-      <span className={style.labelItem}>
-        <DeleteOutlined className='labelIcon' />
-        Remove Messages
-      </span>
-    ),
-    key: '4',
-  },
-];
 const ChatDetail = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -84,9 +46,48 @@ const ChatDetail = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const more = () => {
-    console.log('more');
+  const viewSave = () => {
+    console.log('viewSaved');
+    navigate('/viewSave');
   };
+  const items = [
+    {
+      label: (
+        <span className={style.labelItem}>
+          <SaveOutlined className='labelIcon' />
+          Save and Start New Chat
+        </span>
+      ),
+      key: '1',
+    },
+    {
+      label: (
+        <span className={style.labelItem} onClick={viewSave}>
+          <FolderViewOutlined className='labelIcon' />
+          View Saved Chats
+        </span>
+      ),
+      key: '2',
+    },
+    {
+      label: (
+        <span className={style.labelItem}>
+          <FolderAddOutlined className='labelIcon' />
+          Create Post
+        </span>
+      ),
+      key: '3',
+    },
+    {
+      label: (
+        <span className={style.labelItem}>
+          <DeleteOutlined className='labelIcon' />
+          Remove Messages
+        </span>
+      ),
+      key: '4',
+    },
+  ];
   return (
     <div className={style.chat}>
       <div className={style.header}>
@@ -117,7 +118,7 @@ const ChatDetail = () => {
             >
               <a onClick={e => e.preventDefault()}>
                 <Space>
-                  <MoreOutlined className={style.icon} onClick={more} />
+                  <MoreOutlined className={style.icon} />
                 </Space>
               </a>
             </Dropdown>
