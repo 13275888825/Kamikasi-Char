@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-23 15:19:45
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-27 15:28:10
+ * @LastEditTime: 2023-10-30 09:32:26
  * @FilePath: \Kamikasi Char\src\pages\Login.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -15,6 +15,7 @@ import WxLogin from '../components/WxLogin';
 import '../mock/mockData';
 import { Tabs } from 'antd';
 import axios from 'axios';
+import logo from '../assets/images/logo.png';
 function Login() {
   const navigate = useNavigate();
   const onFinish = values => {
@@ -50,32 +51,41 @@ function Login() {
   //     // 提示用户
   //     message.success('登录成功')
   //   }
-  const items = [
-    {
-      key: '1',
-      label: (
-        <span>
-          <WechatFilled />
-          微信登录
-        </span>
-      ),
-      children: <WxLogin />,
-    },
-    {
-      key: '2',
-      label: (
-        <span>
-          <ContactsFilled />
-          账号登录
-        </span>
-      ),
-      children: (
+  // const items = [
+  //   {
+  //     key: '1',
+  //     label: (
+  //       <span>
+  //         <WechatFilled />
+  //         微信登录
+  //       </span>
+  //     ),
+  //     children: <WxLogin />,
+  //   },
+  //   {
+  //     key: '2',
+  //     label: (
+  //       <span>
+  //         <ContactsFilled />
+  //         账号登录
+  //       </span>
+  //     ),
+  //     children: (
+
+  //     ),
+  //   },
+  // ];
+  return (
+    <div className='login'>
+      <Card className='login-container'>
+        {/* <Tabs
+          centered
+          defaultActiveKey='1'
+          items={items}
+          indicatorSize={origin => origin - 16}
+        /> */}
         <div>
-          <img
-            className='login-logo'
-            src='http://localhost:3000/static/media/logo.df6e95180e3a04f1ebb646f3ff77f45b.svg'
-            alt=''
-          />
+          <img className='login-logo' src={logo} alt='' />
           {/* 登录表单 */}
           {/* 子项用到的触发事件 需要在Form中都声明一下才可以 */}
           <Form
@@ -134,18 +144,6 @@ function Login() {
             </Form.Item>
           </Form>
         </div>
-      ),
-    },
-  ];
-  return (
-    <div className='login'>
-      <Card className='login-container'>
-        <Tabs
-          centered
-          defaultActiveKey='1'
-          items={items}
-          indicatorSize={origin => origin - 16}
-        />
       </Card>
     </div>
   );
