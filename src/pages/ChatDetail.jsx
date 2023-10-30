@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-25 09:45:13
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-30 13:53:10
+ * @LastEditTime: 2023-10-30 14:58:01
  * @FilePath: \Kamikasi Char\src\pages\ChatDetail.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -47,8 +47,11 @@ const ChatDetail = () => {
     setIsModalOpen(false);
   };
   const viewSave = () => {
-    console.log('viewSaved');
     navigate('/viewSave');
+  };
+  const createPost = () => {
+    console.log('createPost');
+    navigate('/createPost');
   };
   const items = [
     {
@@ -71,7 +74,7 @@ const ChatDetail = () => {
     },
     {
       label: (
-        <span className={style.labelItem}>
+        <span className={style.labelItem} onClick={createPost}>
           <FolderAddOutlined className='labelIcon' />
           Create Post
         </span>

@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-30 13:57:12
+ * @LastEditTime: 2023-10-30 15:01:24
  * @FilePath: \web\src\App.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -56,6 +56,7 @@ import ChatDetail from './pages/ChatDetail';
 import Profile from './pages/Profile';
 import ProfileSettings from './pages/ProfileSettings';
 import ViewSaved from './components/ViewSaved';
+import CreatePost from './components/CreatePost';
 const App = () => {
   const [sessionId, setSessionId] = useState('');
   const [preferredLanguage, setPreferredLanguage] = useState('English');
@@ -463,6 +464,7 @@ const App = () => {
           <Route path='/profile' element={<Profile />} />
           <Route path='/profilesettings' element={<ProfileSettings />} />
           <Route path='/viewSave' element={<ViewSaved />} />
+          <Route path='/createPost' element={<CreatePost />} />
         </Routes>
       </div>
     </Router>

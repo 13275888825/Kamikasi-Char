@@ -1,0 +1,24 @@
+card{
+    position: relative;
+}
+.listChat{
+    display: flex;
+    height: 40px;
+    margin-top: 20px;
+}
+.listChat .icon{
+  margin-top: 12px;
+  margin-left: 200px;
+  cursor: pointer;
+}
+.left{
+    margin-left: 6px;
+}
+.characterName{
+    color: #111;
+}
+.footer{
+    position: absolute;
+   left: 20px;
+   bottom: 100px;
+}
