@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-19 16:54:51
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-30 13:12:04
+ * @LastEditTime: 2023-10-31 11:15:05
  * @FilePath: \web\src\pages\Chats.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -32,6 +32,7 @@ export default function App() {
       url: '/api/homelist',
       method: 'post',
     }).then(res => {
+      console.log(res, 'res');
       setList(res.data);
     });
     getCardInfo();
