@@ -1,3 +1,11 @@
+/*
+ * @Author: wqh wqh20010307@163.com
+ * @Date: 2023-10-30 10:09:17
+ * @LastEditors: wqh wqh20010307@163.com
+ * @LastEditTime: 2023-11-01 15:17:31
+ * @FilePath: \KamikasiChar\src\components\VideoPlayer\index.js
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import React, { useState, useRef, useEffect } from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
@@ -8,7 +16,6 @@ export default function VideoPlay(props) {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
   const [option, setOptopm] = useState({});
-
   const onReadyPlay = palyer => {
     videoRef.current = palyer;
     palyer.play();
@@ -17,7 +24,7 @@ export default function VideoPlay(props) {
   const init = () => {
     let _option = {
       controls: true,
-      autoplay: false, //加载完成是否自动播放
+      // autoplay: false, //加载完成是否自动播放
       loop: false, //视频播放结束后，是否循环播放
       notSupportedMessage: '此视频暂无法播放，请稍后再试',
       poster: 'https://t7.baidu.com/it/u=1819248061,230866778&fm=193&f=GIF', //视频封面
