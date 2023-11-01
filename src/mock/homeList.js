@@ -8,7 +8,7 @@
  */
 import Mock from 'mockjs';
 
-export default Mock.mock('/api/homelist', 'post', req => {
+export default Mock.mock('http://localhost:3000/api/homelist', 'post', req => {
   let req_data = JSON.parse(req.body);
   return [
     {
