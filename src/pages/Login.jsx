@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-23 15:19:45
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-11-01 17:15:35
+ * @LastEditTime: 2023-11-01 17:30:45
  * @FilePath: \KamikasiChar\src\pages\Login.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -36,6 +36,7 @@ const Login = ({ setAuthToken }) => {
         console.log('Response:', response.data);
         if (response.data.token) {
           navigate('/');
+          localStorage.setItem('token', response.data.token);
         }
       })
       .catch(error => {
