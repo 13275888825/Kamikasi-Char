@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-23 16:27:20
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-11-01 17:47:49
+ * @LastEditTime: 2023-11-01 17:55:47
  * @FilePath: \Kamikasi Char\src\components\Login\index.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -21,6 +21,9 @@ const Login = () => {
   };
   const Logout = () => {
     navigate('/login');
+  };
+  const userManage = () => {
+    navigate('/userManage');
   };
   const items = [];
   if (!authToken) {
@@ -59,6 +62,14 @@ const Login = () => {
           </span>
         ),
         key: '2',
+      },
+      {
+        label: (
+          <span style={{ color: '#000' }} onClick={userManage}>
+            用户管理
+          </span>
+        ),
+        key: '3',
       }
     );
   }
