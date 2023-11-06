@@ -13,8 +13,6 @@ const Home = ({
   selectedCharacter,
   setSelectedCharacter,
   isPlaying,
-  characterGroups,
-  setCharacterGroups,
   setCharacterConfirmed,
   characterConfirmed,
   token,
@@ -23,6 +21,7 @@ const Home = ({
 }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [characterGroups, setCharacterGroups] = useState([]);
 
   // Get characters
   useEffect(() => {

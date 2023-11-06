@@ -16,40 +16,102 @@ import {
 // import { Card, Image, Button, Avatar } from '@nextui-org/react';
 import { Button } from '@nextui-org/react';
 const { Meta } = Card;
+import { getHostName } from '../utils/urlUtils';
 import './Chats.css';
 import axios from 'axios';
 import '../mock/homeList';
+import queryString from 'query-string';
 import '../mock/homeCard';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import lz from 'lz-string';
 export default function App() {
-  const [selected, setSelected] = React.useState('photos');
+  const [selected, setSelected] = React.useState('');
   const [isFollowed, setIsFollowed] = React.useState(false);
   const [list, setList] = React.useState([]);
   const [card, setCard] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const [isCallView, setIsCallView] = React.useState('');
   const navigate = useNavigate();
+  const { search } = useLocation();
+  const { character = '' } = queryString.parse(search);
+  const shouldPlayAudio = '';
   useEffect(() => {
-    axios({
-      url: '/api/homelist',
-      method: 'post',
-    }).then(res => {
-      console.log(res, 'res');
-      setList(res.data);
-    });
-    getCardInfo();
+    setLoading(true);
+    const scheme = window.location.protocol;
+    const url = scheme + '//' + getHostName() + '/characters';
+    let headers = {
+      'Content-Type': 'application/json',
+    };
+    // if (token) {
+    //   headers['Authorization'] = `Bearer ${token}`;
+    // }
+    fetch(url, {
+      method: 'GET',
+      headers: headers,
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setList(data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    // axios({
+    //   url: '/api/homelist',
+    //   method: 'post',
+    // }).then(res => {
+    //   console.log(res, 'res');
+    //   setList(res.data);
+    // });
+    // getCardInfo();
   }, []);
-  const getCardInfo = () => {
-    console.log('getCardInfo');
-    axios({
-      url: '/api/homecard',
-      method: 'post',
-    }).then(res => {
-      // console.log(res.data, 'card');
-      setCard(res.data);
-    });
-  };
-  const toDetail = () => {
-    console.log('toDetal');
-    navigate('/chatDetail');
+  // const getCardInfo = () => {
+  //   console.log('getCardInfo');
+  //   axios({
+  //     url: '/api/homecard',
+  //     method: 'post',
+  //   }).then(res => {
+  //     // console.log(res.data, 'card');
+  //     setCard(res.data);
+  //   });
+  // };
+  const toDetail = async item => {
+    console.log(item, 'selectedCharacter');
+    const compressedCharacter = lz.compressToEncodedURIComponent(
+      JSON.stringify(item)
+    );
+    console.log(compressedCharacter, 'compressedCharacter');
+    navigate('/settings?character=' + compressedCharacter);
+    // await connect();
+    // const interval = setInterval(() => {
+    //   // display callview
+    //   setIsCallView(commMethod === 'Call');
+
+    //   shouldPlayAudio.current = true;
+    //   clearInterval(interval);
+
+    //   // TODO(UI): Hide loading animation
+    // }, 500);
+
+    // navigate(
+    //   '/conversation?isCallViewParam=' +
+    //     (commMethod === 'Call') +
+    //     '&character=' +
+    //     character +
+    //     '&preferredLanguage=' +
+    //     preferredLanguage +
+    //     '&selectedDevice=' +
+    //     (selectedDevice || 'default') +
+    //     '&selectedModel=' +
+    //     selectedModel +
+    //     '&useSearchParam=' +
+    //     useSearch +
+    //     '&useMultiOnParam=' +
+    //     useMultiOn +
+    //     '&useEchoCancellationParam=' +
+    //     useEchoCancellation
+    // );
   };
   return (
     <div>
@@ -57,12 +119,12 @@ export default function App() {
         <h3 style={{ color: 'rgba(229, 224, 216, 0.85)' }}>
           Continue chatting
         </h3>
-        <Row>
+        <Row gutter={[16, 16]}>
           {list.map((item, key) => (
             // eslint-disable-next-line react/jsx-key
-            <Col span={4} key={item.id}>
+            <Col span={4} key={item.character_id}>
               <Card
-                onClick={toDetail}
+                onClick={() => toDetail(item)}
                 hoverable
                 style={{
                   width: 200,
@@ -72,9 +134,12 @@ export default function App() {
                 cover={
                   <div>
                     <img
-                      style={{ width: '80%', marginLeft: '10%' }}
-                      alt='example'
-                      src={item.imgUrl}
+                      style={{
+                        width: '80%',
+                        height: '160px',
+                        marginLeft: '10%',
+                      }}
+                      src={item.image_url}
                     />
                     <div style={{ textAlign: 'center' }}>{item.name}</div>
                   </div>
@@ -83,7 +148,7 @@ export default function App() {
             </Col>
           ))}
         </Row>
-        <Divider style={{ background: '#fff' }} />
+        {/* <Divider style={{ background: '#fff' }} />
         <Button.Group color='secondary'>
           <Button className='btns'>One</Button>
           <Button className='btns'>Two</Button>
@@ -91,8 +156,8 @@ export default function App() {
           <Button className='btns'>Four</Button>
           <Button className='btns'>Five</Button>
           <Button className='btns'>Six</Button>
-        </Button.Group>
-        <Row>
+        </Button.Group> */}
+        {/* <Row>
           {card.map((item, key) => (
             // eslint-disable-next-line react/jsx-key
             <Col span={4} style={{ marginTop: '20px' }} key={item.id}>
@@ -160,79 +225,7 @@ export default function App() {
               ></Card>
             </Col>
           ))}
-          {/* <Col span={4}>
-            <Card
-              style={{
-                width: 240,
-              }}
-              cover={
-                <img
-                  alt='example'
-                  src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
-                />
-              }
-              actions={[
-                <SettingOutlined key='setting' />,
-                <EditOutlined key='edit' />,
-                <EllipsisOutlined key='ellipsis' />,
-              ]}
-            >
-              <Meta title='Card title' description='This is the description' />
-            </Card>
-          </Col>
-          <Col span={4}>
-            <Card
-              style={{
-                width: 240,
-              }}
-              cover={
-                <img
-                  alt='example'
-                  src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
-                />
-              }
-              actions={[
-                <SettingOutlined key='setting' />,
-                <EditOutlined key='edit' />,
-                <EllipsisOutlined key='ellipsis' />,
-              ]}
-            >
-              <Meta
-                avatar={
-                  <Avatar src='https://xsgames.co/randomusers/avatar.php?g=pixel' />
-                }
-                title='Card title'
-                description='This is the description'
-              />
-            </Card>
-          </Col>
-          <Col span={4}>
-            <Card
-              style={{
-                width: 240,
-              }}
-              cover={
-                <img
-                  alt='example'
-                  src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
-                />
-              }
-              actions={[
-                <SettingOutlined key='setting' />,
-                <EditOutlined key='edit' />,
-                <EllipsisOutlined key='ellipsis' />,
-              ]}
-            >
-              <Meta
-                avatar={
-                  <Avatar src='https://xsgames.co/randomusers/avatar.php?g=pixel' />
-                }
-                title='Card title'
-                description='This is the description'
-              />
-            </Card>
-          </Col> */}
-        </Row>
+        </Row> */}
       </div>
     </div>
   );

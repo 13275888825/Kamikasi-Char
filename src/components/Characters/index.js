@@ -28,8 +28,8 @@ const Characters = ({
 }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [openLibraryDialog, setOpenLibraryDialog] = useState(false);
-
   const handleCharacterSelection = character => {
+    console.log(character, 'handleStartClick');
     setSelectedCharacter(character);
   };
 

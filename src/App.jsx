@@ -26,7 +26,7 @@ import AddRoom from './components/addRoom';
 import Settings from './pages/Settings';
 import Conversation from './pages/Conversation';
 import SharedConversation from './pages/SharedConversation';
-import Home2 from './pages/Home2';
+import Home from './pages/Home2';
 import CharCreate from './pages/CharCreate';
 import CharDelete from './pages/CharDelete';
 import Privacy from './pages/Privacy';
@@ -43,7 +43,6 @@ import useMediaRecorder from './hooks/useMediaRecorder';
 import useSpeechRecognition from './hooks/useSpeechRecognition';
 import useWebRTC from './hooks/useWebRTC';
 import useHark from './hooks/useVAD';
-import Home from './pages/Home2';
 import Feed from './pages/Feed';
 import Search from './pages/search';
 import Login from './pages/Login';
@@ -450,7 +449,7 @@ const App = () => {
             <Route path='/privacy' element={<Privacy />} />
             <Route path='/terms' element={<Terms />} />
             <Route path='/support' element={<Support />} />
-            <Route path='/home' element={<Home2 />} />
+            <Route path='/home' element={<Home />} />
             <Route path='/feed' element={<Feed />} />
             <Route path='/chats' element={<Chats />} />
             <Route path='/chats/char' element={<Char />} />

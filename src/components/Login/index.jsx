@@ -62,14 +62,6 @@ const Login = () => {
           </span>
         ),
         key: '2',
-      },
-      {
-        label: (
-          <span style={{ color: '#000' }} onClick={userManage}>
-            用户管理
-          </span>
-        ),
-        key: '3',
       }
     );
   }
