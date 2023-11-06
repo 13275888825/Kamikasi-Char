@@ -40,3 +40,6 @@
 .text-white {
   color: white;
 }
+.ant-tabs-tab {
+  background-color: #fff;
+}

@@ -37,23 +37,7 @@ const options = [
     label: 'Only you can chat',
   },
 ];
-const props = {
-  name: 'file',
-  action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
-  headers: {
-    authorization: 'authorization-text',
-  },
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-};
+const fileList = [];
 const handleChange = value => {
   console.log(`selected ${value}`);
 };
@@ -73,7 +57,8 @@ const onFinish = values => {
 const AddCharacter = () => {
   const [open, setOpen] = useState(false);
   const showModal = () => {
-    setOpen(true);
+    // setOpen(true);
+    navigate('/createImage');
   };
   const hideModal = () => {
     setOpen(false);
@@ -141,33 +126,33 @@ const AddCharacter = () => {
           />
         </Form.Item>
         <Form.Item label={<span className={style.label}>Avatar</span>}>
-          <div style={{ margin: 0, padding: 0 }}>
+          <div style={{ margin: 0, padding: 0, color: '#fff' }}>
             You can either create an image from text or upload an image.
           </div>
-          <Space>
+          <Space style={{ display: 'block' }}>
             <div>
               <Button className={style.btns} onClick={showModal}>
                 <a> Create Image</a>
               </Button>
               <Modal
-                title='Modal'
+                title='创建图片'
                 open={open}
                 onOk={hideModal}
                 onCancel={hideModal}
                 okText='确认'
                 cancelText='取消'
-              >
-                <p className={style.title}>Bla bla ...</p>
-                <p className={style.title}>Bla bla ...</p>
-                <p className={style.title}>Bla bla ...</p>
-              </Modal>
+              ></Modal>
             </div>
-            <span>or</span>
-            <Upload {...props}>
-              <Button icon={<UploadOutlined />}>
-                <a>Click to Upload</a>
-              </Button>
-            </Upload>
+            <div style={{ color: '#fff' }}>or</div>
+            <div>
+              <Upload
+                action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
+                listType='picture'
+                defaultFileList={[...fileList]}
+              >
+                <Button icon={<UploadOutlined />}>Upload</Button>
+              </Upload>
+            </div>
           </Space>
         </Form.Item>
         <Form.Item>

@@ -58,6 +58,7 @@ import ProfileSettings from './pages/ProfileSettings';
 import ViewSaved from './components/ViewSaved';
 import CreatePost from './components/CreatePost';
 import Remove from './components/Remove';
+import CreateImage from './components/CreateImage';
 const App = () => {
   const [sessionId, setSessionId] = useState('');
   const [preferredLanguage, setPreferredLanguage] = useState('English');
@@ -468,6 +469,7 @@ const App = () => {
           <Route path='/createPost' element={<CreatePost />} />
           <Route path='/remove' element={<Remove />} />
           <Route path='/userManage' element={<UserManagement />} />
+          <Route path='/createImage' element={<CreateImage />} />
         </Routes>
       </div>
     </Router>

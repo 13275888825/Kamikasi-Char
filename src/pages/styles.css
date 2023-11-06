@@ -91,3 +91,6 @@ p {
     align-self: stretch;
   }
 }
+:where(.css-dev-only-do-not-override-3mqfnx).ant-select .ant-select-arrow {
+  color: #fff;
+}

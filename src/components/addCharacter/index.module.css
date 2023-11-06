@@ -1,34 +1,37 @@
-#add{
-   position: relative;
-   right: 20%;
+#add {
+  position: relative;
+  right: 20%;
 }
-.title{
-    font-size: 24px;
-    color: rgba(229, 224, 216, 0.85);
+.title {
+  font-size: 24px;
+  color: rgba(229, 224, 216, 0.85);
 }
-.p{
-    color: rgba(229, 224, 216, 0.85);
-    display: flex;
+.p {
+  color: rgba(229, 224, 216, 0.85);
+  display: flex;
 }
-.p .bookLink{
-    cursor: pointer;
-    font-size: 20px;
-    position: relative;
-    top: -3px;
-    left: 6px;
+.p .bookLink {
+  cursor: pointer;
+  font-size: 20px;
+  position: relative;
+  top: -3px;
+  left: 6px;
 }
-a{
-    text-decoration: none;
-    outline: none;
-    color: rgba(229, 224, 216, 0.85);
+a {
+  text-decoration: none;
+  outline: none;
+  color: rgba(229, 224, 216, 0.85);
 }
-.label{
-     color: rgba(229, 224, 216, 0.85); 
-     font-size: 20px;
+.label {
+  color: rgba(229, 224, 216, 0.85);
+  font-size: 20px;
 }
-p{
-    color: rgba(229, 224, 216, 0.85); 
+p {
+  color: rgba(229, 224, 216, 0.85);
 }
 span {
-    color: #e0e0e0;
+  color: #e0e0e0;
+}
+:where(.css-dev-only-do-not-override-3mqfnx).ant-space {
+  display: block;
 }

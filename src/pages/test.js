@@ -1,244 +1,96 @@
-/* eslint-disable no-undef */
-import React, { useEffect, useState } from 'react';
-import { Layout, Space, Input, Button, Modal, Dropdown } from 'antd';
-import {
-  UserOutlined,
-  CopyOutlined,
-  SendOutlined,
-  QqCircleFilled,
-  RedditSquareFilled,
-  TaobaoSquareFilled,
-  ZhihuSquareFilled,
-  DownOutlined,
-} from '@ant-design/icons';
-import {
-  LeftOutlined,
-  ShareAltOutlined,
-  MoreOutlined,
-  SaveOutlined,
-  FolderViewOutlined,
-  FolderAddOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
-import style from './ChatDetail.module.css';
-import { useNavigate, useLocation } from 'react-router-dom';
-import queryString from 'query-string';
-import Avatar from '@mui/material/Avatar';
-import useAvatarView from '../components/AvatarView';
-import lz from 'lz-string';
+import React, { useState } from 'react';
+import { Input, Select, Slider, Radio, Row, Col, Button } from 'antd';
 
-const { Search } = Input;
+const { TextArea } = Input;
+const { Option } = Select;
+const RadioGroup = Radio.Group;
 
-const CombinedComponent = ({
-  isConnecting,
-  isConnected,
-  isRecording,
-  isPlaying,
-  isThinking,
-  isResponding,
-  audioPlayer,
-  handleStopCall,
-  handleContinueCall,
-  audioQueue,
-  audioContextRef,
-  audioSourceNodeRef,
-  setIsPlaying,
-  handleDisconnect,
-  isCallView,
-  setIsCallView,
-  send,
-  stopAudioPlayback,
-  textAreaValue,
-  setTextAreaValue,
-  messageInput,
-  setMessageInput,
-  setUseSearch,
-  setUseEchoCancellation,
-  callActive,
-  startRecording,
-  stopRecording,
-  setPreferredLanguage,
-  selectedCharacter,
-  messageId,
-  token,
-  isTextStreaming,
-  sessionId,
-  setSelectedCharacter,
-  setSelectedModel,
-  setSelectedDevice,
-  setUseMultiOn,
-  connect,
-}) => {
-  const navigate = useNavigate();
-  const { search } = useLocation();
-  const {
-    character = '',
-    selectedModel = '',
-    selectedDevice = '',
-    isCallViewParam = '',
-    preferredLanguage = '',
-    useSearchParam = '',
-    useEchoCancellationParam = '',
-    useMultiOnParam = '',
-  } = queryString.parse(search);
-  const isCallViewUrl = isCallViewParam === 'true';
-  const useSearch = useSearchParam === 'true';
-  const useEchoCancellation = useEchoCancellationParam === 'true';
-  const useMultiOn = useMultiOnParam === 'true';
-  const message = isTextStreaming ? '' : textAreaValue;
-  const [emotion, setEmotion] = useState('');
+const App = () => {
+  const [forwardPrompt, setForwardPrompt] = useState('');
+  const [backwardPrompt, setBackwardPrompt] = useState('');
+  const [iterationSteps, setIterationSteps] = useState(10);
+  const [samplingMethod, setSamplingMethod] = useState('random');
+  const [outputWidth, setOutputWidth] = useState(800);
+  const [outputHeight, setOutputHeight] = useState(600);
+  const [promptGuidance, setPromptGuidance] = useState(0.5);
+  const [randomSeed, setRandomSeed] = useState(12345);
 
-  const { avatarDisplay, playAudioFromNode } = useAvatarView(
-    selectedCharacter?.avatar_id,
-    emotion
-  );
-
-  useEffect(() => {
-    // eslint-disable-next-line no-undef
-    const emotion = extractEmotionFromPrompt(message);
-    if (emotion && emotion.length > 0) setEmotion(emotion);
-  }, [message]);
-
-  useEffect(() => {
-    if (
-      character === '' ||
-      selectedModel === '' ||
-      selectedDevice === '' ||
-      isCallViewUrl === '' ||
-      preferredLanguage === '' ||
-      useSearch === '' ||
-      useEchoCancellation === ''
-    ) {
-      navigate('/');
+  const handleForwardPrompt = (e) => {
+    if ((e.key === 'Enter' && e.ctrlKey) || (e.key === 'Enter' && e.altKey)) {
+      // 处理正向提示词生成逻辑
     }
-    const paramSelectedCharacter = JSON.parse(
-      lz.decompressFromEncodedURIComponent(character)
-    );
-    setSelectedCharacter(paramSelectedCharacter);
+  };
 
-    setSelectedModel(selectedModel);
-
-    setSelectedDevice(selectedDevice);
-
-    setIsCallView(isCallViewUrl);
-
-    setPreferredLanguage(preferredLanguage);
-
-    setUseSearch(useSearch);
-
-    setUseEchoCancellation(useEchoCancellation);
-
-    setUseMultiOn(useMultiOn);
-  }, []);
-
-  useEffect(() => {
-    if (!isConnecting.current) {
-      const tryConnect = async () => {
-        try {
-          // requires login if the user wants to use gpt4 or claude.
-          connect();
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      tryConnect();
+  const handleBackwardPrompt = (e) => {
+    if ((e.key === 'Enter' && e.ctrlKey) || (e.key === 'Enter' && e.altKey)) {
+      // 处理反向提示词生成逻辑
     }
+  };
 
-    const handleUnload = event => {
-      event.preventDefault();
-      navigate('/');
-    };
-    window.addEventListener('beforeunload', handleUnload);
-
-    // Clean up event listener on component unmount
-    return () => window.removeEventListener('beforeunload', handleUnload);
-  }, [connect]);
-
-  if (!isConnected.current) {
-    return null;
-  }
+  const handleGenerate = () => {
+    // 处理生成逻辑
+  };
 
   return (
-    <div className={style.chat}>
-      <div className={style.header}>
-        <div className={style.desc}>
-          <div className={style.left}>
-            <LeftOutlined onClick={toHome} className={style.leftIcon} />
-            <div className={style.character}>
-              <div className={style.top}>
-                <h4 className={style.characterName}>
-                  {selectedCharacter.name}
-                </h4>
-                <span className={style.tip}>17.9m</span>
-              </div>
-              <div className={style.bottom}>
-                <span className={style.by}>Created by</span>
-                <div className={style.aite}>@elonwhisperer</div>
-              </div>
-            </div>
-          </div>
-          <div className={style.right}>
-            <ShareAltOutlined
-              style={{ color: '#fff' }}
-              className={style.icon}
-              onClick={share}
-            />
-            <Dropdown
-              menu={{
-                items,
-              }}
-            >
-              <a onClick={e => e.preventDefault()}>
-                <Space>
-                  <MoreOutlined className={style.icon} />
-                </Space>
-              </a>
-            </Dropdown>
-          </div>
-        </div>
-        <div className={style.remember}>
-          Remember: Everything Characters say is made up!
-        </div>
-      </div>
-
-      <div
-        className={style.content}
-        style={{ display: isConnected ? 'block' : 'none' }}
-      >
-        {isCallView ? (
-          // eslint-disable-next-line react/jsx-no-undef
-          <CallView
-            isRecording={isRecording}
-            isPlaying={isPlaying}
-            isResponding={isResponding}
-            audioPlayer={audioPlayer}
-            // Pass other props as needed
+    <div>
+      <Row>
+        <Col span={12}>
+          <Select style={{ width: '100%' }} placeholder="选择模型">
+            <Option value="stable_diffusion">Stable Diffusion</Option>
+          </Select>
+        </Col>
+        <Col span={12}>
+          <Select style={{ width: '100%' }} placeholder="选择VAE模型">
+            {/* 添加你的VAE模型选项 */}
+          </Select>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <Slider
+            min={0}
+            max={1}
+            step={0.01}
+            value={promptGuidance}
+            onChange={value => setPromptGuidance(value)}
           />
-        ) : (
-          // eslint-disable-next-line react/jsx-no-undef
-          <TextView
-          // Pass relevant props from "Conversation" component
+        </Col>
+      </Row>
+      <Row>
+        <Col span={12}>
+          <TextArea
+            placeholder="正向提示词（按Ctrl+Enter或Alt+Enter开始生成）"
+            value={forwardPrompt}
+            onChange={e => setForwardPrompt(e.target.value)}
+            onKeyPress={handleForwardPrompt}
+            autosize={{ minRows: 6 }}
           />
-        )}
-      </div>
-
-      <div className={style.foot}>
-        <Input placeholder='type a message' />
-        <Button type='primary'>
-          <SendOutlined />
-        </Button>
-      </div>
-
-      <Modal
-        title='Share Character'
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        {/* ... (Modal JSX from "ChatDetail") */}
-      </Modal>
+        </Col>
+        <Col span={12}>
+          {/* 右侧图片展示区域 */}
+        </Col>
+      </Row>
+      {/* 第二行，类似第一行但有反向提示词 */}
+      {/* 第三行，类似第二行但没有提示词 */}
+      {/* 第四行，生成参数选择 */}
+      <Row>
+        <Col span={12}>
+          <Slider
+            min={1}
+            max={100}
+            value={iterationSteps}
+            onChange={value => setIterationSteps(value)}
+          />
+          {/* 其他生成参数，包括采样方法、宽度、高度、随机数种子 */}
+        </Col>
+        <Col span={12}>
+          <Button type="primary" onClick={handleGenerate}>
+            生成
+          </Button>
+        </Col>
+      </Row>
     </div>
   );
 };
 
-export default CombinedComponent;
+export default App;
