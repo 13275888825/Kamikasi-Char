@@ -81,8 +81,15 @@ export default function App() {
     const compressedCharacter = lz.compressToEncodedURIComponent(
       JSON.stringify(item)
     );
-    console.log(compressedCharacter, 'compressedCharacter');
-    navigate('/settings?character=' + compressedCharacter);
+    // console.log(compressedCharacter, 'compressedCharacter');
+    // navigate('/settings?character=' + compressedCharacter);
+    // console.log(character, 'character');
+    // console.log(preferredLanguage == 'English', 'preferredLanguage'),
+    //   console.log(selectedDevice == 'default', 'selectedDevice');
+    // console.log(selectedModel == 'gpt-3.5-turbo-16k', 'selectedModel');
+    // console.log(useSearch == false, 'useSearch');
+    // console.log(useMultiOn == false, 'useMultiOn');
+    // console.log(useEchoCancellation == false, 'useEchoCancellation');
     // await connect();
     // const interval = setInterval(() => {
     //   // display callview
@@ -94,24 +101,24 @@ export default function App() {
     //   // TODO(UI): Hide loading animation
     // }, 500);
 
-    // navigate(
-    //   '/conversation?isCallViewParam=' +
-    //     (commMethod === 'Call') +
-    //     '&character=' +
-    //     character +
-    //     '&preferredLanguage=' +
-    //     preferredLanguage +
-    //     '&selectedDevice=' +
-    //     (selectedDevice || 'default') +
-    //     '&selectedModel=' +
-    //     selectedModel +
-    //     '&useSearchParam=' +
-    //     useSearch +
-    //     '&useMultiOnParam=' +
-    //     useMultiOn +
-    //     '&useEchoCancellationParam=' +
-    //     useEchoCancellation
-    // );
+    navigate(
+      '/conversation?isCallViewParam=' +
+        'Text' +
+        '&character=' +
+        compressedCharacter +
+        '&preferredLanguage=' +
+        'English' +
+        '&selectedDevice=' +
+        'default' +
+        '&selectedModel=' +
+        'gpt-3.5-turbo-16k' +
+        '&useSearchParam=' +
+        false +
+        '&useMultiOnParam=' +
+        false +
+        '&useEchoCancellationParam=' +
+        false
+    );
   };
   return (
     <div>

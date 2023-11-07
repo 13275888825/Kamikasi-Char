@@ -78,7 +78,6 @@ const Settings = ({
 
       // TODO(UI): Hide loading animation
     }, 500);
-
     navigate(
       '/conversation?isCallViewParam=' +
         (commMethod === 'Call') +
