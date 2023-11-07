@@ -5,22 +5,50 @@
   width: 30vw;
   justify-content: space-between;
 }
-.head .select {
+
+.select {
   display: flex;
   flex-direction: column;
 }
-.head .select .label {
+
+.label {
   font-size: 14px;
-  margin-bottom: 6px;
+  margin: 6px;
 }
-.tabs{
+
+.tabs {
   margin: 10px;
 }
-.picture{
+
+.form {
   display: flex;
   width: 80vw;
   justify-content: space-evenly;
 }
-.btn{
+
+.picture {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.btn {
   margin-left: 40px;
+}
+
+.create {
+  display: flex;
+  flex-direction: column;
+}
+
+.createTabs {
+  width: 100%;
+  display: flex;
+}
+.text{
+  width: 50%;
+}
+.image{
+  width: 50%;
+  background-color: aliceblue;
 }
