@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-23 15:19:45
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-11-01 17:30:45
+ * @LastEditTime: 2023-11-08 14:07:48
  * @FilePath: \KamikasiChar\src\pages\Login.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -14,7 +14,6 @@ import './login.scss';
 import { useNavigate } from 'react-router-dom';
 import { WechatFilled, ContactsFilled } from '@ant-design/icons';
 import WxLogin from '../components/WxLogin';
-import '../mock/mockData';
 import { Tabs } from 'antd';
 import logo from '../assets/images/logo.png';
 const Login = ({ setAuthToken }) => {

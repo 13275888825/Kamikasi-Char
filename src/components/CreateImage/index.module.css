@@ -45,10 +45,23 @@
   width: 100%;
   display: flex;
 }
-.text{
+
+.text {
   width: 50%;
 }
-.image{
+
+.image {
   width: 50%;
   background-color: aliceblue;
+}
+
+.tags {
+  margin: 6px;
+  padding: 4px;
+  border-radius: 8px;
+
+}
+
+.area {
+  color: #fff;
 }

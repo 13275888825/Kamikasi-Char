@@ -2,26 +2,16 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-19 16:54:51
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-11-02 17:13:26
+ * @LastEditTime: 2023-11-08 14:06:46
  * @FilePath: \web\src\pages\Chats.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import React, { useEffect } from 'react';
-import { Col, Row, Avatar, Card, Divider } from 'antd';
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
-// import { Card, Image, Button, Avatar } from '@nextui-org/react';
-import { Button } from '@nextui-org/react';
+import { Col, Row, Card } from 'antd';
 const { Meta } = Card;
 import { getHostName } from '../utils/urlUtils';
 import './Chats.css';
-import axios from 'axios';
-import '../mock/homeList';
 import queryString from 'query-string';
-import '../mock/homeCard';
 import { useNavigate, useLocation } from 'react-router-dom';
 import lz from 'lz-string';
 export default function App() {
