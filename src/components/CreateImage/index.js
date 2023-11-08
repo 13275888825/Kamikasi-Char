@@ -242,7 +242,6 @@ const Feed = () => {
                 onChange={changePrompt}
                 rows={4}
                 placeholder='正向提示词(按Ctrl+Enter或Alt+Enter生成)'
-                maxLength={6}
               />
               <span style={{ marginTop: '10px' }}>提示词(0/75)</span>
             </div>
@@ -260,7 +259,6 @@ const Feed = () => {
             onChange={changeNavigate}
             rows={4}
             placeholder='反向提示词(按Ctrl+Enter或Alt+Enter生成)'
-            maxLength={6}
           />
           <span style={{ marginTop: '10px' }}>反向提示词(0/75)</span>
         </div>
