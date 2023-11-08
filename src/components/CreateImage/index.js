@@ -95,6 +95,7 @@ const Feed = () => {
     );
     console.log(sampler, '4444');
     console.log(restore, tilling, hr, '6666');
+    setUrl('');
     // setSpinning(true);
     setPercent(20);
     setPercent(30);
