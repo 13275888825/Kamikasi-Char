@@ -103,7 +103,7 @@ const Feed = () => {
     setPercent(50);
     setPercent(60);
     axios
-      .post('http://localhost:3000/sdapi/v1/txt2img', {
+      .post('/api2/sdapi/v1/txt2img', {
         denoising_strength: denoising,
         prompt: prompt,
         negative_prompt: navigate,
