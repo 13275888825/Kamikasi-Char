@@ -1,91 +1,12 @@
-/*
- * @Author: wqh wqh20010307@163.com
- * @Date: 2023-10-30 10:09:17
- * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-11-01 15:17:31
- * @FilePath: \KamikasiChar\src\components\VideoPlayer\index.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
-import React, { useState, useRef, useEffect } from 'react';
-import videojs from 'video.js';
-import 'video.js/dist/video-js.css';
-import './index.less';
+import React from 'react';
+import ReactPlayer from 'react-player';
 
-export default function VideoPlay(props) {
-  // const {} = props;
-  const videoRef = useRef(null);
-  const playerRef = useRef(null);
-  const [option, setOptopm] = useState({});
-  const onReadyPlay = palyer => {
-    videoRef.current = palyer;
-    palyer.play();
-  };
-
-  const init = () => {
-    let _option = {
-      controls: true,
-      // autoplay: false, //加载完成是否自动播放
-      loop: false, //视频播放结束后，是否循环播放
-      notSupportedMessage: '此视频暂无法播放，请稍后再试',
-      poster: 'https://t7.baidu.com/it/u=1819248061,230866778&fm=193&f=GIF', //视频封面
-      controlBar: {
-        // timeDivider: true,//是否显示时间控制条，默认为true
-        // remainingTimeDisplay: false,//是否显示剩余时间，默认为true
-        // fullscreenToggle: true // 全屏按钮
-        children: [
-          //自定义
-          { name: 'playToggle' }, // 播放按钮
-          {
-            name: 'volumePanel', // 音量控制
-            inline: false, // 不使用水平方式
-          },
-          { name: 'currentTimeDisplay' }, // 当前已播放时间
-          { name: 'durationDisplay' }, // 总时间
-          { name: 'progressControl' }, // 播放进度条
-          {
-            name: 'pictureInPictureToggle', //支持画中画
-          },
-          {
-            name: 'FullscreenToggle', //支持全屏
-          },
-        ],
-      },
-    };
-    setOptopm(_option);
-
-    if (!playerRef.current) {
-      const videoElement = videoRef.current;
-      if (!videoElement) return;
-
-      const player = (playerRef.current = videojs(
-        videoElement,
-        _option,
-        () => {}
-      ));
-      onReadyPlay(player);
-    }
-  };
-
-  useEffect(() => {
-    init();
-  }, []);
-
+const VideoPlayer = ({ hlsUrl }) => {
   return (
-    <div className='video_play'>
-      <video
-        style={{
-          width: 600,
-          height: 300,
-        }}
-        ref={videoRef}
-        className='video-js vjs-big-play-centered'
-      >
-        <source src={`http://vjs.zencdn.net/v/oceans.mp4`} type='video/mp4' />
-        <source
-          src={`https://live-s3m.mediav.com/nativevideo/2a80d171cc7ef2c764c9a83c06e0e4bc-bit_cloud768.mp4`}
-          type='video/mp4'
-        />
-      </video>
+    <div>
+      <ReactPlayer url={hlsUrl} controls width='640px' height='360px' />
     </div>
   );
-}
+};
+
+export default VideoPlayer;

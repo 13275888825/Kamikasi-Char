@@ -20,12 +20,15 @@
     "firebase": "^10.0.0",
     "hark": "^1.2.3",
     "http-proxy-middleware": "^2.0.6",
+    "install": "^0.13.0",
     "is-ip": "^5.0.0",
     "lz": "^0.1.1",
     "mockjs": "^1.1.0",
+    "npm": "^10.2.3",
     "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hls-player": "^3.0.7",
     "react-icons": "^4.10.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-modal": "^3.16.1",
@@ -69,5 +72,5 @@
     "eslint-plugin-react": "^7.33.1",
     "prettier": "^3.0.1"
   },
-  "proxy":"http://127.0.0.1:7860"
+  "proxy": "http://127.0.0.1:7860"
 }
