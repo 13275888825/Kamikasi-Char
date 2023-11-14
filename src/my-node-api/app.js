@@ -1,80 +1,54 @@
+/*
+ * @Author: wqh wqh20010307@163.com
+ * @Date: 2023-11-14 15:43:35
+ * @LastEditors: wqh wqh20010307@163.com
+ * @LastEditTime: 2023-11-14 16:15:13
+ * @FilePath: \KamikasiChard:\websocket\node\server.js
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 const express = require('express');
-const cors = require('cors'); // 引入cors模块
-const jwt = require('jsonwebtoken');
-const bodyParser = require('body-parser');
+const http = require('http');
+const WebSocket = require('ws');
+
 const app = express();
-const port = 3001;
-const corsOptions = {
-  origin: 'http://localhost:3000', // 允许的来源
-  methods: 'GET,POST,PUT,DELETE', // 允许的HTTP方法
-};
-app.use(cors(corsOptions));
-app.use(bodyParser.json());
-app.get('/api/data', (req, res) => {
-  const { id } = req.query;
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
 
-  if (id) {
-    // 生成一个示例数组
-    const dataArray = ['Item 1', 'Item 2', 'Item 3'];
-
-    res.json(dataArray);
-  } else {
-    res.status(400).json({ error: 'Invalid ID' });
-  }
-});
-const secretKey = 'your-secret-key';
-
-// Simulated user data
-const users = [
-  {
-    id: 1,
-    phone: '1234567890',
-    password: 'password123',
-  },
-];
-app.use(cors()); // 使用cors中间件
-app.post('/login', (req, res) => {
-  // 前端随便输入手机号和密码都返回token
-  const token = jwt.sign({ id: 1 }, secretKey);
-  res.json({ token });
+app.get('/', (req, res) => {
+  res.send('Server is running!');
 });
 
-// Middleware to verify token
-function verifyToken(req, res, next) {
-  const token = req.headers.authorization.replace('Bearer ', '');
-  jwt.verify(token, secretKey, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ message: 'Token is not valid' });
-    }
-    req.userId = decoded.id;
-    next();
+wss.on('connection', ws => {
+  console.log('New client connected');
+  // eslint-disable-next-line no-undef
+  wss.clients.forEach(client => {
+    client.send('连接上了');
   });
-}
+  // Listen for messages from clients
+  ws.on('message', message => {
+    // eslint-disable-next-line no-undef
+    const buffer = Buffer.from(message);
 
-// Add user route
-app.post('/addUser', verifyToken, (req, res) => {
-  // Implement the logic to add a new user here
-  res.json({ message: 'User added successfully' });
-});
-
-// Delete user route
-app.delete('/deleteUser/:userId', verifyToken, (req, res) => {
-  const userId = req.params.userId;
-  // Implement the logic to delete the user with the given ID here
-  res.json({ message: 'User deleted successfully' });
-});
-
-// Show users route
-app.get('/showUsers', verifyToken, (req, res) => {
-  // Implement the logic to fetch and return user data here
-  const userData = users.map(user => {
-    return { id: user.id, phone: user.phone };
+    // 使用 TextDecoder 将 Buffer 转为字符串
+    const decoder = new TextDecoder('utf-8');
+    const text = decoder.decode(buffer);
+    console.log(text, 'message'); // 输出："你好"
+    // Broadcast the message to all clients
+    wss.clients.forEach(client => {
+      if (client !== ws && client.readyState === WebSocket.OPEN) {
+        client.send(text);
+      }
+    });
   });
-  res.json(userData);
+
+  // Handle client disconnection
+  ws.on('close', () => {
+    console.log('Client disconnected');
+  });
 });
 
-// 其他路由和中间件
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// eslint-disable-next-line no-undef
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
 });

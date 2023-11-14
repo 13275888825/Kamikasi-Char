@@ -2,12 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { isIP } from 'is-ip';
 import { useNavigate } from 'react-router-dom';
 import lz from 'lz-string';
-
 import Characters from '../components/Characters';
 import Button from '@mui/material/Button';
 import { getHostName } from '../utils/urlUtils';
 import { signInWithGoogle } from '../components/Auth/SignIn';
-
 const Home = ({
   isMobile,
   selectedCharacter,
