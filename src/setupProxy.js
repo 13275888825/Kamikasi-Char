@@ -38,6 +38,16 @@ module.exports = function (app) {
       },
     })
   );
+  app.use(
+    '/api4',
+    createProxyMiddleware({
+      target: 'http://localhost:3000', // 目标服务器2的地址
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api4': '', // 移除'/api2'前缀
+      },
+    })
+  );
   app.get('/api99/videos/:filename', (req, res) => {
     const filename = req.params.filename;
     const filePath = path.join('/project/videos', filename);

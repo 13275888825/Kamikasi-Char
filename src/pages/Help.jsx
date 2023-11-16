@@ -18,7 +18,7 @@ import('video.js/dist/lang/zh-CN.js');
 const HlsVideoPlayer = () => {
   const videoInstance = useRef(null);
   const videoInstance2 = useRef(null);
-  const socketUrl = 'ws://localhost:3001';
+  const socketUrl = 'ws://localhost:8080';
   const { sendMessage, lastMessage } = useWebSocket(socketUrl);
   useEffect(() => {
     console.log('123');
@@ -36,7 +36,7 @@ const HlsVideoPlayer = () => {
           //},
           {
             type: 'video/mp4',
-            src: '/api99/videos/2.mp4',
+            src: 'ws://localhost:8080/oceans.mp4',
           },
         ],
         notSupportedMessage: '无法播放',
@@ -55,7 +55,7 @@ const HlsVideoPlayer = () => {
         sources: [
           {
             type: 'application/x-mpegURL',
-            src: '/api99/fifo_size=5/123.m3u8',
+            src: '/output.m3u8',
           },
         ],
         notSupportedMessage: '无法播放',
@@ -83,8 +83,8 @@ const HlsVideoPlayer = () => {
       <div>
         <video
           className='video-js vjs-default-skin'
-          width={200}
-          height={200}
+          width={400}
+          height={400}
           id='videoBox'
           controls
         />
@@ -92,8 +92,8 @@ const HlsVideoPlayer = () => {
       <div>
         <video
           className='video-js vjs-default-skin'
-          width={200}
-          height={200}
+          width={400}
+          height={400}
           id='videoBox2'
           controls
         />
