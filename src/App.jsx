@@ -34,6 +34,7 @@ import Terms from './pages/Terms';
 import Support from './pages/Support';
 import Help from './pages/Help';
 import Char from './pages/Char';
+import About from './pages/About';
 // utils
 import auth from './utils/firebase';
 
@@ -470,6 +471,7 @@ const App = () => {
           <Route path='/remove' element={<Remove />} />
           <Route path='/userManage' element={<UserManagement />} />
           <Route path='/createImage' element={<CreateImage />} />
+          <Route path='/about' element={<About />} />
         </Routes>
       </div>
     </Router>

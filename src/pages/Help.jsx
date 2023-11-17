@@ -36,7 +36,7 @@ const HlsVideoPlayer = () => {
           //},
           {
             type: 'video/mp4',
-            src: 'ws://localhost:8080/oceans.mp4',
+            src: '/oceans.mp4',
           },
         ],
         notSupportedMessage: '无法播放',
@@ -82,6 +82,8 @@ const HlsVideoPlayer = () => {
     <>
       <div>
         <video
+          autoPlay
+          loop
           className='video-js vjs-default-skin'
           width={400}
           height={400}
@@ -91,6 +93,8 @@ const HlsVideoPlayer = () => {
       </div>
       <div>
         <video
+          autoPlay
+          loop
           className='video-js vjs-default-skin'
           width={400}
           height={400}

@@ -14,7 +14,7 @@ import {
 } from '@ant-design/icons';
 import { Space } from 'antd';
 import { fontSize } from '@mui/system';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 const iconList = () => {
   const navigate = useNavigate();
   const toHelp = () => {
@@ -24,7 +24,7 @@ const iconList = () => {
     navigate('search');
   };
   const toRed = () => {
-    window.open('https://discord.gg/e4AYNnFg2F', 'mozillaTab');
+    navigate('about');
   };
   return (
     <div>
