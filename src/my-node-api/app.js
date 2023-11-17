@@ -1,63 +1,22 @@
+/*
+ * @Author: wqh wqh20010307@163.com
+ * @Date: 2023-11-17 15:32:57
+ * @LastEditors: wqh wqh20010307@163.com
+ * @LastEditTime: 2023-11-17 17:09:50
+ * @FilePath: \Kamikasi-Char\src\my-node-api\app.js
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 const express = require('express');
-const http = require('http');
-const WebSocket = require('ws');
-const ffmpeg = require('fluent-ffmpeg');
 const path = require('path');
-const fs = require('fs');
 
 const app = express();
-const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const port = 8080;
 
-app.get('/', (req, res) => {
-  res.send('Server is running!');
-});
+// 静态文件服务
+// eslint-disable-next-line no-undef
+app.use(express.static(path.join(__dirname, 'public')));
 
-wss.on('connection', (ws) => {
-  console.log('New client connected');
-
-  const outputFilePath = path.join(__dirname, 'public', 'oceans.mp4');
-  const outputStream = fs.createWriteStream(outputFilePath);
-
-  const ffmpegCommand = ffmpeg()
-  .input('./public/oceans.mp4')
-    .inputFormat('mp4')
-    .videoCodec('libx264')
-    .audioCodec('aac')
-    .output(outputStream)
-    .outputOptions(['-preset ultrafast', '-tune zerolatency'])
-    .on('end', () => {
-      console.log('FFmpeg command finished');
-      outputStream.end();  // 结束文件写入流
-    })
-    .on('error', (err) => {
-      console.error('Error:', err);
-    });
-
-  outputStream.on('data', (data) => {
-    console.log('接收到data');
-    ws.send(data, { binary: true });
-  });
-
-  outputStream.on('end', () => {
-    console.log('FFmpeg stream finished');
-  });
-
-  outputStream.on('error', (err) => {
-    console.error('Error:', err);
-  });
-
-  ws.on('close', () => {
-    console.log('Client disconnected');
-    // Stop ffmpeg when the WebSocket connection is closed
-    ffmpegCommand.kill('SIGKILL');
-  });
-
-  // 开始 ffmpeg 进程
-  ffmpegCommand.run();
-});
-
-const PORT = process.env.PORT || 8080;
-server.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+// 启动服务器
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
 });
