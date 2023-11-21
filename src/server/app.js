@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-11-17 15:32:57
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-11-21 16:22:12
+ * @LastEditTime: 2023-11-21 18:27:11
  * @FilePath: \Kamikasi-Char\src\my-node-api\app.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -34,14 +34,26 @@ wss.on('connection', ws => {
   // 监听WebSocket客户端发送的消息
   ws.on('message', message => {
     console.log('从客户端接收到消息:', message);
-    if (message == '/videostart') {
+    // eslint-disable-next-line no-undef
+    const buffer = Buffer.from(message);
+    const str = buffer.toString('utf-8');
+    console.log(str, 'str');
+    if (str === '/videostart') {
       // 处理"/videostart"消息，开始向客户端发送视频数据
       console.log('开始播放视频...');
-      ws.send(JSON.stringify({ type: 'video/mp4' }));
+
+      // 监听数据事件，逐个发送视频数据块
       videoStream.on('data', chunk => {
-        // 将视频数据推送到WebSocket连接
         console.log(chunk, 'chunk');
+        // 直接发送数据块到WebSocket连接
+        ws.send('video');
         ws.send(chunk);
+      });
+
+      // 监听结束事件，通知客户端视频发送完成
+      videoStream.on('end', () => {
+        console.log('视频发送完成');
+        ws.send('VIDEO_END');
       });
     }
   });
