@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-19 16:54:51
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-11-22 15:14:32
+ * @LastEditTime: 2023-11-22 16:48:37
  * @FilePath: \web\src\pages\Chats.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -126,7 +126,7 @@ export default function App() {
               lg={6}
               md={6}
               sm={8}
-              xs={8}
+              xs={12}
               key={item.character_id}
             >
               <Card
