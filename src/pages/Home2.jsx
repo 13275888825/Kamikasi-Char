@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-19 16:54:51
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-11-08 14:06:46
+ * @LastEditTime: 2023-11-22 15:14:32
  * @FilePath: \web\src\pages\Chats.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -119,7 +119,16 @@ export default function App() {
         <Row gutter={[16, 16]}>
           {list.map((item, key) => (
             // eslint-disable-next-line react/jsx-key
-            <Col span={4} key={item.character_id}>
+            <Col
+              span={4}
+              xxl={4}
+              xl={4}
+              lg={6}
+              md={6}
+              sm={8}
+              xs={8}
+              key={item.character_id}
+            >
               <Card
                 onClick={() => toDetail(item)}
                 hoverable
