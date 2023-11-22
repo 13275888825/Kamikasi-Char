@@ -2,7 +2,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-11-01 18:17:36
+ * @LastEditTime: 2023-11-22 16:13:59
  * @FilePath: \web\src\App.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -72,6 +72,7 @@ const App = () => {
   const [useMultiOn, setUseMultiOn] = useState(false);
   const [useEchoCancellation, setUseEchoCancellation] = useState(false);
   const [user, setUser] = useState(null);
+  const [videoSource, setVideoSource] = useState('');
   const isLoggedIn = useRef(false);
   const [token, setToken] = useState('');
   const [isThinking, setIsThinking] = useState(false);
@@ -91,6 +92,7 @@ const App = () => {
   const audioSent = useRef(false);
   const shouldPlayAudio = useRef(false);
   const audioQueue = useRef([]);
+  const videoQueue = useRef([]);
   const isConnecting = useRef(false);
   const isConnected = useRef(false);
   const isMobile = window.innerWidth <= 768;
@@ -131,6 +133,14 @@ const App = () => {
   };
 
   const handleSocketOnMessage = event => {
+    console.log('收到消息了');
+    console.log(event.data, '88888');
+    if (typeof event.data === 'object') {
+      const blob = new Blob([event.data], { type: 'video/mp4' });
+      const videoUrl = URL.createObjectURL(blob);
+      console.log(videoUrl, 'video');
+      setVideoSource(videoUrl);
+    }
     if (typeof event.data === 'string') {
       const message = event.data;
       if (!isTextStreaming) setIsTextStreaming(true);
@@ -333,7 +343,7 @@ const App = () => {
       isConnected.current = false;
     }
   };
-
+  console.log(videoSource, '999999');
   return (
     <Router>
       <div className='app'>
@@ -458,7 +468,7 @@ const App = () => {
             <Route path='/addCharacter' element={<AddCharacter />} />
             <Route path='/addRoom' element={<AddRoom />} />
             <Route path='/community' element={<Community />} />
-            <Route path='/Help' element={<Help />} />
+            <Route path='/Help' element={<Help videoSource={videoSource} />} />
           </Route>
           <Route path='/search' element={<Search />} />
           <Route path='/login' element={<Login />} />
