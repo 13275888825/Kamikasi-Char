@@ -4,7 +4,7 @@
  * created by Lynchee on 7/28/23
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import CallView from '../components/CallView';
 import TextView from '../components/TextView';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -13,7 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import useAvatarView from '../components/AvatarView';
 import { extractEmotionFromPrompt } from '@avatechai/avatars';
 import lz from 'lz-string';
-
+import Help from './Help';
 // TODO: user can access this page only if isConnected.current
 
 const Conversation = ({
@@ -54,6 +54,7 @@ const Conversation = ({
   setSelectedModel,
   setSelectedDevice,
   setUseMultiOn,
+  videoSource,
   connect,
 }) => {
   const navigate = useNavigate();
@@ -73,8 +74,9 @@ const Conversation = ({
   const useEchoCancellation = useEchoCancellationParam === 'true';
   const useMultiOn = useMultiOnParam === 'true';
   const message = isTextStreaming ? '' : textAreaValue;
+  const [url, setUrl] = useState('');
   const [emotion, setEmotion] = useState('');
-
+  const videoRef = useRef(null);
   const { avatarDisplay, playAudioFromNode } = useAvatarView(
     selectedCharacter?.avatar_id,
     emotion
@@ -116,7 +118,15 @@ const Conversation = ({
 
     setUseMultiOn(useMultiOn);
   }, []);
-
+  useEffect(() => {
+    if (videoSource) {
+      setUrl(videoSource);
+      console.log(url, 'url');
+      console.log(videoSource, '1p1p1p');
+      videoRef.current.src = videoSource;
+    }
+    // ... 其他代码
+  }, [videoSource]);
   useEffect(() => {
     if (!isConnecting.current) {
       const tryConnect = async () => {
@@ -218,6 +228,11 @@ const Conversation = ({
           sessionId={sessionId}
         />
       </div>
+      {videoSource ? (
+        <video ref={videoRef} autoPlay controls width='400' height='300' />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

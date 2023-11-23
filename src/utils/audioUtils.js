@@ -1,10 +1,3 @@
-/**
- * src/utils/audioUtils.js
- * Audio playback.
- *
- * created by Lynchee on 7/16/23
- */
-
 const unlockAudioContext = audioContext => {
   if (audioContext.state === 'suspended') {
     const unlock = function () {
@@ -18,7 +11,6 @@ const unlockAudioContext = audioContext => {
   }
 };
 
-// play a single audio chunk
 const playAudio = (
   audioContextRef,
   audioPlayer,
@@ -32,27 +24,27 @@ const playAudio = (
   }
 
   return new Promise(resolve => {
-    audioPlayer.current.muted = true; // Start muted
+    audioPlayer.current.muted = true;
     bufferSource.onended = resolve;
     bufferSource.start();
     audioPlayer.current
       .play()
       .then(() => {
-        audioPlayer.current.muted = false; // Unmute after playback starts
+        audioPlayer.current.muted = false;
       })
       .catch(error => {
+        console.error('播放音频时出错:', error);
         if (error.name === 'NotSupportedError') {
           alert(
-            `Playback failed because: ${error}. Please check https://elevenlabs.io/subscription if you have encough characters left.`
+            `播放失败因为: ${error}. 请检查 https://elevenlabs.io/subscription 是否还有足够的字符。`
           );
         } else {
-          alert(`Playback failed because: ${error}`);
+          alert(`播放失败因为: ${error}`);
         }
       });
   });
 };
 
-// play all audio chunks
 export const playAudios = async (
   audioContextRef,
   audioPlayer,
@@ -63,24 +55,37 @@ export const playAudios = async (
   initialize,
   setInitialize
 ) => {
-  while (audioQueue.current.length > 0) {
-    const audioBuffer = await audioContextRef.current.decodeAudioData(
-      audioQueue.current[0]
-    );
-    const bs = audioContextRef.current.createBufferSource();
-    bs.buffer = audioBuffer;
-    bs.connect(audioSourceNodeRef.current);
-    playAudioFromNode(bs, audioContextRef.current, true); // For enable avatar blend shapes
+  if (audioQueue.current.length === 0) {
+    console.log('队列已经为空');
+    setIsPlaying(false);
+    return; // 结束函数，避免进入空循环
+  }
 
-    await playAudio(
-      audioContextRef,
-      audioPlayer,
-      bs,
-      initialize,
-      setInitialize
-    );
+  while (audioQueue.current.length > 0) {
+    console.log('大于0');
+    try {
+      const audioBuffer = await audioContextRef.current.decodeAudioData(
+        audioQueue.current[0]
+      );
+      const bs = audioContextRef.current.createBufferSource();
+      bs.buffer = audioBuffer;
+      bs.connect(audioSourceNodeRef.current);
+      playAudioFromNode(bs, audioContextRef.current, true);
+
+      await playAudio(
+        audioContextRef,
+        audioPlayer,
+        bs,
+        initialize,
+        setInitialize
+      );
+    } catch (decodeError) {
+      console.error('解码音频数据时出错:', decodeError);
+      // 可以选择中止播放或者执行其他处理
+      audioQueue.current.shift(); // 移除当前的无效音频数据
+      continue; // 跳过当前循环，继续下一个音频数据
+    }
+
     audioQueue.current.shift();
   }
-  // done playing audios
-  setIsPlaying(false);
 };
