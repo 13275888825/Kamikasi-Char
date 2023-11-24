@@ -1,86 +1,98 @@
+/**
+ * src/hooks/useWebsocket.js
+ * Connect web socket. Send message to sever.
+ *
+ * created by Lynchee on 7/16/23
+ */
+
 import { useRef, useCallback } from 'react';
+import { isIP, isIPv4 } from 'is-ip';
+import { languageCode } from './languageCode';
+import { v4 as uuidv4 } from 'uuid';
+import { getHostName } from '../utils/urlUtils';
 
-const useWebRTC = onTrack => {
-  const pcRef = useRef(null);
-  const otherPCRef = useRef(null);
-  const micStreamRef = useRef(null);
-  const incomingStreamDestinationRef = useRef(null);
-  const audioContextRef = useRef(null);
+const useWebsocket = (
+  token,
+  onOpen,
+  onMessage,
+  selectedModel,
+  preferredLanguage,
+  useSearch,
+  useQuivr,
+  useMultiOn,
+  selectedCharacter,
+  setSessionId
+) => {
+  const socketRef = useRef(null);
+  // initialize web socket and connect to server.
+  const connectSocket = useCallback(() => {
+    console.log('连接了');
+    if (!socketRef.current) {
+      if (!selectedCharacter) {
+        return;
+      }
+      const sessionId = uuidv4().replace(/-/g, '');
+      setSessionId(sessionId);
+      const ws_scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
+      // Get the current host value
+      // Generate the new host value with the same IP but different port
+      var newHost = getHostName();
 
-  const connectPeer = useCallback(async deviceId => {
-    if (!pcRef.current) {
-      pcRef.current = new RTCPeerConnection({
-        sdpSemantics: 'unified-plan',
-      });
-      // Setup local webrtc connection just for echo cancellation.
-      otherPCRef.current = new RTCPeerConnection({
-        sdpSemantics: 'unified-plan',
-      });
-      pcRef.current.onicecandidate = e =>
-        e.candidate &&
-        otherPCRef.current.addIceCandidate(new RTCIceCandidate(e.candidate));
-      otherPCRef.current.onicecandidate = e =>
-        e.candidate &&
-        pcRef.current.addIceCandidate(new RTCIceCandidate(e.candidate));
-      pcRef.current.ontrack = onTrack;
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          deviceId: deviceId,
-          echoCancellation: true,
-          noiseSuppression: true,
-        },
-      });
-      micStreamRef.current = stream;
-      await stream.getTracks().forEach(function (track) {
-        pcRef.current.addTrack(track, stream);
-      });
-      // Maintain a single audio stream for the duration of the call.
-      audioContextRef.current = new (window.AudioContext ||
-        window.webkitAudioContext)();
-      incomingStreamDestinationRef.current =
-        audioContextRef.current.createMediaStreamDestination();
-      incomingStreamDestinationRef.current.stream
-        .getTracks()
-        .forEach(function (track) {
-          otherPCRef.current.addTrack(
-            track,
-            incomingStreamDestinationRef.current.stream
-          );
-        });
-      // Negotiation between two local peers.
-      const offer = await pcRef.current.createOffer();
-      await pcRef.current.setLocalDescription(offer);
-      await otherPCRef.current.setRemoteDescription(offer);
-      const answer = await otherPCRef.current.createAnswer();
-      await otherPCRef.current.setLocalDescription(answer);
-      await pcRef.current.setRemoteDescription(answer);
+      var language = languageCode[preferredLanguage];
 
-      return new Promise(resolve => {
-        pcRef.current.oniceconnectionstatechange = e => {
-          if (pcRef.current.iceConnectionState === 'connected') {
-            resolve();
-          }
-        };
-      });
+      const ws_path =
+        ws_scheme +
+        '://' +
+        newHost +
+        `/ws/${sessionId}?llm_model=${selectedModel}&platform=web&use_search=${useSearch}&use_quivr=${useQuivr}&use_multion=${useMultiOn}&character_id=${selectedCharacter.character_id}&language=${language}&token=${token}`;
+      socketRef.current = new WebSocket(ws_path);
+      const socket = socketRef.current;
+      socket.binaryType = 'arraybuffer';
+      socket.onopen = onOpen;
+      socket.onmessage = onMessage;
+      socket.onerror = error => {
+        console.log(`WebSocket Error: ${error}`);
+      };
+      socket.onclose = event => {
+        console.log('Socket closed');
+      };
     }
-  }, []);
+  }, [
+    token,
+    onOpen,
+    onMessage,
+    selectedModel,
+    preferredLanguage,
+    useSearch,
+    useQuivr,
+    selectedCharacter,
+    setSessionId,
+  ]);
 
-  const closePeer = () => {
-    pcRef.current.close();
-    pcRef.current = null;
-    otherPCRef.current.close();
-    otherPCRef.current = null;
-  };
+  // send message to server
+  const send = useCallback(
+    data => {
+      console.log('message sent to server');
+      if (
+        socketRef.current &&
+        socketRef.current.readyState === WebSocket.OPEN
+      ) {
+        console.log('发送了消息');
+        socketRef.current.send(data);
+        const startTime = performance.now();
+        let lastResponseTime = performance.now() - startTime;
+        console.log(lastResponseTime, '上次响应时间');
+      }
+    },
+    [socketRef]
+  );
 
-  return {
-    pcRef,
-    otherPCRef,
-    micStreamRef,
-    audioContextRef,
-    incomingStreamDestinationRef,
-    connectPeer,
-    closePeer,
-  };
+  const closeSocket = useCallback(() => {
+    socketRef.current.close();
+    socketRef.current = null;
+  }, [socketRef]);
+
+  return { socketRef, send, connectSocket, closeSocket };
 };
 
-export default useWebRTC;
+export default useWebsocket;

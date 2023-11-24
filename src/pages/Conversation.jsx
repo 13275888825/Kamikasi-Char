@@ -13,7 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import useAvatarView from '../components/AvatarView';
 import { extractEmotionFromPrompt } from '@avatechai/avatars';
 import lz from 'lz-string';
-import Help from './Help';
+import Hls from 'hls.js';
 // TODO: user can access this page only if isConnected.current
 
 const Conversation = ({
@@ -119,13 +119,17 @@ const Conversation = ({
     setUseMultiOn(useMultiOn);
   }, []);
   useEffect(() => {
-    if (videoSource) {
-      setUrl(videoSource);
-      console.log(url, 'url');
-      console.log(videoSource, '1p1p1p');
-      videoRef.current.src = videoSource;
+    const video = videoRef.current;
+
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(videoSource);
+      hls.attachMedia(video);
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = videoSource;
+    } else {
+      console.error('Your browser does not support HLS or MPEG-DASH');
     }
-    // ... 其他代码
   }, [videoSource]);
   useEffect(() => {
     if (!isConnecting.current) {
@@ -153,7 +157,7 @@ const Conversation = ({
   if (!isConnected.current) {
     return null;
   }
-
+  console.log(url, 'url');
   return (
     <div className='conversation-page'>
       {/* we render both views but only display one. */}
@@ -229,7 +233,15 @@ const Conversation = ({
         />
       </div>
       {videoSource ? (
-        <video ref={videoRef} autoPlay controls width='400' height='300' />
+        <video
+          controls
+          width='600'
+          height='400'
+          ref={videoRef}
+          type='video/mp2t'
+        >
+          Your browser does not support the video tag.
+        </video>
       ) : (
         <></>
       )}
