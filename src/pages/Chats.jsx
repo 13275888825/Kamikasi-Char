@@ -83,7 +83,7 @@ const App = () => {
           <List.Item.Meta
             avatar={
               <Avatar
-                size={{ xs: 20, sm: 20, md: 20, lg: 44, xl: 60, xxl: 60 }}
+                size={{ xs: 60, sm: 60, md: 60, lg: 60, xl: 60, xxl: 60 }}
                 src={item.image_url}
               />
             }
