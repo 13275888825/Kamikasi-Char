@@ -119,18 +119,15 @@ const Conversation = ({
     setUseMultiOn(useMultiOn);
   }, []);
   useEffect(() => {
-    const video = videoRef.current;
-
-    if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(videoSource);
-      hls.attachMedia(video);
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = videoSource;
-    } else {
-      console.error('Your browser does not support HLS or MPEG-DASH');
-    }
-  }, [videoSource]);
+    const player = new window.wsPlayer(
+      'video',
+      'ws://127.0.0.1:80/live/test.live.mp4'
+    );
+    player.open();
+    return () => {
+      player.close(); // Assuming there's a method to close the player
+    };
+  });
   useEffect(() => {
     if (!isConnecting.current) {
       const tryConnect = async () => {
@@ -153,11 +150,9 @@ const Conversation = ({
     // Clean up event listener on component unmount
     return () => window.removeEventListener('beforeunload', handleUnload);
   }, [connect]);
-
   if (!isConnected.current) {
     return null;
   }
-  console.log(url, 'url');
   return (
     <div className='conversation-page'>
       {/* we render both views but only display one. */}
@@ -169,18 +164,32 @@ const Conversation = ({
         ) : null}
       </p>
 
-      <div className={`avatar-wrapper ${isPlaying ? 'pulsating-avatar' : ''}`}>
-        {selectedCharacter?.avatar_id ? (
-          <>{avatarDisplay}</>
-        ) : (
-          <Avatar
-            alt={selectedCharacter.name}
-            src={selectedCharacter.image_url}
-            sx={{ width: 76, height: 76 }}
-          />
-        )}
+      <div
+        style={{
+          width: '50vw',
+          justifyContent: 'space-around',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <div
+          className={`avatar-wrapper ${isPlaying ? 'pulsating-avatar' : ''}`}
+        >
+          {selectedCharacter?.avatar_id ? (
+            <>{avatarDisplay}</>
+          ) : (
+            <Avatar
+              alt={selectedCharacter.name}
+              src={selectedCharacter.image_url}
+              sx={{ width: 76, height: 76 }}
+            />
+          )}
+        </div>
+        <div style={{ marginTop: '20px' }}>
+          <video muted autoPlay id='video' width='350'></video>
+        </div>
       </div>
-
       <div
         className='main-screen'
         style={{ display: isCallView ? 'flex' : 'none' }}
@@ -232,19 +241,6 @@ const Conversation = ({
           sessionId={sessionId}
         />
       </div>
-      {videoSource ? (
-        <video
-          controls
-          width='600'
-          height='400'
-          ref={videoRef}
-          type='video/mp2t'
-        >
-          Your browser does not support the video tag.
-        </video>
-      ) : (
-        <></>
-      )}
     </div>
   );
 };
