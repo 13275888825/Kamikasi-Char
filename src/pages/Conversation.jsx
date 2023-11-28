@@ -187,7 +187,7 @@ const Conversation = ({
           )}
         </div>
         <div style={{ marginTop: '20px' }}>
-          <video muted autoPlay id='video' width='350'></video>
+          <video muted autoPlay id='video' width='350' height='350'></video>
         </div>
       </div>
       <div
