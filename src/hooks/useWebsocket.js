@@ -76,7 +76,11 @@ const useWebsocket = (
         socketRef.current &&
         socketRef.current.readyState === WebSocket.OPEN
       ) {
+        console.log('发送了消息');
         socketRef.current.send(data);
+        const startTime = performance.now();
+        let lastResponseTime = performance.now() - startTime;
+        console.log(lastResponseTime, '上次响应时间');
       }
     },
     [socketRef]

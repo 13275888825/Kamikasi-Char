@@ -14,6 +14,7 @@ import useAvatarView from '../components/AvatarView';
 import { extractEmotionFromPrompt } from '@avatechai/avatars';
 import lz from 'lz-string';
 import Hls from 'hls.js';
+import { frame } from 'websocket';
 // TODO: user can access this page only if isConnected.current
 
 const Conversation = ({
@@ -81,7 +82,9 @@ const Conversation = ({
     selectedCharacter?.avatar_id,
     emotion
   );
-
+  document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOM树构建完成');
+  });
   useEffect(() => {
     const emotion = extractEmotionFromPrompt(message);
     if (emotion && emotion.length > 0) setEmotion(emotion);
@@ -119,15 +122,19 @@ const Conversation = ({
     setUseMultiOn(useMultiOn);
   }, []);
   useEffect(() => {
+    document.addEventListener('DOMContentLoaded', function () {
+      console.log('DOM树构建完成');
+    });
     const player = new window.wsPlayer(
       'video',
       'ws://127.0.0.1:80/live/test.live.mp4'
     );
+    console.log(player, 'player');
     player.open();
     return () => {
       player.close(); // Assuming there's a method to close the player
     };
-  });
+  }, []);
   useEffect(() => {
     if (!isConnecting.current) {
       const tryConnect = async () => {
@@ -187,7 +194,13 @@ const Conversation = ({
           )}
         </div>
         <div style={{ marginTop: '20px' }}>
-          <video muted autoPlay id='video' width='350' height='350'></video>
+          <video
+            autoPlay
+            id='video'
+            width='350'
+            height='350'
+            preload='auto'
+          ></video>
         </div>
       </div>
       <div

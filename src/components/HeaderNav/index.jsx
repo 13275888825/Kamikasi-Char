@@ -10,15 +10,19 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
   AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
+  HomeOutlined,
+  PlusOutlined,
+  SlidersOutlined,
+  UserAddOutlined,
+  MessageOutlined,
+  CommentOutlined,
 } from '@ant-design/icons';
 import { Menu } from 'antd';
 const items = [
   {
     label: 'Home',
     key: 'home',
-    icon: <MailOutlined />,
+    icon: <HomeOutlined />,
   },
   {
     label: 'Feed',
@@ -29,29 +33,29 @@ const items = [
   {
     label: 'Create',
     key: 'create',
-    icon: <MailOutlined />,
+    icon: <PlusOutlined />,
     children: [
       {
         label: 'Create a Character',
         key: 'addCharacter',
-        icon: <MailOutlined />,
+        icon: <UserAddOutlined />,
       },
       {
         label: 'Create a Room',
         key: 'addRoom',
-        icon: <AppstoreOutlined />,
+        icon: <SlidersOutlined />,
       },
     ],
   },
   {
     label: 'Chats',
     key: 'chats',
-    icon: <AppstoreOutlined />,
+    icon: <MessageOutlined />,
   },
   {
     label: 'Community',
     key: 'community',
-    icon: <AppstoreOutlined />,
+    icon: <CommentOutlined />,
     disabled: true,
   },
 ];

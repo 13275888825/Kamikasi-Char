@@ -1,1 +1,7 @@
-<video controls="" width="600" height="400" src="blob:http://localhost:3000/c5656fb3-11ea-47b1-9bc0-9b1a30bd967f" type="video/mp2t">Your browser does not support the video tag.</video>
+for (let i = 0; i < video.buffered.length - 1; i++) {
+  let prestart = video.buffered.start(i);
+  let preend = video.buffered.end(i);
+  if (!sourcebuffer.updating) {
+    sourcebuffer.remove(prestart, preend);
+  }
+}

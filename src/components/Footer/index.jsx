@@ -20,32 +20,7 @@ import './style.css';
 
 const Footer = () => (
   <footer className='footer'>
-    <div className='rounded-social-buttons'>
-      <a
-        className='social-button github'
-        href='https://github.com/Shaunwei/RealChar'
-        target='_blank'
-        rel='noreferrer'
-      >
-        <FaGithub />
-      </a>
-      {/* <a
-        className='social-button discord'
-        href='https://discord.gg/e4AYNnFg2F'
-        target='_blank'
-        rel='noreferrer'
-      >
-        <FaDiscord />
-      </a> */}
-      <a
-        className='social-button twitter'
-        href='https://twitter.com/agishaun'
-        target='_blank'
-        rel='noreferrer'
-      >
-        <WechatOutlined />
-      </a>
-    </div>
+    <div className='rounded-social-buttons'></div>
     <p className='copyright'>
       Copyright © 2023 RealChar. All rights reserved. Any AI character&apos;s
       statements are fictional and don&apos;t represent actual beliefs or

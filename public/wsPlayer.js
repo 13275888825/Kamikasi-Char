@@ -1,119 +1,122 @@
-/*
- * @Author: wqh wqh20010307@163.com
- * @Date: 2023-11-24 09:43:55
- * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-11-24 09:50:05
- * @FilePath: \Kamikasi-Char\public\wsPlayer.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
-'use strict';
+"use strict";
 
 function wsPlayer(videoId, wsUrl) {
-  this.videoId = videoId;
-  this.wsUrl = wsUrl;
-  this.ws = null;
-  this.frameQueue = [];
-  console.log('wsPlayer v1.0.1 20220423');
+    this.videoId = videoId;
+    this.wsUrl = wsUrl;
+    this.ws = null;
+    this.frameQueue = [];
+    console.log("wsPlayer v1.0.1 20220423");
 }
 
 wsPlayer.prototype.open = function () {
-  let sourcebuffer = null;
-  this.ws = new WebSocket(this.wsUrl);
-  this.ws.binaryType = 'arraybuffer';
-  let firstMessage = true;
+    let sourcebuffer = null;
+    this.ws = new WebSocket(this.wsUrl);
+    this.ws.binaryType = 'arraybuffer';
+    let firstMessage = true;
 
-  let demux_moov = function (info) {
-    let codecs = [];
-    for (let i = 0; i < info.tracks.length; i++) {
-      codecs.push(info.tracks[i].codec);
-    }
-    console.log(codecs);
-    let video = document.getElementById(this.videoId);
-    let mediasource = new MediaSource();
-    video.src = URL.createObjectURL(mediasource);
-    let pre_pos = 0;
-    mediasource.onsourceopen = function () {
-      sourcebuffer = mediasource.addSourceBuffer(
-        'video/mp4; codecs="' + codecs.join(', ') + '"'
-      );
-      sourcebuffer.onupdateend = function () {
-        let pos = video.currentTime;
-        if (video.buffered.length > 0) {
-          let start = video.buffered.start(video.buffered.length - 1);
-          let end = video.buffered.end(video.buffered.length - 1);
-          //console.log("pos=" + pos + ",start=" + start + ",end=" + end);
-
-          if (pos < start) {
-            //console.log("set video.currentTime pos=" + pos + ",start=" + start + ",end=" + end);
-            video.currentTime = start;
-          }
-
-          if (pos > end) {
-            //console.warn("chase frame pos=" + pos + ",start=" + start + ",end=" + end);
-            video.currentTime = start;
-          }
-
-          if (pos - pre_pos != 0 && end - pos > 3) {
-            //console.log("set end video.currentTime pos=" + pos + ",start=" + start + ",end=" + end);
-            video.currentTime = end;
-          }
-
-          for (let i = 0; i < video.buffered.length - 1; i++) {
-            let prestart = video.buffered.start(i);
-            let preend = video.buffered.end(i);
-            if (!sourcebuffer.updating) {
-              sourcebuffer.remove(prestart, preend);
-            }
-          }
-
-          if (pos - start > 10 && !sourcebuffer.updating) {
-            //console.warn("remove start pos=" + pos + ",start=" + start + ",end=" + end);
-            sourcebuffer.remove(0, pos - 3);
-          }
-
-          if (end - pos > 10 && !sourcebuffer.updating) {
-            //console.warn("remove end pos=" + pos + ",start=" + start + ",end=" + end);
-            sourcebuffer.remove(0, end - 3);
-          }
+    let demux_moov = function (info) {
+        let codecs = [];
+        for (let i = 0; i < info.tracks.length; i++) {
+            codecs.push(info.tracks[i].codec);
         }
-        pre_pos = pos;
-      };
-    };
-  }.bind(this);
+        let video = document.getElementById(this.videoId);
+        let mediasource = new MediaSource();
+        video.src = URL.createObjectURL(mediasource);
+        let pre_pos = 0;
+        mediasource.onsourceopen = function () {
+            sourcebuffer = mediasource.addSourceBuffer('video/mp4; codecs="' + codecs.join(', ') + '"');
+            sourcebuffer.onupdateend = function () {
+                let pos = video.currentTime;
+                if (video.buffered.length > 0) {
+                    let start = video.buffered.start(video.buffered.length - 1);
+                    let end = video.buffered.end(video.buffered.length - 1);
+                    //console.log("pos=" + pos + ",start=" + start + ",end=" + end);
 
-  this.ws.onmessage = function (e) {
-    if (firstMessage) {
-      firstMessage = false;
-      let moov = e.data;
-      let mp4Box = new MP4Box();
-      mp4Box.onReady = demux_moov;
-      moov.fileStart = 0;
-      mp4Box.appendBuffer(moov);
-    }
-    this.frameQueue.push(e.data);
-    if (!sourcebuffer || sourcebuffer.updating) {
-      return;
-    }
-    if (this.frameQueue.length === 1) {
-      sourcebuffer.appendBuffer(this.frameQueue.shift());
-    } else {
-      let byte_length = 0;
-      for (const qnode of this.frameQueue) {
-        byte_length += qnode.byteLength;
-      }
-      let mp4buf = new Uint8Array(byte_length);
-      let offset = 0;
-      for (const qnode of this.frameQueue) {
-        let frame = new Uint8Array(qnode);
-        mp4buf.set(frame, offset);
-        offset += qnode.byteLength;
-      }
-      sourcebuffer.appendBuffer(mp4buf);
-      this.frameQueue.splice(0, this.frameQueue.length);
-    }
-  }.bind(this);
-};
+                    if (pos < start) {
+                        console.log('pos > start')
+                        console.log("set video.currentTime pos=" + pos + ",start=" + start + ",end=" + end);
+                        video.currentTime = start;
+                    }
+
+                    if (pos > end) {
+                        console.log('pos > end')
+                        console.warn("chase frame pos=" + pos + ",start=" + start + ",end=" + end);
+                        video.currentTime = start;
+                    }
+
+                    if (pos - pre_pos != 0 && end - pos > 3) {
+                        console.log('pos - pre_pos != 0 && end - pos > 3')
+                        console.log("set end video.currentTime pos=" + pos + ",start=" + start + ",end=" + end);
+                        video.currentTime = end;
+                    }
+
+                    for (let i = 0; i < video.buffered.length - 1; i++) {
+                        let prestart = video.buffered.start(i);
+                        let preend = video.buffered.end(i);
+                        if (!sourcebuffer.updating) {
+                            sourcebuffer.remove(prestart, preend);
+                        }
+                    }
+
+                    if (pos - start > 10 && !sourcebuffer.updating) {
+                        console.log('pos - start > 10 && !sourcebuffer.updating');
+                        console.warn("remove start pos=" + pos + ",start=" + start + ",end=" + end);
+                        sourcebuffer.remove(0, pos - 3);
+                    }
+
+                    // if (end - pos > 10 && !sourcebuffer.updating) {
+                    //     console.log('end - pos > 10 && !sourcebuffer.updating');
+                    //     console.warn("remove end pos=" + pos + ",start=" + start + ",end=" + end);
+                    //     // sourcebuffer.remove(0, end - 3);
+                    //     video.currentTime = start;
+                    // }
+                }
+                for (let i = 0; i < video.buffered.length - 1; i++) {
+                    let prestart = video.buffered.start(i);
+                    let preend = video.buffered.end(i);
+                    if (!sourcebuffer.updating) {
+                      sourcebuffer.remove(prestart, preend);
+                    }
+                  }
+                  
+                pre_pos = pos;
+            }
+        }
+    }.bind(this);
+
+    this.ws.onmessage = function (e) {
+        if (firstMessage) {
+            firstMessage = false;
+            let moov = e.data;
+            let mp4Box = new MP4Box;
+            mp4Box.onReady = demux_moov;
+            moov.fileStart = 0;
+            mp4Box.appendBuffer(moov);
+        }
+        this.frameQueue.push(e.data);
+        if (!sourcebuffer || sourcebuffer.updating) {
+            return;
+        }
+        if (this.frameQueue.length === 1) {
+            sourcebuffer.appendBuffer(this.frameQueue.shift());
+        } else {
+            let byte_length = 0;
+            for (const qnode of this.frameQueue) {
+                byte_length += qnode.byteLength;
+            }
+            let mp4buf = new Uint8Array(byte_length);
+            let offset = 0;
+            for (const qnode of this.frameQueue) {
+                let frame = new Uint8Array(qnode);
+                mp4buf.set(frame, offset);
+                offset += qnode.byteLength;
+            }
+            sourcebuffer.appendBuffer(mp4buf);
+            this.frameQueue.splice(0, this.frameQueue.length);
+        }
+    }.bind(this);
+}
 
 wsPlayer.prototype.close = function () {
-  this.ws && this.ws.close();
-};
+    this.ws && this.ws.close();
+}

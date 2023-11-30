@@ -23,8 +23,9 @@ const Home = ({
 
   // Get characters
   useEffect(() => {
+    const ws_scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    console.log(ws_scheme, getHostName(), 'ws_scheme');
     setLoading(true);
-
     // Get host
     const scheme = window.location.protocol;
     const url = scheme + '//' + getHostName() + '/characters';
