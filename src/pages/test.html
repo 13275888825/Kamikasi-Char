@@ -1,0 +1,15 @@
+<html>
+<head>
+</head>
+<body>
+    <script type="text/javascript" src="./mp4box.all.min.js"></script>
+    <script type="text/javascript" src="./wsPlayer.js"></script>
+    <video muted autoplay id="video"></video>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var player = new wsPlayer("video", "ws://127.0.0.1/live/test.live.mp4");
+            player.open();
+        });
+    </script>
+</body>
+</html>

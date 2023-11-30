@@ -45,7 +45,13 @@ const Login = ({ setAuthToken }) => {
 
     setLoading(false);
   };
+  const handleForgotPassword = () => {
+    navigate('/forgetPassWord');
+  };
 
+  const handleRegister = () => {
+    navigate('/register');
+  };
   return (
     <div className='login'>
       <Card className='login-container'>
@@ -75,6 +81,27 @@ const Login = ({ setAuthToken }) => {
               ]}
             >
               <Input size='large' placeholder='请输入密码' />
+            </Form.Item>
+            <Form.Item
+              style={{
+                color: 'blue',
+                display: 'flex',
+                justifyContent: 'center',
+                margin: '10px',
+              }}
+            >
+              <Button
+                type='link'
+                size='large'
+                onClick={handleForgotPassword}
+                style={{ color: 'blue' }}
+              >
+                <span style={{ color: '#1677FF' }}>忘记密码</span>
+              </Button>
+              <span className='login-separator'>|</span>
+              <Button type='link' size='large' onClick={handleRegister}>
+                <span style={{ color: '#1677FF' }}>注册</span>
+              </Button>
             </Form.Item>
             <Form.Item>
               <Button type='primary' htmlType='submit' size='large' block>

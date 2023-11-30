@@ -60,6 +60,8 @@ import ViewSaved from './components/ViewSaved';
 import CreatePost from './components/CreatePost';
 import Remove from './components/Remove';
 import CreateImage from './components/CreateImage';
+import ForgotPassword from './components/ForgetPassWord';
+import Register from './components/Register';
 const App = () => {
   const [sessionId, setSessionId] = useState('');
   const [preferredLanguage, setPreferredLanguage] = useState('English');
@@ -480,6 +482,8 @@ const App = () => {
           <Route path='/userManage' element={<UserManagement />} />
           <Route path='/createImage' element={<CreateImage />} />
           <Route path='/about' element={<About />} />
+          <Route path='/forgetPassWord' element={<ForgotPassword />} />
+          <Route path='/register' element={<Register />} />
         </Routes>
       </div>
     </Router>
