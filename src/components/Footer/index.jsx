@@ -16,11 +16,42 @@
 import React from 'react';
 import { FaGithub, FaDiscord, FaTwitter } from 'react-icons/fa';
 import { WechatOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import './style.css';
 
 const Footer = () => (
   <footer className='footer'>
     <div className='rounded-social-buttons'></div>
+    <div
+      className='foot'
+      style={{
+        width: '800px',
+        margin: 'auto',
+        display: 'flex',
+        justifyContent: 'space-between',
+      }}
+    >
+      <div>
+        <div style={{ color: 'rgba(229, 224, 216, 0.85)' }}>About us</div>
+        <a style={{ color: '#1677FF', textDecoration: 'underline' }}>
+          Help Center
+        </a>
+      </div>
+      <div>
+        <div style={{ color: 'rgba(229, 224, 216, 0.85)' }}>Contact us</div>
+        <a style={{ color: '#1677FF', textDecoration: 'underline' }}>
+          Blog Press Word with us
+        </a>
+      </div>
+      <div>
+        <div style={{ color: 'rgba(229, 224, 216, 0.85)' }}>
+          ©2023 Character Technologies Inc.
+        </div>
+        <a style={{ color: '#1677FF', textDecoration: 'underline' }}>
+          Terms of Service Privacy Policy Your Privacy Choices
+        </a>
+      </div>
+    </div>
     <p className='copyright'>
       Copyright © 2023 RealChar. All rights reserved. Any AI character&apos;s
       statements are fictional and don&apos;t represent actual beliefs or
