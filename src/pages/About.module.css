@@ -12,14 +12,14 @@
     color: #fff;
     font-size: 24px;
     width: 50px;
-    height: 100vh;
     margin-right: 40px;
-    position: relative;
-    top: 10;
+    position: absolute;
+    top: 10px;
 }
 .content .container .textContent{
     width: 50vw;
     height: 100vh;
+    margin-left: 50px;
 }
 .content .container .textContent .firstTitle{
     color: #fff;

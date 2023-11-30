@@ -31,7 +31,7 @@ const iconList = () => {
       <Space size='large'>
         <QuestionCircleOutlined
           // eslint-disable-next-line no-undef
-          onClick={toHelp}
+          onClick={toRed}
           style={{ fontSize: '24px', cursor: 'pointer' }}
         />
         <SearchOutlined
@@ -39,7 +39,7 @@ const iconList = () => {
           style={{ fontSize: '24px', cursor: 'pointer' }}
         />
         <ReadOutlined
-          onClick={toRed}
+          onClick={toHelp}
           style={{ fontSize: '24px', cursor: 'pointer' }}
         />
       </Space>
