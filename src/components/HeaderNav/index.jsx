@@ -1,8 +1,9 @@
+/* eslint-disable prettier/prettier */
 /*
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 13:42:24
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-27 10:40:16
+ * @LastEditTime: 2023-12-01 17:50:43
  * @FilePath: \web\src\components\NavLink\index.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -18,47 +19,6 @@ import {
   CommentOutlined,
 } from '@ant-design/icons';
 import { Menu } from 'antd';
-const items = [
-  {
-    label: 'Home',
-    key: 'home',
-    icon: <HomeOutlined />,
-  },
-  {
-    label: 'Feed',
-    key: 'feed',
-    icon: <AppstoreOutlined />,
-    disabled: true,
-  },
-  {
-    label: 'Create',
-    key: 'create',
-    icon: <PlusOutlined />,
-    children: [
-      {
-        label: 'Create a Character',
-        key: 'addCharacter',
-        icon: <UserAddOutlined />,
-      },
-      {
-        label: 'Create a Room',
-        key: 'addRoom',
-        icon: <SlidersOutlined />,
-      },
-    ],
-  },
-  {
-    label: 'Chats',
-    key: 'chats',
-    icon: <MessageOutlined />,
-  },
-  {
-    label: 'Community',
-    key: 'community',
-    icon: <CommentOutlined />,
-    disabled: true,
-  },
-];
 const App = () => {
   const [current, setCurrent] = useState('mail');
   const navigate = useNavigate();
@@ -71,6 +31,65 @@ const App = () => {
       navigate(`/${e.key}`);
     }
   };
+  const items = [
+    {
+      label: 'Home',
+      key: 'home',
+      icon: <HomeOutlined />,
+    },
+    {
+      label: 'Feed',
+      key: 'feed',
+      icon: <AppstoreOutlined />,
+      disabled: true,
+    },
+    {
+      label: 'Create',
+      key: 'create',
+      icon: <PlusOutlined />,
+      children: [
+        {
+          label: 'Create a Character',
+          key: 'addCharacter',
+          icon: <UserAddOutlined />,
+        },
+        {
+          label: 'Create a Room',
+          key: 'addRoom',
+          icon: <SlidersOutlined />,
+        },
+      ],
+    },
+    {
+      label: 'Chats',
+      key: 'chats',
+      icon: <MessageOutlined />,
+    },
+    {
+      label: 'Community',
+      key: 'community',
+      icon: <CommentOutlined />,
+      disabled: true,
+    },
+  ];
+  const menuItem = [
+    {
+      label: (
+        <a>
+          1st menu item
+        </a>
+      ),
+      key: '0',
+    },
+    {
+      label: (
+        <a>
+          2nd menu item
+        </a>
+      ),
+      key: '1',
+    },
+  ];
   return (
     <div className='menu'>
       <Menu
