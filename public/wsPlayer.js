@@ -62,14 +62,15 @@ wsPlayer.prototype.open = function () {
                         console.log('pos - start > 10 && !sourcebuffer.updating');
                         console.warn("remove start pos=" + pos + ",start=" + start + ",end=" + end);
                         sourcebuffer.remove(0, pos - 3);
+                        video.currentTime = start;
                     }
 
-                    // if (end - pos > 10 && !sourcebuffer.updating) {
-                    //     console.log('end - pos > 10 && !sourcebuffer.updating');
-                    //     console.warn("remove end pos=" + pos + ",start=" + start + ",end=" + end);
-                    //     // sourcebuffer.remove(0, end - 3);
-                    //     video.currentTime = start;
-                    // }
+                    if (end - pos > 10 && !sourcebuffer.updating) {
+                        console.log('end - pos > 10 && !sourcebuffer.updating');
+                        console.warn("remove end pos=" + pos + ",start=" + start + ",end=" + end);
+                        // sourcebuffer.remove(0, end - 3);
+                        video.currentTime = start;
+                    }
                 }
                 for (let i = 0; i < video.buffered.length - 1; i++) {
                     let prestart = video.buffered.start(i);

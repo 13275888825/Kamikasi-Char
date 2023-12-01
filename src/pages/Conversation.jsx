@@ -122,9 +122,7 @@ const Conversation = ({
     setUseMultiOn(useMultiOn);
   }, []);
   useEffect(() => {
-    document.addEventListener('DOMContentLoaded', function () {
-      console.log('DOM树构建完成');
-    });
+    console.log('进入了');
     const player = new window.wsPlayer(
       'video',
       'ws://127.0.0.1:80/live/test.live.mp4'
@@ -132,9 +130,9 @@ const Conversation = ({
     console.log(player, 'player');
     player.open();
     return () => {
-      player.close(); // Assuming there's a method to close the player
+      player.close(); // Assuming there's a method to close the playe
     };
-  }, []);
+  });
   useEffect(() => {
     if (!isConnecting.current) {
       const tryConnect = async () => {
@@ -200,6 +198,8 @@ const Conversation = ({
             width='350'
             height='350'
             preload='auto'
+            playsInline
+            controls
           ></video>
         </div>
       </div>
