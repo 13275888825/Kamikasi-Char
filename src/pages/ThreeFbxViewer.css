@@ -1,0 +1,10 @@
+.three-container {
+    position: relative;
+    width: 100vw;
+  }
+  
+  .three-container canvas {
+    display: block;
+    margin-left: 11%;
+  }
+  

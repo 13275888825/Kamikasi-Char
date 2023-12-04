@@ -41,7 +41,7 @@ module.exports = function (app) {
   app.use(
     '/api4',
     createProxyMiddleware({
-      target: 'http://localhost:3000', // 目标服务器2的地址
+      target: 'http://192.168.1.66:8080', // 目标服务器2的地址
       changeOrigin: true,
       pathRewrite: {
         '^/api4': '', // 移除'/api2'前缀
