@@ -1,3 +1,9 @@
 {
-  "home": "首页"
+  "home": "首页",
+  "feed":"提要",
+  "create":"创建",
+  "character":"角色",
+  "room":"房间",
+  "chats":"聊天",
+  "community":"社区"
 }

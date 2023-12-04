@@ -1,4 +1,9 @@
 {
-    "home": "Home"
-  }
-  
+  "home": "Home",
+  "feed": "Feed",
+  "create": "Create",
+  "character": "Create a Character",
+  "room": "Create a Room",
+  "chats":"Chats",
+  "community": "Community"
+}
