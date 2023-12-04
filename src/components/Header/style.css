@@ -20,3 +20,7 @@ header {
 #navbar {
   background: none;
 }
+:where(.css-dev-only-do-not-override-3mqfnx).ant-select-single.ant-select-show-arrow .ant-select-selection-item, :where(.css-dev-only-do-not-override-3mqfnx).ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
+  /* padding-inline-end: 18px; */
+  color: #e0e0e0
+}

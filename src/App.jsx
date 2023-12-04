@@ -1,8 +1,10 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-undef */
 /*
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-11-01 18:17:36
+ * @LastEditTime: 2023-12-04 10:41:25
  * @FilePath: \web\src\App.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -14,6 +16,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import intl from 'react-intl-universal';
 import './App.css';
 
 // Components
@@ -62,6 +65,10 @@ import Remove from './components/Remove';
 import CreateImage from './components/CreateImage';
 import ForgotPassword from './components/ForgetPassWord';
 import Register from './components/Register';
+const locales = {
+  en: require('./assets/locales/en-US.json'),
+  zh: require('./assets/locales/zh-CN.json'),
+};
 const App = () => {
   const [sessionId, setSessionId] = useState('');
   const [preferredLanguage, setPreferredLanguage] = useState('English');
@@ -98,6 +105,7 @@ const App = () => {
   const isConnecting = useRef(false);
   const isConnected = useRef(false);
   const isMobile = window.innerWidth <= 768;
+  const [initDone, setInitDone] = useState(false);
 
   useEffect(() => {
     console.log(window.location.pathname, 'href');
@@ -113,7 +121,26 @@ const App = () => {
       }
     });
   }, []);
+  useEffect(() => {
+    let lang = (navigator.language || navigator.browserLanguage).toLowerCase();
+    if (lang.indexOf('zh') >= 0) {
+      localStorage.setItem('defaultLng', 'zh');
+    } else {
+      localStorage.setItem('defaultLng', 'en');
+    }
 
+    loadLocales();
+  }, []);
+  const loadLocales = () => {
+    intl
+      .init({
+        currentLocale: localStorage.getItem('locale') || localStorage.getItem('defaultLng') || 'zh',
+        locales,
+      })
+      .then(() => {
+        setInitDone(true);
+      });
+  };
   const stopAudioPlayback = () => {
     if (audioPlayer.current) {
       audioPlayer.current.pause();

@@ -1,9 +1,10 @@
+/* eslint-disable no-undef */
 /* eslint-disable prettier/prettier */
 /*
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-12-01 17:59:49
+ * @LastEditTime: 2023-12-04 11:37:12
  * @FilePath: \web\src\components\Header\index.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -14,7 +15,7 @@
  * created by Lynchee on 7/16/23
  */
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import logo from '../../assets/images/logo.png';
 import { Button } from 'antd';
 import './style.css';
@@ -25,20 +26,15 @@ import { Navbar } from '@nextui-org/react';
 import HeaderNav from '../HeaderNav';
 import IconList from '../IconList';
 import Login from '../Login';
-import { Menu, Dropdown, Space } from 'antd';
-import locales from '../../assets/locales';
+import { Menu, Dropdown, Space, Select } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import { changeLanguage } from 'i18next';
 const Header = ({ user, isLoggedIn, setToken, handleDisconnect }) => {
-  const [locale, setLocale] = useState('en');
-  const [messages, setMessages] = useState(locales[locale]);
-  const changeLanguge =(lang)=>{
-    console.log(lang,'lang');
-    localStorage.setItem('lang',lang)
-  }
+  const [locale, setLocale] = useState('');
   const items = [
     {
       label: (
-        <a style={{color:'#000'}} onClick={()=>changeLanguge('en')}>
+        <a style={{ color: '#000' }}>
           英文
         </a>
       ),
@@ -46,13 +42,27 @@ const Header = ({ user, isLoggedIn, setToken, handleDisconnect }) => {
     },
     {
       label: (
-        <a style={{color:'#000'}}onClick={()=>changeLanguge('zh')}>
+        <a style={{ color: '#000' }}>
           中文
         </a>
       ),
       key: '1',
     },
   ];
+  useEffect(()=>{
+    const locale = localStorage.getItem('locale')
+    if(locale == 'zh'){
+      setLocale('zh');
+    }else if(locale == 'en'){
+      setLocale('en');
+    }
+  },[])
+  const changeLanguage = (val) => {
+    console.log(val, 'val');
+    setLocale(val);
+    localStorage.setItem('locale',val);
+    window.location.reload();
+  }
   return (
     <Navbar id='navbar' variant='floating'>
       <a href='/'>
@@ -81,7 +91,8 @@ const Header = ({ user, isLoggedIn, setToken, handleDisconnect }) => {
             jc: 'flex-end',
           },
         }}
-      > <Dropdown
+      >
+        {/* <Dropdown
         menu={{
           items,
         }}
@@ -92,7 +103,30 @@ const Header = ({ user, isLoggedIn, setToken, handleDisconnect }) => {
               <DownOutlined style={{fontSize:'14px'}} />
             </Space>
           </a>
-        </Dropdown>
+        </Dropdown> */}
+        <Space wrap>
+          <Select
+            defaultValue={locale}
+            value={locale}
+            onChange={changeLanguage}
+            dropdownStyle={{ color: '#000' }}
+            style={{
+              width: 100,
+              color: '#aaa', // 设置默认文字颜色
+            }}
+            bordered={false}
+            options={[
+              {
+                value: 'zh',
+                label: '中文',
+              },
+              {
+                value: 'en',
+                label: 'English',
+              },
+            ]}
+          />
+        </Space>
         <IconList />
         {/* {user ? (
         <SignOut

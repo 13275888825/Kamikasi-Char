@@ -3,7 +3,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 13:42:24
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-12-01 17:50:43
+ * @LastEditTime: 2023-12-04 10:59:58
  * @FilePath: \web\src\components\NavLink\index.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -19,6 +19,7 @@ import {
   CommentOutlined,
 } from '@ant-design/icons';
 import { Menu } from 'antd';
+import intl from 'react-intl-universal';
 const App = () => {
   const [current, setCurrent] = useState('mail');
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const App = () => {
   };
   const items = [
     {
-      label: 'Home',
+      label: <span>{intl.get('home')}</span>,
       key: 'home',
       icon: <HomeOutlined />,
     },
