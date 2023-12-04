@@ -10,6 +10,7 @@ const ThreeFbxLoader = () => {
   const containerRef = useRef();
 
   useEffect(() => {
+    console.log('pppppppp');
     init();
     animate();
 
@@ -22,10 +23,10 @@ const ThreeFbxLoader = () => {
 
   const init = () => {
     const container = document.createElement('div');
-    const footer = document.querySelector('.footer');
     const appDom = document.querySelector('.app');
+
+    // 这里只附加一个 container，不需要附加 footer
     appDom.appendChild(container);
-    appDom.appendChild(footer);
     containerRef.current = container;
 
     camera = new THREE.PerspectiveCamera(

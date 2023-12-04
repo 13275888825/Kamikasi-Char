@@ -134,7 +134,10 @@ const App = () => {
   const loadLocales = () => {
     intl
       .init({
-        currentLocale: localStorage.getItem('locale') || localStorage.getItem('defaultLng') || 'zh',
+        currentLocale:
+          localStorage.getItem('locale') ||
+          localStorage.getItem('defaultLng') ||
+          'zh',
         locales,
       })
       .then(() => {
@@ -495,7 +498,6 @@ const App = () => {
             <Route path='/addCharacter' element={<AddCharacter />} />
             <Route path='/addRoom' element={<AddRoom />} />
             <Route path='/community' element={<Community />} />
-            <Route path='/Help' element={<Help videoSource={videoSource} />} />
           </Route>
           <Route path='/search' element={<Search />} />
           <Route path='/login' element={<Login />} />
@@ -511,6 +513,7 @@ const App = () => {
           <Route path='/about' element={<About />} />
           <Route path='/forgetPassWord' element={<ForgotPassword />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/Help' element={<Help videoSource={videoSource} />} />
         </Routes>
       </div>
     </Router>
