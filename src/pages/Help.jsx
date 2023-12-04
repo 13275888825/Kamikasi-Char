@@ -1,95 +1,119 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { FBXLoader } from 'three/addons/loaders/FBXLoader';
-import { OrbitControls } from 'three/addons/controls/OrbitControls';
-import './ThreeFbxViewer.css';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+import Stats from 'three/addons/libs/stats.module.js';
 
-const ThreeFbxViewer = () => {
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
-  const renderer = new THREE.WebGLRenderer();
-  const loader = new FBXLoader();
-  const fbxRef = useRef();
+const ThreeFbxLoader = () => {
+  let camera, scene, renderer, stats, mixer;
+  const clock = new THREE.Clock();
+  const containerRef = useRef();
 
   useEffect(() => {
-    // 设置相机位置
-    camera.position.z = 25;
-
-    // 设置渲染器大小并将其添加到 DOM 中
-    renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
-    const container = document.querySelector('.three-container');
-    container.appendChild(renderer.domElement);
-
-    // 加载 FBX 模型
-    loader.load('api4/fbx/Mon_Catwalk_2Web.fbx', fbx => {
-      fbxRef.current = fbx;
-      fbx.scale.set(0.1, 0.1, 0.1);
-
-      // 使模型垂直水平居中
-      centerModel();
-
-      scene.add(fbx);
-    });
-
-    // 添加灯光
-    const ambientLight = new THREE.AmbientLight(0x404040);
-    scene.add(ambientLight);
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff);
-    directionalLight.position.set(1, 1, 1).normalize();
-    scene.add(directionalLight);
-
-    // 添加鼠标控制
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.25;
-    controls.screenSpacePanning = false;
-    controls.maxPolarAngle = Math.PI / 2;
-    // controls.enablePan = true;
-
-    // 渲染循环
-    const animate = () => {
-      requestAnimationFrame(animate);
-
-      // 对模型进行动画或其他更新
-      if (fbxRef.current) {
-        // 在这里添加模型的动画或更新逻辑
-      }
-
-      controls.update();
-      renderer.render(scene, camera);
-    };
-
+    init();
     animate();
 
-    // 在组件卸载时清理资源
     return () => {
-      container.removeChild(renderer.domElement);
+      if (containerRef.current) {
+        containerRef.current.removeChild(renderer.domElement);
+      }
     };
   }, []);
 
-  // 使模型垂直水平居中的函数
-  const centerModel = () => {
-    const boundingBox = new THREE.Box3().setFromObject(fbxRef.current);
-    const center = new THREE.Vector3();
-    boundingBox.getCenter(center);
+  const init = () => {
+    const container = document.createElement('div');
+    const footer = document.querySelector('.footer');
+    const appDom = document.querySelector('.app');
+    appDom.appendChild(container);
+    appDom.appendChild(footer);
+    containerRef.current = container;
 
-    // 将模型水平和垂直居中
-    console.log(-center.x, -center.y + boundingBox.max.y / 2);
-    fbxRef.current.position.x = -center.x;
-    fbxRef.current.position.y = -10;
+    camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      1,
+      2000
+    );
+    camera.position.set(100, 200, 300);
+
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xa0a0a0);
+    scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
+
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 5);
+    hemiLight.position.set(0, 200, 0);
+    scene.add(hemiLight);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 5);
+    dirLight.position.set(0, 200, 100);
+    dirLight.castShadow = true;
+    dirLight.shadow.camera.top = 180;
+    dirLight.shadow.camera.bottom = -100;
+    dirLight.shadow.camera.left = -120;
+    dirLight.shadow.camera.right = 120;
+    scene.add(dirLight);
+
+    const mesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(2000, 2000),
+      new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false })
+    );
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.receiveShadow = true;
+    scene.add(mesh);
+
+    const grid = new THREE.GridHelper(2000, 20, 0x000000, 0x000000);
+    grid.material.opacity = 0.2;
+    grid.material.transparent = true;
+    scene.add(grid);
+
+    const loader = new FBXLoader();
+    loader.load(
+      '/api4/examples/models/fbx/Samba Dancing.fbx',
+      function (object) {
+        mixer = new THREE.AnimationMixer(object);
+        const action = mixer.clipAction(object.animations[0]);
+        action.play();
+        object.traverse(function (child) {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+        });
+        scene.add(object);
+      }
+    );
+
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 100, 0);
+    controls.update();
+
+    window.addEventListener('resize', onWindowResize);
+
+    stats = new Stats();
+    container.appendChild(stats.dom);
   };
 
-  return (
-    <div className='three-container'>
-      {/* 你可以在这里添加一些 UI 元素，比如按钮、文本等 */}
-    </div>
-  );
+  const onWindowResize = () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  };
+
+  const animate = () => {
+    requestAnimationFrame(animate);
+    const delta = clock.getDelta();
+    if (mixer) mixer.update(delta);
+    renderer.render(scene, camera);
+    stats.update();
+  };
+
+  return <div ref={containerRef}></div>;
 };
 
-export default ThreeFbxViewer;
+export default ThreeFbxLoader;
