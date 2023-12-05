@@ -68,21 +68,26 @@ const ThreeFbxLoader = () => {
     scene.add(grid);
 
     const loader = new FBXLoader();
-    loader.load(
-      '/api4/examples/models/fbx/Samba Dancing.fbx',
-      function (object) {
-        mixer = new THREE.AnimationMixer(object);
-        const action = mixer.clipAction(object.animations[0]);
-        action.play();
-        object.traverse(function (child) {
-          if (child.isMesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-          }
-        });
-        scene.add(object);
-      }
-    );
+    loader.load('/api4/fbx/Mon_Catwalk_2Web.fbx', function (object) {
+      mixer = new THREE.AnimationMixer(object);
+      const action = mixer.clipAction(object.animations[0]);
+      action.play();
+      // 计算模型的包围盒
+      const boundingBox = new THREE.Box3().setFromObject(object);
+
+      // 计算模型底部到地面的距离
+      const distanceToGround = boundingBox.min.y;
+
+      // 调整模型的位置，使其底部位于地面的上方
+      object.position.y -= distanceToGround;
+      object.traverse(function (child) {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+      scene.add(object);
+    });
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
