@@ -1,8 +1,10 @@
+/* eslint-disable no-undef */
+/* eslint-disable prettier/prettier */
 /*
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-19 16:51:34
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-24 09:55:56
+ * @LastEditTime: 2023-12-05 11:30:29
  * @FilePath: \Kamikasi Char\src\components\Footer\index.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -18,7 +20,7 @@ import { FaGithub, FaDiscord, FaTwitter } from 'react-icons/fa';
 import { WechatOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import './style.css';
-
+import intl from 'react-intl-universal';
 const Footer = () => (
   <footer className='footer'>
     <div className='rounded-social-buttons'></div>
@@ -32,15 +34,15 @@ const Footer = () => (
       }}
     >
       <div>
-        <div style={{ color: 'rgba(229, 224, 216, 0.85)' }}>About us</div>
+        <div style={{ color: 'rgba(229, 224, 216, 0.85)' }}>{intl.get('about')}</div>
         <a style={{ color: '#1677FF', textDecoration: 'underline' }}>
-          Help Center
+        {intl.get('help')}
         </a>
       </div>
       <div>
-        <div style={{ color: 'rgba(229, 224, 216, 0.85)' }}>Contact us</div>
+        <div style={{ color: 'rgba(229, 224, 216, 0.85)' }}>{intl.get('contact')}</div>
         <a style={{ color: '#1677FF', textDecoration: 'underline' }}>
-          Blog Press Word with us
+        {intl.get('blog')}
         </a>
       </div>
       <div>
@@ -48,7 +50,7 @@ const Footer = () => (
           ©2023 Character Technologies Inc.
         </div>
         <a style={{ color: '#1677FF', textDecoration: 'underline' }}>
-          Terms of Service Privacy Policy Your Privacy Choices
+        {intl.get('privacy')}
         </a>
       </div>
     </div>

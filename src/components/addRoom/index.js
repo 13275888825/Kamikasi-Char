@@ -1,8 +1,9 @@
+/* eslint-disable prettier/prettier */
 /*
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-19 09:47:53
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-26 09:55:13
+ * @LastEditTime: 2023-12-05 13:49:05
  * @FilePath: \web\src\components\addRoom\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -20,6 +21,7 @@ import style from './index.module.css';
 import { useNavigate } from 'react-router-dom';
 import { ReadOutlined, UploadOutlined } from '@ant-design/icons';
 import { Form, Input, Select, message, Button } from 'antd';
+import intl from 'react-intl-universal';
 const options = [];
 for (let i = 10; i < 36; i++) {
   options.push({
@@ -77,15 +79,15 @@ const AddRoom = () => {
   const navigate = useNavigate();
   return (
     <div id={style.add}>
-      <h2 className={style.title}>Create a Room</h2>
+      <h2 className={style.title}>{intl.get('createRoom')}</h2>
       <div className={style.p}>
-        For more information about Character creation, see
+        {intl.get('creatInfor')}
         <a
           href='https://book.character.ai/character-book/welcome-to-character-book'
           className={style.booklink}
         >
           <ReadOutlined />
-          <span> Character Book</span>
+          <span> {intl.get('book')}</span>
         </a>
       </div>
       <Form
@@ -98,18 +100,18 @@ const AddRoom = () => {
         validateMessages={validateMessages}
       >
         <Form.Item
-          label={<span className={style.label}>1. Room Name</span>}
+          label={<span className={style.label}>1. {intl.get('roomName')}</span>}
           // rules={[
           //   {
           //     required: true,
           //   },
           // ]}
         >
-          <span>examples: Lincoln-Einstein, Music Lovers, Sci-Fi discuss.</span>
+          <span>{intl.get('roomTips')}</span>
           <Input />
         </Form.Item>
         <Form.Item
-          label={<span className={style.label}>2. Add Characters</span>}
+          label={<span className={style.label}>2. {intl.get('addCharacter')}</span>}
           // rules={[
           //   {
           //     required: true,
@@ -117,9 +119,7 @@ const AddRoom = () => {
           // ]}
         >
           <span>
-            Please enter the names or ids of the characters you want to add to
-            this room. Note: Only the top 5000 public characters are available
-            for now.
+          {intl.get('addTips')}
           </span>
           <Select
             mode='tags'
@@ -132,18 +132,16 @@ const AddRoom = () => {
           />
         </Form.Item>
         <Form.Item
-          label={<span className={style.label}>3.Room Topic (optional)</span>}
+          label={<span className={style.label}>3. {intl.get('topic')}</span>}
         >
           <span>
-            What should happen in this room. Characters will try to follow it.
-            Examples: Play by play superhero battle, Discuss the latest episode
-            of Game of Thrones.
+          {intl.get('topicTips')}
           </span>
           <Input.TextArea />
         </Form.Item>
         <Form.Item>
           <Button type='primary' htmlType='submit'>
-            Submit
+          {intl.get('submit')}
           </Button>
         </Form.Item>
       </Form>

@@ -1,13 +1,14 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/no-unescaped-entities */
 /*
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-19 09:44:35
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-10-26 10:31:07
+ * @LastEditTime: 2023-12-05 14:02:01
  * @FilePath: \web\src\components\addCharacter\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import style from './index.module.css';
 import { useNavigate } from 'react-router-dom';
 import { ReadOutlined, UploadOutlined } from '@ant-design/icons';
@@ -23,18 +24,19 @@ import {
   message,
 } from 'antd';
 import './pubilc.css';
+import intl from 'react-intl-universal';
 const options = [
   {
     value: 'Public',
-    label: 'Public Antyone can chat',
+    label: <>{intl.get('public')}</>,
   },
   {
     value: 'Unlisted',
-    label: 'Antyone with the link can chat',
+    label: <>{intl.get('link')}</>,
   },
   {
     value: 'Private',
-    label: 'Only you can chat',
+    label: <>{intl.get('only')}</>,
   },
 ];
 const fileList = [];
@@ -63,18 +65,21 @@ const AddCharacter = () => {
   const hideModal = () => {
     setOpen(false);
   };
+  useEffect(()=>{
+    console.log(intl.get('public'),'opopop');
+  },[])
   const navigate = useNavigate();
   return (
     <div id={style.add}>
-      <h2 className={style.title}>Create a Character</h2>
+      <h2 className={style.title}>{intl.get('creatTitle')}</h2>
       <div className={style.p}>
-        For more information about Character creation, see
+      {intl.get('creatInfor')}
         <a
           href='https://book.character.ai/character-book/welcome-to-character-book'
           className={style.bookLink}
         >
           <ReadOutlined />
-          <span> Character Book</span>
+          <span>{intl.get('book')}</span>
         </a>
       </div>
       <Form
@@ -87,52 +92,61 @@ const AddCharacter = () => {
         validateMessages={validateMessages}
       >
         <Form.Item
-          label={<span className={style.label}>1.Name</span>}
+          label={<span className={style.label}>1.{intl.get('creatName')}</span>}
           // rules={[
           //   {
           //     required: true,
           //   },
           // ]}
         >
-          <span>The name can include first and last names.</span>
+          <span>{intl.get('creatFirstTips')}</span>
           <Input />
         </Form.Item>
-        <Form.Item label={<span className={style.label}>2.Gretting</span>}>
+        <Form.Item label={<span className={style.label}>2.{intl.get('gretting')}</span>}>
           <span>
-            eslint-disable-next-line react/no-unescaped-entities What would they
-            say to introduce themselves? For example, "Albert Einstein" could
-            say: "Hello I am Albert Einstein. I was born in March 14, 1879, and
-            I conceived of the theory of special relativity and general
-            relativity."
+          {intl.get('grttingTips')}
           </span>
           <Input.TextArea size='large' />
         </Form.Item>
         <Form.Item
-          label={<span className={style.label}>3.Toggle Image Generation</span>}
+          label={<span className={style.label}>3. {intl.get('toggle')}</span>}
         >
-          <div>This Character generates images alongside text.</div>
-          <Checkbox>Enable image generation for this Character.</Checkbox>
+          {/* <div>{intl.get('toggle')}</div> */}
+          <Checkbox>{intl.get('enable')}</Checkbox>
         </Form.Item>
-        <Form.Item label={<span className={style.label}>4.Visibility</span>}>
-          <span>Who is allowed to talk to them?</span>
+        <Form.Item label={<span className={style.label}>4.{intl.get('visibility')}</span>}>
+          <span>{intl.get('visibiltyTitle')}</span>
           <Select
             style={{
               width: '100%',
               background: 'transparent',
             }}
-            placeholder='Tags Mode'
+            placeholder={intl.get('tags')}
             onChange={handleChange}
-            options={options}
+            options={[
+              {
+                value: 'Public',
+                label: <>{intl.get('public')}</>,
+              },
+              {
+                value: 'Unlisted',
+                label: <>{intl.get('link')}</>,
+              },
+              {
+                value: 'Private',
+                label: <>{intl.get('only')}</>,
+              },
+            ]}
           />
         </Form.Item>
-        <Form.Item label={<span className={style.label}>Avatar</span>}>
+        <Form.Item label={<span className={style.label}>{intl.get('avatar')}</span>}>
           <div style={{ margin: 0, padding: 0, color: '#fff' }}>
-            You can either create an image from text or upload an image.
+          {intl.get('avatarTips')}
           </div>
           <Space style={{ display: 'block' }}>
             <div>
               <Button className={style.btns} onClick={showModal}>
-                <a> Create Image</a>
+                <a>{intl.get('creatBtn')}</a>
               </Button>
               <Modal
                 title='创建图片'
@@ -150,14 +164,14 @@ const AddCharacter = () => {
                 listType='picture'
                 defaultFileList={[...fileList]}
               >
-                <Button icon={<UploadOutlined />}>Upload</Button>
+                <Button icon={<UploadOutlined />}>{intl.get('uploadBtn')}</Button>
               </Upload>
             </div>
           </Space>
         </Form.Item>
         <Form.Item>
           <Button type='primary' htmlType='submit'>
-            Submit
+          {intl.get('submit')}
           </Button>
         </Form.Item>
       </Form>
