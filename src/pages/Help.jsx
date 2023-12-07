@@ -1,43 +1,21 @@
-import React, { useEffect, useRef } from 'react';
+/* eslint-disable prettier/prettier */
+import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+import { FBXLoader } from 'three/addons/loaders/FBXLoader';
+import { OrbitControls } from 'three/addons/controls/OrbitControls';
 import Stats from 'three/addons/libs/stats.module.js';
 
-const ThreeFbxLoader = () => {
-  let camera, scene, renderer, stats, mixer;
-  const clock = new THREE.Clock();
+const Help = () => {
   const containerRef = useRef();
-
-  useEffect(() => {
-    console.log('pppppppp');
-    init();
-    animate();
-
-    return () => {
-      if (containerRef.current) {
-        containerRef.current.removeChild(renderer.domElement);
-      }
-    };
-  }, []);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  const stats = new Stats();
+  const clock = new THREE.Clock();
+  let mixer;
 
   const init = () => {
-    const container = document.createElement('div');
-    const appDom = document.querySelector('.app');
-
-    // 这里只附加一个 container，不需要附加 footer
-    appDom.appendChild(container);
-    containerRef.current = container;
-
-    camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      1,
-      2000
-    );
     camera.position.set(100, 200, 300);
-
-    scene = new THREE.Scene();
     scene.background = new THREE.Color(0xa0a0a0);
     scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
 
@@ -68,32 +46,25 @@ const ThreeFbxLoader = () => {
     scene.add(grid);
 
     const loader = new FBXLoader();
-    loader.load('/api4/fbx/Mon_Catwalk_2Web.fbx', function (object) {
+    loader.load('/api4/fbx/Mon_Catwalk_2Web.fbx', (object) => {
       mixer = new THREE.AnimationMixer(object);
       const action = mixer.clipAction(object.animations[0]);
       action.play();
-      // 计算模型的包围盒
-      const boundingBox = new THREE.Box3().setFromObject(object);
 
-      // 计算模型底部到地面的距离
-      const distanceToGround = boundingBox.min.y;
-
-      // 调整模型的位置，使其底部位于地面的上方
-      object.position.y -= distanceToGround;
-      object.traverse(function (child) {
+      object.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true;
           child.receiveShadow = true;
         }
       });
+
       scene.add(object);
     });
 
-    renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
-    container.appendChild(renderer.domElement);
+    containerRef.current.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set(0, 100, 0);
@@ -101,8 +72,9 @@ const ThreeFbxLoader = () => {
 
     window.addEventListener('resize', onWindowResize);
 
-    stats = new Stats();
-    container.appendChild(stats.dom);
+    stats.dom.style.position = 'absolute';
+    stats.dom.style.top = '0';
+    containerRef.current.appendChild(stats.dom);
   };
 
   const onWindowResize = () => {
@@ -114,12 +86,25 @@ const ThreeFbxLoader = () => {
   const animate = () => {
     requestAnimationFrame(animate);
     const delta = clock.getDelta();
+
     if (mixer) mixer.update(delta);
+
     renderer.render(scene, camera);
     stats.update();
   };
 
-  return <div ref={containerRef}></div>;
+  useEffect(() => {
+    console.log('before');
+    init();
+    console.log('after');
+    animate();
+
+    return () => {
+      // Clean up resources (if needed) when the component is unmounted
+    };
+  }); // Empty dependency array ensures useEffect runs only once on mount
+
+  return <div ref={containerRef} />;
 };
 
-export default ThreeFbxLoader;
+export default Help;
