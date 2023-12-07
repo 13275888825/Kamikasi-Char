@@ -3,7 +3,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 13:42:24
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-12-04 11:48:24
+ * @LastEditTime: 2023-12-07 09:54:49
  * @FilePath: \web\src\components\NavLink\index.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -39,10 +39,9 @@ const App = () => {
       icon: <HomeOutlined />,
     },
     {
-      label: <span>{intl.get('feed')}</span>,
+      label: <span>{intl.get('custom')}</span>,
       key: 'feed',
       icon: <AppstoreOutlined />,
-      disabled: true,
     },
     {
       label: <span>{intl.get('create')}</span>,
@@ -70,7 +69,6 @@ const App = () => {
       label:  <span>{intl.get('community')}</span>,
       key: 'community',
       icon: <CommentOutlined />,
-      disabled: true,
     },
   ];
   const menuItem = [
@@ -100,7 +98,7 @@ const App = () => {
         items={items}
         theme='dark'
         style={{
-          width: 500,
+          width: 560,
         }}
       />
     </div>
