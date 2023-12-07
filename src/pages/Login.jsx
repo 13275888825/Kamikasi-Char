@@ -13,7 +13,6 @@ import { Card, Form, Input, Checkbox, Button, message } from 'antd';
 import './login.scss';
 import { useNavigate } from 'react-router-dom';
 import { WechatFilled, ContactsFilled } from '@ant-design/icons';
-import WxLogin from '../components/WxLogin';
 import { Tabs } from 'antd';
 import logo from '../assets/images/logo.png';
 const Login = ({ setAuthToken }) => {

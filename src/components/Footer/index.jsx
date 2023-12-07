@@ -31,18 +31,23 @@ const Footer = () => (
         margin: 'auto',
         display: 'flex',
         justifyContent: 'space-between',
+        alignContent: 'space-evenly',
       }}
     >
       <div>
-        <div style={{ color: 'rgba(229, 224, 216, 0.85)' }}>{intl.get('about')}</div>
+        <div style={{ color: 'rgba(229, 224, 216, 0.85)' }}>
+          {intl.get('about')}
+        </div>
         <a style={{ color: '#1677FF', textDecoration: 'underline' }}>
-        {intl.get('help')}
+          {intl.get('help')}
         </a>
       </div>
       <div>
-        <div style={{ color: 'rgba(229, 224, 216, 0.85)' }}>{intl.get('contact')}</div>
+        <div style={{ color: 'rgba(229, 224, 216, 0.85)' }}>
+          {intl.get('contact')}
+        </div>
         <a style={{ color: '#1677FF', textDecoration: 'underline' }}>
-        {intl.get('blog')}
+          {intl.get('blog')}
         </a>
       </div>
       <div>
@@ -50,7 +55,7 @@ const Footer = () => (
           ©2023 Character Technologies Inc.
         </div>
         <a style={{ color: '#1677FF', textDecoration: 'underline' }}>
-        {intl.get('privacy')}
+          {intl.get('privacy')}
         </a>
       </div>
     </div>

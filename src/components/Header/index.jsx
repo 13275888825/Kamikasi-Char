@@ -15,7 +15,7 @@
  * created by Lynchee on 7/16/23
  */
 
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from '../../assets/images/logo.png';
 import { Button } from 'antd';
 import './style.css';
@@ -33,36 +33,33 @@ const Header = ({ user, isLoggedIn, setToken, handleDisconnect }) => {
   const [locale, setLocale] = useState('');
   const items = [
     {
-      label: (
-        <a style={{ color: '#000' }}>
-          英文
-        </a>
-      ),
+      label: <a style={{ color: '#000' }}>英文</a>,
       key: '0',
     },
     {
-      label: (
-        <a style={{ color: '#000' }}>
-          中文
-        </a>
-      ),
+      label: <a style={{ color: '#000' }}>中文</a>,
       key: '1',
     },
   ];
-  useEffect(()=>{
-    const locale = localStorage.getItem('locale')
-    if(locale == 'zh'){
+  useEffect(() => {
+    const locale = localStorage.getItem('locale');
+    if (!locale) {
+      const locale = localStorage.getItem('defaultLng');
+      console.log(locale, 'locale');
+      setLocale(locale);
+    }
+    if (locale == 'zh') {
       setLocale('zh');
-    }else if(locale == 'en'){
+    } else if (locale == 'en') {
       setLocale('en');
     }
-  },[])
-  const changeLanguage = (val) => {
+  }, []);
+  const changeLanguage = val => {
     console.log(val, 'val');
     setLocale(val);
-    localStorage.setItem('locale',val);
+    localStorage.setItem('locale', val);
     window.location.reload();
-  }
+  };
   return (
     <Navbar id='navbar' variant='floating'>
       <a href='/'>
@@ -111,7 +108,7 @@ const Header = ({ user, isLoggedIn, setToken, handleDisconnect }) => {
             onChange={changeLanguage}
             dropdownStyle={{ color: '#000' }}
             style={{
-              width: 100,
+              width: 80,
               color: '#aaa', // 设置默认文字颜色
             }}
             bordered={false}
@@ -141,7 +138,7 @@ const Header = ({ user, isLoggedIn, setToken, handleDisconnect }) => {
         <Login></Login>
       </Navbar.Content>
     </Navbar>
-  )
+  );
 };
 
 export default Header;

@@ -53,7 +53,6 @@ import Login from './pages/Login';
 import UserManagement from './pages/UserManage';
 // import Create from './pages/Create';
 import Community from './components/Community';
-import WxLogin from './components/WxLogin';
 import { Outlet } from 'react-router-dom';
 import Chats from './pages/Chats';
 import ChatDetail from './pages/ChatDetail';
@@ -501,7 +500,6 @@ const App = () => {
           </Route>
           <Route path='/search' element={<Search />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/wxlogin' element={<WxLogin />} />
           <Route path='/chatDetail' element={<ChatDetail />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/profilesettings' element={<ProfileSettings />} />
