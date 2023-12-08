@@ -1,11 +1,14 @@
+/* eslint-disable no-unreachable */
+/* eslint-disable no-undef */
+/* eslint-disable no-const-assign */
 /* eslint-disable prettier/prettier */
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect,useState } from 'react';
 import * as THREE from 'three';
 import { FBXLoader } from 'three/addons/loaders/FBXLoader';
 import { OrbitControls } from 'three/addons/controls/OrbitControls';
 import Stats from 'three/addons/libs/stats.module.js';
-
 const Help = () => {
+  const [tracks,setTracks] = useState('')
   const containerRef = useRef();
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
@@ -46,21 +49,41 @@ const Help = () => {
     scene.add(grid);
 
     const loader = new FBXLoader();
-    loader.load('/api4/fbx/Mon_Catwalk_2Web.fbx', (object) => {
-      mixer = new THREE.AnimationMixer(object);
-      const action = mixer.clipAction(object.animations[0]);
-      action.play();
-
-      object.traverse((child) => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
+    //模型
+    loader.load('/api4/fbx/Monica_Expression.fbx', 
+    (object) => {
+      console.log(object,'obj')
+      setTracks(object.animations[0].tracks)
+      //模型动作
+      loader.load('/api4/fbx/Monica_Expression.fbx', (fbx) => {
+        mixer = new THREE.AnimationMixer(fbx);
+        console.log(object.animations[0].tracks,'nnnnnn');
+        console.log(fbx.animations[0].tracks,'lllll');
+        // fbx.animations[0] = object.animations[0]
+        console.log(fbx.animations[0].tracks,'mmmmmm');
+        const action = mixer.clipAction(fbx.animations[0]);
+        console.log(action,'aaaaa');
+        action.play();
+  
+        fbx.traverse((child) => {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+        });
+  
+        scene.add(fbx);
       });
-
-      scene.add(object);
+      // action.play()
+      // object.traverse((child) => {
+      //   if (child.isMesh) {
+      //     child.castShadow = true;
+      //     child.receiveShadow = true;
+      //   }
+      // });
+      // // return 1;
+      // scene.add(object);
     });
-
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
@@ -102,7 +125,7 @@ const Help = () => {
     return () => {
       // Clean up resources (if needed) when the component is unmounted
     };
-  }); // Empty dependency array ensures useEffect runs only once on mount
+  },[]); // Empty dependency array ensures useEffect runs only once on mount
 
   return <div ref={containerRef} />;
 };
