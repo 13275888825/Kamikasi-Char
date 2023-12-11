@@ -15,6 +15,8 @@ const Help = () => {
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   const stats = new Stats();
   const clock = new THREE.Clock();
+  const [messages, setMessages] = useState([]);
+  const [socket, setSocket] = useState(null);
   let mixer;
 
   const init = () => {
@@ -49,19 +51,16 @@ const Help = () => {
 
     const loader = new FBXLoader();
     //动作
-    loader.load('/api4/fbx/Monica01_allaboutthatbass.fbx',
+    loader.load('/api4/fbx/Monica_Talk01.fbx',
       (object) => {
         console.log(object, 'obj')
         setTracks(object.animations[0].tracks)
         //模型
         loader.load('/api4/fbx/Monica_Expression.fbx', (fbx) => {
           mixer = new THREE.AnimationMixer(fbx);
-          // console.log(object.animations[0].tracks,'nnnnnn');
-          // console.log(fbx.animations[0].tracks,'lllll');
           fbx.animations[0] = object.animations[0]
           // console.log(fbx.animations[0].tracks,'mmmmmm');
           const action = mixer.clipAction(fbx.animations[0]);
-          console.log(action, 'aaaaa');
           action.play();
 
           fbx.traverse((child) => {
@@ -116,6 +115,17 @@ const Help = () => {
   };
 
   useEffect(() => {
+    const newSocket = new WebSocket('ws://localhost:8081');
+     // 监听连接打开事件
+     newSocket.addEventListener('open', (event) => {
+      console.log('WebSocket连接已打开', event);
+    });
+
+    // 监听接收消息事件
+    newSocket.addEventListener('message', (event) => {
+      const message = JSON.parse(event.data);
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
     console.log('before');
     init();
     console.log('after');
