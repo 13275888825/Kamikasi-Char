@@ -77,6 +77,7 @@ const Conversation = ({
   const message = isTextStreaming ? '' : textAreaValue;
   const [url, setUrl] = useState('');
   const [emotion, setEmotion] = useState('');
+  const [value, setValue] = useState('');
   const videoRef = useRef(null);
   const { avatarDisplay, playAudioFromNode } = useAvatarView(
     selectedCharacter?.avatar_id,
@@ -86,6 +87,14 @@ const Conversation = ({
     console.log('DOM树构建完成');
   });
   useEffect(() => {
+    console.log(textAreaValue, 'lllll');
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams) {
+      const valueParam = urlParams.get('textareaValue');
+      setValue(valueParam);
+    } else {
+      setValue(messageInput);
+    }
     const emotion = extractEmotionFromPrompt(message);
     if (emotion && emotion.length > 0) setEmotion(emotion);
   }, [message]);
@@ -238,7 +247,7 @@ const Conversation = ({
           stopAudioPlayback={stopAudioPlayback}
           textAreaValue={textAreaValue}
           setTextAreaValue={setTextAreaValue}
-          messageInput={messageInput}
+          messageInput={value}
           setMessageInput={setMessageInput}
           handleDisconnect={handleDisconnect}
           setIsCallView={setIsCallView}

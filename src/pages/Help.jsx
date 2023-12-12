@@ -84,13 +84,16 @@ const Help = () => {
     console.log(url,'url');
     console.log(getStatus('-1'));
     const loader = new FBXLoader();
-    loader.load('/api4/fbx/Monica_handshakes.fbx', object => {
+    loader.load(url, object => {
       console.log(object, 'obj');
       setTracks(object.animations[0].tracks);
       //模型
       loader.load('/api4/fbx/Monica_Expression.fbx', fbx => {
         mixer = new THREE.AnimationMixer(fbx);
+        // console.log(object.animations[0].tracks,'nnnnnn');
+        // console.log(fbx.animations[0].tracks,'lllll');
         fbx.animations[0] = object.animations[0];
+        // console.log(fbx.animations[0].tracks,'mmmmmm');
         const action = mixer.clipAction(fbx.animations[0]);
         console.log(action, 'aaaaa');
         action.play();

@@ -7,7 +7,7 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import React, { useEffect } from 'react';
-import { Col, Row, Card, Tabs } from 'antd';
+import { Col, Row, Card, Tabs, Divider, Avatar, List, Typography } from 'antd';
 const { Meta } = Card;
 const { TabPane } = Tabs;
 import { getHostName } from '../utils/urlUtils';
@@ -22,10 +22,37 @@ export default function App() {
   const [card, setCard] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [isCallView, setIsCallView] = React.useState('');
+  const [recommend, setRecommend] = React.useState('');
   const navigate = useNavigate();
   const { search } = useLocation();
   const { character = '' } = queryString.parse(search);
   const shouldPlayAudio = '';
+  const changeItem = (list, item) => {
+    console.log(list, item, 'item');
+    const compressedCharacter = lz.compressToEncodedURIComponent(
+      JSON.stringify(item)
+    );
+    navigate(
+      '/conversation?isCallViewParam=' +
+        'Text' +
+        '&character=' +
+        compressedCharacter +
+        '&preferredLanguage=' +
+        'English' +
+        '&selectedDevice=' +
+        'default' +
+        '&selectedModel=' +
+        'gpt-3.5-turbo-16k' +
+        '&useSearchParam=' +
+        false +
+        '&useMultiOnParam=' +
+        false +
+        '&useEchoCancellationParam=' +
+        false +
+        '&textareaValue=' +
+        list
+    );
+  };
   useEffect(() => {
     setLoading(true);
     const scheme = window.location.protocol;
@@ -67,6 +94,64 @@ export default function App() {
   //     setCard(res.data);
   //   });
   // };
+  const renderTabs1 = () => {
+    // 获取关键人物列表
+    const animeCharacters = list.filter(item => {
+      const keywords = [
+        'Mark Zuckerberg',
+        'Arnold Schwarzenegger',
+        'Unreal Speech',
+        'Ion Stoica',
+      ];
+      return keywords.includes(item.name);
+    });
+    console.log(animeCharacters, 'oooo');
+    // 根据关键人物生成 Tabs 和对应的 Card
+    return (
+      <Tabs defaultActiveKey='1' type='card' style={{ marginTop: '12px' }}>
+        <TabPane tab='推荐' key='2'>
+          <Row gutter={[16, 16]}>
+            {animeCharacters.map((item, key) => (
+              <Col
+                span={4}
+                xxl={4}
+                xl={4}
+                lg={6}
+                md={6}
+                sm={8}
+                xs={12}
+                key={item.character_id}
+              >
+                <Card
+                  className='card'
+                  onClick={() => toDetail(item)}
+                  hoverable
+                  style={{
+                    width: 180,
+                    height: 200,
+                    paddingTop: '10px',
+                  }}
+                  cover={
+                    <div>
+                      <img
+                        style={{
+                          width: '80%',
+                          height: '160px',
+                          marginLeft: '10%',
+                        }}
+                        src={item.image_url}
+                      />
+                      <div style={{ textAlign: 'center' }}>{item.name}</div>
+                    </div>
+                  }
+                ></Card>
+              </Col>
+            ))}
+          </Row>
+        </TabPane>
+      </Tabs>
+    );
+  };
   const renderTabs = () => {
     // 获取关键人物列表
     const socialFigures = list.filter(item => {
@@ -99,10 +184,11 @@ export default function App() {
                 key={item.character_id}
               >
                 <Card
-                  onClick={() => toDetail(item)}
+                  className='card'
                   hoverable
+                  onClick={() => toDetail(item)}
                   style={{
-                    width: 200,
+                    width: 180,
                     height: 200,
                     paddingTop: '10px',
                   }}
@@ -156,10 +242,11 @@ export default function App() {
                 key={item.character_id}
               >
                 <Card
+                  className='card'
                   onClick={() => toDetail(item)}
                   hoverable
                   style={{
-                    width: 200,
+                    width: 180,
                     height: 200,
                     paddingTop: '10px',
                   }}
@@ -214,10 +301,11 @@ export default function App() {
                 key={item.character_id}
               >
                 <Card
+                  className='card'
                   onClick={() => toDetail(item)}
-                  hoverable
+                  hoverable='true'
                   style={{
-                    width: 200,
+                    width: 180,
                     height: 200,
                     paddingTop: '10px',
                   }}
@@ -242,7 +330,57 @@ export default function App() {
       </Tabs>
     );
   };
+  const renderTabs4 = () => {
+    const data = [
+      '请用中文和我交流',
+      '介绍一下你自己',
+      '请你介绍一下太仓',
+      '介绍一下太仓的景点，不少于十处',
+      '谈一谈你对音乐的理解',
+    ];
+    const recommend = list.filter(item => {
+      const keywords = [
+        'Mark Zuckerberg',
+        'Arnold Schwarzenegger',
+        'Unreal Speech',
+        'Ion Stoica',
+      ];
+      return keywords.includes(item.name);
+    });
 
+    // 根据关键人物生成 Tabs 和对应的 Card
+    return (
+      <Row gutter={16} style={{ marginTop: '20px 0' }}>
+        {recommend.map((item, key) => (
+          <Col span={6} key={key}>
+            <Card
+              title={
+                <>
+                  <Avatar
+                    size={{ xs: 60, sm: 60, md: 60, lg: 60, xl: 60, xxl: 60 }}
+                    src={item.image_url}
+                    style={{ margin: '10px' }}
+                  />
+                  <span style={{ color: '#000' }}>{item.name}</span>
+                </>
+              }
+              bordered={false}
+            >
+              <List
+                bordered
+                dataSource={data}
+                renderItem={list => (
+                  <List.Item onClick={() => changeItem(list, item)}>
+                    {list}
+                  </List.Item>
+                )}
+              />
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    );
+  };
   const toDetail = async item => {
     console.log(item, 'selectedCharacter');
     const compressedCharacter = lz.compressToEncodedURIComponent(
@@ -289,88 +427,13 @@ export default function App() {
   };
   return (
     <div>
-      <div style={{ marginTop: '15px' }}>
+      <div style={{ marginTop: '15px', marginLeft: '-100px', width: '120%' }}>
+        {renderTabs1()}
         {renderTabs()}
         {renderTabs2()}
         {renderTabs3()}
-        {/* <Divider style={{ background: '#fff' }} />
-        <Button.Group color='secondary'>
-          <Button className='btns'>One</Button>
-          <Button className='btns'>Two</Button>
-          <Button className='btns'>Three</Button>
-          <Button className='btns'>Four</Button>
-          <Button className='btns'>Five</Button>
-          <Button className='btns'>Six</Button>
-        </Button.Group> */}
-        {/* <Row>
-          {card.map((item, key) => (
-            // eslint-disable-next-line react/jsx-key
-            <Col span={4} style={{ marginTop: '20px' }} key={item.id}>
-              <Card
-                style={{
-                  width: 200,
-                  paddingTop: '6px',
-                }}
-                cover={
-                  <>
-                    <img
-                      style={{
-                        width: '90%',
-                        marginLeft: '5%',
-                        marginBottom: '8px',
-                      }}
-                      alt='example'
-                      src={item.imgUrl}
-                    />
-                    <div>
-                      <h4
-                        style={{
-                          margin: '0',
-                          padding: '0',
-                          color: '#000',
-                          textAlign: 'center',
-                          fontSize: '16px',
-                        }}
-                      >
-                        {item.name}
-                      </h4>
-                      <div
-                        style={{
-                          margin: '0',
-                          padding: '0',
-                          textAlign: 'center',
-                          color: '#aaa',
-                          fontSize: '14px',
-                        }}
-                      >
-                        {item.desc}
-                      </div>
-                    </div>
-                  </>
-                }
-                actions={[
-                  // eslint-disable-next-line react/jsx-key
-                  <span
-                    style={{
-                      color: '#aaa',
-                    }}
-                  >
-                    @{item.by}
-                  </span>,
-                  // eslint-disable-next-line react/jsx-key
-                  <span
-                    style={{
-                      color: '#aaa',
-                    }}
-                  >
-                    {item.detail}
-                  </span>,
-                  <EllipsisOutlined key='ellipsis' />,
-                ]}
-              ></Card>
-            </Col>
-          ))}
-        </Row> */}
+        <hr style={{ marginTop: '20px' }} />
+        {renderTabs4()}
       </div>
     </div>
   );

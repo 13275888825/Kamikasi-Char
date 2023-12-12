@@ -38,12 +38,13 @@ const useWebsocket = (
       var newHost = getHostName();
 
       var language = languageCode[preferredLanguage];
-
+      console.log(sessionId, useSearch, useQuivr, useMultiOn, '00000');
       const ws_path =
         ws_scheme +
         '://' +
         newHost +
         `/ws/${sessionId}?llm_model=${selectedModel}&platform=web&use_search=${useSearch}&use_quivr=${useQuivr}&use_multion=${useMultiOn}&character_id=${selectedCharacter.character_id}&language=${language}&token=${token}`;
+      console.log(ws_path, 'ws');
       socketRef.current = new WebSocket(ws_path);
       const socket = socketRef.current;
       socket.binaryType = 'arraybuffer';
