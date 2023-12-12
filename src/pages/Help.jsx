@@ -36,8 +36,8 @@ const Help = () => {
 
     // 监听接收消息事件
     newSocket.addEventListener('message', event => {
-      console.log(event.data,'data');
-      localStorage.setItem('status',event.data)
+      console.log(event.data, 'data');
+      localStorage.setItem('status', event.data)
     });
     console.log('before');
     init();
@@ -78,17 +78,17 @@ const Help = () => {
     grid.material.transparent = true;
     scene.add(grid);
     const status = localStorage.getItem('status');
-    console.log(status,'status');
+    console.log(status, 'status');
 
     const url = getStatus(status);
-    console.log(url,'url');
+    console.log(url, 'url');
     console.log(getStatus('-1'));
     const loader = new FBXLoader();
-    loader.load(url, object => {
+    loader.load('/api4/fbx/Monica_StandingListen.fbx', object => {
       console.log(object, 'obj');
       setTracks(object.animations[0].tracks);
       //模型
-      loader.load('/api4/fbx/Monica_Expression.fbx', fbx => {
+      loader.load('/api4/fbx/Monica_ChatLaugh.fbx', fbx => {
         mixer = new THREE.AnimationMixer(fbx);
         // console.log(object.animations[0].tracks,'nnnnnn');
         // console.log(fbx.animations[0].tracks,'lllll');
@@ -149,18 +149,28 @@ const Help = () => {
     stats.update();
   };
 
-  const getStatus = (val)=>{
-   console.log(val,'pppp');
-   return (
-    val == '-1' ?  "/api4/fbx/Monica_Standing%20Greeting.fbx":
-    val == '1'  ?  "/api4/fbx/Monica_Talk01.fbx":
-    val == '2'  ?  "/api4/fbx/Monica01_allaboutthatbass.fbx": 
-    val == '3'  ? "/api4//fbx/Monica_Chat_Sitting.fbx":
-    val == '4'  ? "/api4/fbx/Monica_handshakes.fbx":
-    val == '5'  ? "/api4/fbx/Monica_LeaningChat.fbx":
-    val == '6'  ? "/api4/fbx/Monica_MoveGreet.fbx":
-    val == '7'  ? "/api4/fbx/Monica_StandingChat.fbx":"/api4/fbx/Monica_Standing%20Greeting.fbx"
-   )
+  const getStatus = (val) => {
+    console.log(val, 'pppp');
+    return (
+      val == '-1' ? "/api4/fbx/Monica_Standing%20Greeting.fbx" :
+        val == '1' ? "/api4/fbx/Monica_Talk01.fbx" :
+          val == '2' ? "/api4/fbx/Monica01_allaboutthatbass.fbx" :
+            val == '3' ? "/api4//fbx/Monica_Chat_Sitting.fbx" :
+              val == '4' ? "/api4/fbx/Monica_handshakes.fbx" :
+                val == '5' ? "/api4/fbx/Monica_LeaningChat.fbx" :
+                  val == '6' ? "/api4/fbx/Monica_MoveGreet.fbx" :
+                    val == '7' ? "/api4/fbx/Monica_StandingChat.fbx" :
+                      val == '8' ? "/api4/fbx/Monica_ChatLaugh.fbx" :
+                        val == '9' ? "/api4/fbx/Monica_ChatNotSure.fbx" :
+                          val == '10' ? "/api4/fbx/Monica_GeetFriends.fbx " :
+                            val == '11' ? "/api4/fbx/Monica_Idle.fbx" :
+                              val == '12' ? "/api4/fbx/Monica_Looking.fbx" :
+                                val == '13' ? "/api4/fbx/Monica_LookingAround.fbx" :
+                                  val == '14' ? "/api4/fbx/Monica_PhotoTaking.fbx" :
+                                    val == '15' ? "/api4/fbx/Monica_StandingAgree.fbx" :
+                                      val == '16' ? "/api4/fbx/Monica_StandingGreet.fbx" :
+                                        val == '17' ? "/api4/fbx/Monica_StandingListen.fbx" : "/api4/fbx/Monica_Standing%20Greeting.fbx"
+    )
   }
 
   return <div ref={containerRef} />;
