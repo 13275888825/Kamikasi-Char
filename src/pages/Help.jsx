@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import { FBXLoader } from 'three/addons/loaders/FBXLoader';
 import { OrbitControls } from 'three/addons/controls/OrbitControls';
 import Stats from 'three/addons/libs/stats.module.js';
+
 const Help = () => {
   const [tracks, setTracks] = useState('');
   const containerRef = useRef();
@@ -20,12 +21,10 @@ const Help = () => {
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   const stats = new Stats();
   const clock = new THREE.Clock();
-  const [messages, setMessages] = useState([]);
-  const [socket, setSocket] = useState(null);
-  const [wsUrl, setWsUrl] = useState('');
   const [status, setStatus] = useState(0);
   var actionStatus;
   let mixer;
+  let initialized = false; // 新增标志位
 
   useEffect(() => {
     const newSocket = new WebSocket('ws://localhost:8081');
@@ -37,18 +36,27 @@ const Help = () => {
     // 监听接收消息事件
     newSocket.addEventListener('message', event => {
       console.log(event.data, 'data');
-      localStorage.setItem('status', event.data)
+      localStorage.setItem('status', event.data);
+      init();
     });
-    console.log('before');
-    init();
-    console.log('after');
+
     animate();
 
     return () => {
       // Clean up resources (if needed) when the component is unmounted
     };
   }, []); // Empty dependency array ensures useEffect runs only once on mount
+
   const init = () => {
+    // 如果已经初始化过，则直接返回
+    // if (initialized) {
+    //   return;
+    // }
+
+    while (scene.children.length > 0) {
+      scene.remove(scene.children[0]);
+    }
+
     camera.position.set(100, 200, 300);
     scene.background = new THREE.Color(0xa0a0a0);
     scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
@@ -77,46 +85,40 @@ const Help = () => {
     grid.material.opacity = 0.2;
     grid.material.transparent = true;
     scene.add(grid);
-    const status = localStorage.getItem('status');
-    console.log(status, 'status');
 
+    const status = localStorage.getItem('status');
     const url = getStatus(status);
-    console.log(url, 'url');
-    console.log(getStatus('-1'));
+
     const loader = new FBXLoader();
-    loader.load('/api4/fbx/Monica_StandingListen.fbx', object => {
-      console.log(object, 'obj');
-      setTracks(object.animations[0].tracks);
-      //模型
-      loader.load('/api4/fbx/Monica_ChatLaugh.fbx', fbx => {
-        mixer = new THREE.AnimationMixer(fbx);
-        // console.log(object.animations[0].tracks,'nnnnnn');
-        // console.log(fbx.animations[0].tracks,'lllll');
+    loader.load('/api4/fbx/Monica_ChatLaugh.fbx', fbx => {
+      if (mixer) {
+        mixer.stopAllAction(); // 停止上一个动作
+        mixer.uncacheRoot(fbx);
+      }
+
+      mixer = new THREE.AnimationMixer(fbx);
+      fbx.traverse(child => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+      scene.add(fbx);
+
+      // 再加载外部URL对应的模型
+      loader.load(url, object => {
+        console.log(object, 'obj');
+        setTracks(object.animations[0].tracks);
+
+        // 将外部URL对应模型的动画轨迹赋值给内部模型
         fbx.animations[0] = object.animations[0];
-        // console.log(fbx.animations[0].tracks,'mmmmmm');
+
         const action = mixer.clipAction(fbx.animations[0]);
         console.log(action, 'aaaaa');
         action.play();
-
-        fbx.traverse(child => {
-          if (child.isMesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-          }
-        });
-
-        scene.add(fbx);
       });
-      // action.play()
-      // object.traverse((child) => {
-      //   if (child.isMesh) {
-      //     child.castShadow = true;
-      //     child.receiveShadow = true;
-      //   }
-      // });
-      // // return 1;
-      // scene.add(object);
     });
+
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
@@ -131,6 +133,8 @@ const Help = () => {
     stats.dom.style.position = 'absolute';
     stats.dom.style.top = '0';
     containerRef.current.appendChild(stats.dom);
+
+    initialized = true; // 标记已经初始化过
   };
 
   const onWindowResize = () => {
@@ -149,31 +153,50 @@ const Help = () => {
     stats.update();
   };
 
-  const getStatus = (val) => {
+  const getStatus = val => {
     console.log(val, 'pppp');
     return (
-      val == '-1' ? "/api4/fbx/Monica_Standing%20Greeting.fbx" :
-        val == '1' ? "/api4/fbx/Monica_Talk01.fbx" :
-          val == '2' ? "/api4/fbx/Monica01_allaboutthatbass.fbx" :
-            val == '3' ? "/api4//fbx/Monica_Chat_Sitting.fbx" :
-              val == '4' ? "/api4/fbx/Monica_handshakes.fbx" :
-                val == '5' ? "/api4/fbx/Monica_LeaningChat.fbx" :
-                  val == '6' ? "/api4/fbx/Monica_MoveGreet.fbx" :
-                    val == '7' ? "/api4/fbx/Monica_StandingChat.fbx" :
-                      val == '8' ? "/api4/fbx/Monica_ChatLaugh.fbx" :
-                        val == '9' ? "/api4/fbx/Monica_ChatNotSure.fbx" :
-                          val == '10' ? "/api4/fbx/Monica_GeetFriends.fbx " :
-                            val == '11' ? "/api4/fbx/Monica_Idle.fbx" :
-                              val == '12' ? "/api4/fbx/Monica_Looking.fbx" :
-                                val == '13' ? "/api4/fbx/Monica_LookingAround.fbx" :
-                                  val == '14' ? "/api4/fbx/Monica_PhotoTaking.fbx" :
-                                    val == '15' ? "/api4/fbx/Monica_StandingAgree.fbx" :
-                                      val == '16' ? "/api4/fbx/Monica_StandingGreet.fbx" :
-                                        val == '17' ? "/api4/fbx/Monica_StandingListen.fbx" : "/api4/fbx/Monica_Standing%20Greeting.fbx"
-    )
-  }
+      val == '-1'
+        ? '/api4/fbx/Monica_Standing%20Greeting.fbx'
+        : val == '1'
+        ? '/api4/fbx/Monica_Talk01.fbx'
+        : val == '2'
+        ? '/api4/fbx/Monica01_allaboutthatbass.fbx'
+        : val == '3'
+        ? '/api4//fbx/Monica_Chat_Sitting.fbx'
+        : val == '4'
+        ? '/api4/fbx/Monica_handshakes.fbx'
+        : val == '5'
+        ? '/api4/fbx/Monica_LeaningChat.fbx'
+        : val == '6'
+        ? '/api4/fbx/Monica_MoveGreet.fbx'
+        : val == '7'
+        ? '/api4/fbx/Monica_StandingChat.fbx'
+        : val == '8'
+        ? '/api4/fbx/Monica_ChatLaugh.fbx'
+        : val == '9'
+        ? '/api4/fbx/Monica_ChatNotSure.fbx'
+        : val == '10'
+        ? '/api4/fbx/Monica_GeetFriends.fbx '
+        : val == '11'
+        ? '/api4/fbx/Monica_Idle.fbx'
+        : val == '12'
+        ? '/api4/fbx/Monica_Looking.fbx'
+        : val == '13'
+        ? '/api4/fbx/Monica_LookingAround.fbx'
+        : val == '14'
+        ? '/api4/fbx/Monica_PhotoTaking.fbx'
+        : val == '15'
+        ? '/api4/fbx/Monica_StandingAgree.fbx'
+        : val == '16'
+        ? '/api4/fbx/Monica_StandingGreet.fbx'
+        : val == '17'
+        ? '/api4/fbx/Monica_StandingListen.fbx'
+        : '/api4/fbx/Monica_Standing%20Greeting.fbx'
+    );
+  };
 
-  return <div ref={containerRef}/>;
+  return <div ref={containerRef} />;
 };
 
 export default Help;
