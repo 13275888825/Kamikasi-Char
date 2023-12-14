@@ -173,7 +173,7 @@ const Help = () => {
     )
   }
 
-  return <div ref={containerRef} />;
+  return <div ref={containerRef}/>;
 };
 
 export default Help;

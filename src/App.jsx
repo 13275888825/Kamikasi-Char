@@ -4,7 +4,7 @@
  * @Author: wqh wqh20010307@163.com
  * @Date: 2023-10-17 12:15:58
  * @LastEditors: wqh wqh20010307@163.com
- * @LastEditTime: 2023-12-04 10:41:25
+ * @LastEditTime: 2023-12-13 12:58:39
  * @FilePath: \web\src\App.jsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -64,6 +64,7 @@ import Remove from './components/Remove';
 import CreateImage from './components/CreateImage';
 import ForgotPassword from './components/ForgetPassWord';
 import Register from './components/Register';
+import Talking from './pages/talking';
 const locales = {
   en: require('./assets/locales/en-US.json'),
   zh: require('./assets/locales/zh-CN.json'),
@@ -512,6 +513,7 @@ const App = () => {
           <Route path='/forgetPassWord' element={<ForgotPassword />} />
           <Route path='/register' element={<Register />} />
           <Route path='/Help' element={<Help videoSource={videoSource} />} />
+          <Route path='/talking' element={<Talking />} />
         </Routes>
       </div>
     </Router>

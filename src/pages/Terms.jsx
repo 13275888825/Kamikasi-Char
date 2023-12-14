@@ -1,74 +1,88 @@
-const TermsOfService = () => {
-  return (
-    <div className='home'>
-      <h1>Terms of Service for RealChar</h1>
-      <p>
-        <strong>Effective Date:</strong> 08/18/2023
-      </p>
+/*
+ * @Author: wqh wqh20010307@163.com
+ * @Date: 2023-11-17 15:34:04
+ * @LastEditors: wqh wqh20010307@163.com
+ * @LastEditTime: 2023-12-13 18:24:48
+ * @FilePath: \Kamikasi-Char\src\pages\Terms.jsx
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+// ...（其他导入）
 
-      <h2>Introduction</h2>
-      <p>
-        Welcome to RealChar. These terms and conditions outline the rules and
-        regulations for the use of RealChar&apos;s website and services. By
-        accessing this website and using our services, we assume you accept
-        these terms and conditions in full. Do not continue to use
-        RealChar&apos;s website and services if you do not accept all of the
-        terms and conditions stated on this page.
-      </p>
+const Help = () => {
+  // ...（其他变量）
 
-      <h2>License</h2>
-      <p>
-        Unless otherwise stated, RealChar owns the intellectual property rights
-        for all material on RealChar. All intellectual property rights are
-        reserved. You may access this from RealChar for your own personal use
-        subjected to restrictions set in these terms and conditions.
-      </p>
+  const [mixer, setMixer] = useState(null);
+  const [fixedModel, setFixedModel] = useState(null);
 
-      <h2>User Responsibilities</h2>
-      <ul>
-        <li>
-          <strong>Account Security:</strong> You are responsible for maintaining
-          the confidentiality of your account and password.
-        </li>
-        <li>
-          <strong>Content:</strong> You are responsible for all content that you
-          upload, post, email or otherwise transmit via the service.
-        </li>
-      </ul>
+  useEffect(() => {
+    // 处理先前的场景
+    while (containerRef.current.firstChild) {
+      containerRef.current.removeChild(containerRef.current.firstChild);
+    }
 
-      <h2>Service Usage</h2>
-      <ul>
-        <li>Use of the website and services is at your own risk.</li>
-        <li>
-          You agree not to access the service by any means other than through
-          the interfaces provided by RealChar.
-        </li>
-      </ul>
+    // ...（你的代码的其余部分）
 
-      <h2>Indemnification</h2>
-      <p>
-        You agree to indemnify, defend and hold harmless RealChar, its officers,
-        directors, employees, agents and third parties, for any losses, costs,
-        liabilities and expenses (including reasonable attorneys&apos; fees)
-        relating to or arising out of your use of or inability to use the site
-        services, your violation of any terms of this agreement or your
-        violation of any rights of a third party, or your violation of any
-        applicable laws, rules or regulations.
-      </p>
+    const fixedModelLoader = new FBXLoader();
 
-      <h2>Termination</h2>
-      <p>
-        RealChar reserves the right to terminate your access to the site and the
-        services, without any advance notice.
-      </p>
+    // 加载固定的模型
+    fixedModelLoader.load('/api4/fbx/Monica_ChatLaugh.fbx', (fbx) => {
+      const fixedMixer = new THREE.AnimationMixer(fbx);
+      fbx.animations[0] = object.animations[0];
+      const fixedAction = fixedMixer.clipAction(fbx.animations[0]);
+      fixedAction.play();
 
-      <h2>Contact Us</h2>
-      <p>
-        If you have any questions about these Terms of Service, please contact
-        us at support@realchar.ai.
-      </p>
-    </div>
-  );
+      fbx.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+
+      setFixedModel(fbx);
+    });
+
+    // ...（你的代码的其余部分）
+
+    return () => {
+      // 处理渲染器、控制器等
+      renderer.dispose();
+      controls.dispose();
+
+      // ...（你的清理代码的其余部分）
+    };
+  }, []); // 空依赖数组，只加载一次
+
+  // ...（你的代码的其余部分）
+
+  useEffect(() => {
+    // 处理动态的 URL 加载
+    const dynamicModelLoader = new FBXLoader();
+
+    dynamicModelLoader.load(getStatus(status), (object) => {
+      console.log(object, 'obj');
+      setTracks(object.animations[0].tracks);
+
+      if (mixer) {
+        mixer.stopAllAction();
+        mixer.uncacheRoot(object);
+        mixer.clipAction(object.animations[0]).play();
+      } else {
+        setMixer(new THREE.AnimationMixer(object));
+      }
+
+      scene.add(object);
+    });
+
+    // ...（你的代码的其余部分）
+
+    return () => {
+      // 处理动态的 URL 加载时的清理逻辑
+    };
+  }, [status, mixer, scene]);
+
+  // ...（你的代码的其余部分）
+
+  return <div ref={containerRef} />;
 };
 
-export default TermsOfService;
+export default Help;
