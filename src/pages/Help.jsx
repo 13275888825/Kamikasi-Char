@@ -26,7 +26,9 @@ const Help = () => {
   let mixer;
   let initialized = false; // 新增标志位
 
+
   useEffect(() => {
+    setStatus(localStorage.getItem('status'));
     const newSocket = new WebSocket('ws://localhost:8081');
     // 监听连接打开事件
     newSocket.addEventListener('open', event => {
@@ -37,23 +39,11 @@ const Help = () => {
     newSocket.addEventListener('message', event => {
       console.log(event.data, 'data');
       localStorage.setItem('status', event.data);
-      init();
     });
 
-    animate();
-
-    return () => {
-      // Clean up resources (if needed) when the component is unmounted
-    };
-  }, []); // Empty dependency array ensures useEffect runs only once on mount
-
-  const init = () => {
-    // 如果已经初始化过，则直接返回
-    // if (initialized) {
-    //   return;
-    // }
-
-    while (scene.children.length > 0) {
+    // 初始化和渲染
+     // 如果已经初始化过，则直接返回
+     while (scene.children.length > 0) {
       scene.remove(scene.children[0]);
     }
 
@@ -88,7 +78,7 @@ const Help = () => {
 
     const status = localStorage.getItem('status');
     const url = getStatus(status);
-
+    console.log(url,'url');
     const loader = new FBXLoader();
     loader.load('/api4/fbx/Monica_ChatLaugh.fbx', fbx => {
       if (mixer) {
@@ -120,8 +110,13 @@ const Help = () => {
     });
 
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
     renderer.shadowMap.enabled = true;
+    
+    // 先移除旧的再添加新的
+    while (containerRef.current.firstChild) {
+      containerRef.current.removeChild(containerRef.current.firstChild);
+    }
     containerRef.current.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -132,15 +127,19 @@ const Help = () => {
 
     stats.dom.style.position = 'absolute';
     stats.dom.style.top = '0';
-    containerRef.current.appendChild(stats.dom);
 
-    initialized = true; // 标记已经初始化过
-  };
+    containerRef.current.appendChild(stats.dom);
+    animate();
+
+    return () => {
+      // Clean up resources (if needed) when the component is unmounted
+    };
+  }, [localStorage.getItem('status')]); // 这里将 init 函数作为依赖项之一
 
   const onWindowResize = () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
   };
 
   const animate = () => {
